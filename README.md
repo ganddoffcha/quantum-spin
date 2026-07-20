@@ -2,7 +2,8 @@
 
 **Representations of Lie Groups and Lie Algebras: A Mathematical Dissection of Quantum Spin**
 
-Gordon Chan (U2440785A) · Odyssey Research Programme · School of Physical and Mathematical Sciences, NTU
+Chan Lok Hin Gordon (U2440785A) · Odyssey Research Programme
+School of Physical and Mathematical Sciences, NTU
 
 Supervised by Assoc. Prof. François Gay-Balmaz
 
@@ -14,14 +15,22 @@ Introductory quantum mechanics often introduces the concept of spin heuristicall
 
 | File | Description |
 |------|-------------|
-| [`gordon-chan-quantum-spin.pdf`](gordon-chan-quantum-spin.pdf) | Full paper with complete proofs (30 pages) |
-| [`poster.pdf`](poster.pdf) | A1 poster summary |
+| [`gordon-chan-quantum-spin.pdf`](gordon-chan-quantum-spin.pdf) | Full paper (pdflatex) |
+| [`poster.pdf`](poster.pdf) | A1 poster (lualatex) |
+| [`paper/`](paper/) | Paper LaTeX source |
+| [`poster/`](poster/) | Poster LaTeX source |
 
 ## Build
 
 ```bash
-cd poster && TEXINPUTS=.:../texnow//: latexmk -lualatex poster.tex
-cd "Representation Theory of Lie" && TEXINPUTS=.:../texnow//: latexmk -pdf Representations_of_Lie_Groups_*.tex
+# Paper (pdflatex)
+cd paper && TEXINPUTS=.:/path/to/texnow//: latexmk -pdf Representations_of_Lie_Groups_*.tex
+
+# Poster (lualatex)
+cd poster && TEXINPUTS=.:/path/to/texnow//: latexmk -lualatex poster.tex
+
+# Or publish everything in one command
+./publish
 ```
 
 Uses [`leopard.sty`](https://github.com/ganddoffcha/documents/tree/main/texnow) v3 — a custom LaTeX style file with 60+ math macros.

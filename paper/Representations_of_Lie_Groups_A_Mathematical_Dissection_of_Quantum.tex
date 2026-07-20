@@ -1,0 +1,2658 @@
+\documentclass[11pt,reqno]{amsart}
+\raggedbottom
+\usepackage{leopard}
+% --- Project-specific definitions (everything else is in leopard.sty v3) ---
+\DeclareMathOperator{\ar}{ar}
+\newcommand{\K}{\mathcal{K}}
+\renewcommand{\phi}{\varphi}
+\newcommand{\Rep}{\mathrm{Rep}}
+\DeclareMathOperator{\Lie}{Lie}
+\renewcommand{\Spset}{\operatorname{Sp}}
+
+\title{Representations of Lie Groups\\
+A Mathematical Dissection of Quantum Spin}
+
+\newcommand{\pwplus}{\mathbin{\dot{+}}}
+\newcommand{\pwminus}{\mathbin{\dot{-}}}
+\newcommand{\pwcdot}{\mathbin{\dot{\cdot}}}
+\newcommand{\pwtimes}{\mathbin{\dot{\times}}}
+\newcommand{\pwzero}{\mathbin{\dot{0}}}
+\newcommand{\pwone}{\mathbin{\dot{1}}}
+
+\author{Gordon Chan}
+\begin{document}
+\begin{abstract}
+Introductory quantum mechanics often introduces the concept of spin heuristically. In this project, we investigate the mathematical foundations of quantum mechanical spin. In particular, we explore the geometric and algebraic origins of spin, in the language of Lie groups, Lie algebras, and their unitary and irreducible representations. A central focus will be the topological and algebraic relationship between the rotation group $\SO(3)$ and its universal double cover, the special unitary group $\SU(2)$, which is homeomorphic to $\S^3$. By classifying the irreducible representations of $\SU(2)$, we present the formalism of how this abstract algebraic classification naturally gives rise to the physical phenomena of integer and half-integer spin. Ultimately, we hope to bridge topology and abstract algebra with the ideas in quantum physics.
+\end{abstract}
+\maketitle
+
+\section{Topological Spaces}
+\begin{Def}
+A \ul{topological space} is a pair $(X,\T)$, where
+\begin{itemize}
+\item $X$ is a set, and
+\item $\T\subseteq\P(X)$ is a subcollection of subsets of $X$,
+\end{itemize}
+that satisfy the following three properties:
+\begin{enumerate}
+\item(Trivial Bounds)
+$\varnothing\in\T$ and $X\in\T$.
+\item(Arbitrary Unions)
+$\forall\set{U_\alpha}_{\alpha\in\I}\subseteq\T
+:\quad\bigcup_{\alpha\in\I}U_\alpha\in\T$.
+\item(Finite Intersections)
+$\forall U,V\in\T:\quad U\cap V\in\T$.
+\end{enumerate}
+\end{Def}
+
+\begin{Def}\label{product topology}
+Let $(X,\T_X)$ and $(Y,\T_Y)$ be topological spaces.
+The \ul{product topology on $X\times Y$}, denoted by
+``$\T_X\otimes\T_Y$'', is defined as:
+\[
+\T_X\otimes\T_Y\df
+\set{W\subseteq X\times Y\st
+\forall(x,y)\in W,
+\exists U\in\T_X,
+\exists V\in\T_Y
+:
+(x,y)\in U\times V\subseteq W
+}.
+\]
+\end{Def}
+
+\begin{Prop}[Product Space is a Topological Space]\label{prop:prod-topo}
+Let $(X,\T_X)$ and $(Y,\T_Y)$ be topological spaces.
+Then the pair $(X\times Y,\T_X\otimes\T_Y)$ is a topological space.
+\end{Prop}
+\begin{proof}
+$X\times Y$ is a set.
+By definition, $\T_X\otimes\T_Y\subseteq\P(X\times Y)$.
+
+\begin{enumerate}
+\item (Trivial Bounds) Vacuously, $\es\in\T_X\otimes\T_Y$.
+For any $(x,y)\in X\times Y$, we have $X\in\T_X$, $Y\in\T_Y$, and
+$(x,y)\in X\times Y\subseteq X\times Y$, so $X\times Y\in\T_X\otimes\T_Y$.
+
+\item (Arbitrary Unions)
+Let $\set{W_\alpha}_{\alpha\in\I}\subseteq\T_X\otimes\T_Y$.
+Let $(x,y)\in\bigcup_{\alpha\in\I}W_\alpha$.
+We can find a particular $\alpha^*\in\I$ such that
+$(x,y)\in W_{\alpha^*}\in\T_X\otimes\T_Y$.
+By definition, we can find $U\in\T_X$ and $V\in\T_Y$ such that
+$(x,y)\in U\times V\subseteq W_{\alpha^*}\subseteq\bigcup_{\alpha\in\I}W_\alpha$.
+Thus, $\bigcup_{\alpha\in\I}W_\alpha\in\T_X\otimes\T_Y$.
+
+\item (Finite Intersections)
+Let $W_1,W_2\in\T_X\otimes\T_Y$.
+Let $(x,y)\in W_1\cap W_2$.
+By definition, we can find $U_1\times V_1,U_2\times V_2\in\T_X\times\T_Y$
+such that $(x,y)\in U_1\times V_1\subseteq W_1$
+and $(x,y)\in U_2\times V_2\subseteq W_2$.
+So, $(x,y)\in (U_1\times V_1)\cap(U_2\times V_2)
+\subseteq W_1\cap W_2$. Since
+$
+(U_1\times V_1)\cap(U_2\times V_2)
+=
+\underbrace{(U_1\cap U_2)}_{\in\T_X}\times\underbrace{(V_1\cap V_2)}_{\in\T_Y}
+$,
+we have $W_1\cap W_2\in\T_X\otimes\T_Y$,
+as desired.
+\end{enumerate}
+\end{proof}
+
+\begin{Def}
+Let $(X,\T)$ be a topological space. Let $A\subseteq X$.
+The \ul{subspace topology on $A$}, denoted by ``$\eval{\T}_A$'', is defined
+as:
+\[\eval{\T}_A\df\set{A\cap U\st U\in\T}.\]
+\end{Def}
+
+\begin{Prop}[Subspace Topology is a Topology]\label{prop:sub-topo}
+Let $(X,\T)$ be a topological space. Let $A\subseteq X$.
+Then the pair $(A,\eval{\T}_A)$ is a topological space.
+\end{Prop}
+\begin{proof}
+$A$ is a set. For any $A\cap U\in\eval{\T}_A$, $A\cap U\subseteq A$, so
+$A\cap U\in\P(A)$, yielding $\eval{\T}_A\subseteq\P(A)$.
+\begin{enumerate}
+\item (Trivial Bounds)
+Since $\es\in\T$, $\es=A\cap\es\in\eval{\T}_A$.
+Since $X\in\T$, $A=A\cap X\in\eval{\T}_A$.
+
+\item (Arbitrary Unions)
+Let $\set{A\cap U_\alpha}_{\alpha\in\I}\subseteq\eval{\T}_A$.
+We have
+$\bigcup_{\alpha\in\I}\Br{A\cap U_\alpha}=
+A\cap\underbrace{\bigcup_{\alpha\in\I}U_\alpha}_{\in\T}\in\eval{\T}_A$.
+
+\item (Finite Intersections)
+Let $A\cap U,A\cap V\in\eval{\T}_A$.
+We have $(A\cap U)\cap(A\cap V)=A\cap\underbrace{(U\cap V)}_{\in\T}\in\eval{\T}_A$.
+\end{enumerate}
+\end{proof}
+
+\begin{Prop}[Iterated Subspace Topology]\label{prop:iter-subspace}
+Let $(X,\T)$ be a topological space. Let $A,B\subseteq X$.
+Then
+\[\eval{\Br{\eval{\T}_A}}_B=\eval{\T}_{A\cap B}=\eval{\Br{\eval{\T}_B}}_A.\]
+\end{Prop}
+\begin{proof}
+\[\begin{aligned}
+\eval{\Br{\eval{\T}_A}}_B
+&=\set{B\cap U\st U\in\eval{\T}_A}\\
+&=\set{B\cap (A\cap U)\st U\in\T}\\
+&=\set{(A\cap B)\cap U\st U\in\T}=\eval{\T}_{A\cap B}\\
+&=\set{A\cap (B\cap U)\st U\in\T}\\
+&=\set{A\cap U\st U\in\eval{\T}_B}=\eval{\Br{\eval{\T}_B}}_A.\\
+\end{aligned}\]
+\end{proof}
+
+\begin{Thm}[Commutivity of Product and Subspace]\label{comm}
+Let $(X,\T_X)$ and $(Y,\T_Y)$ be topological spaces.
+Let $U\in\T_X$ and $V\in\T_Y$.
+Then
+$
+\eval{\T_X}_U\otimes\eval{\T_Y}_V
+=
+\eval{(\T_X\otimes\T_Y)}_{U\times V}
+$.
+\end{Thm}
+\begin{proof}
+$(\subseteq)$
+Let $W\in\eval{\T_X}_U\otimes\eval{\T_Y}_V$.
+Let $(x,y)\in W$. By the definition of product topology,
+we can find $A\cap U\in\eval{\T_X}_U$ and
+$B\cap V\in\eval{\T_Y}_V$ with $A\in\T_X$ and $B\in\T_Y$,
+such that $(x,y)\in (A\cap U)\times(B\cap V)\subseteq W$.
+Now notice that
+$(A\cap U)\times(B\cap V)=(A\times B)\cap(U\times V)$.
+Since $A\times B\in\T_X\otimes \T_Y$,
+we have $(A\times B)\cap(U\times V)\in\eval{(\T_X\otimes\T_Y)}_{U\times V}$.
+So, for any $(x,y)\in W$, we can find a
+$\mathcal O_{(x,y)}\in\eval{(\T_X\otimes\T_Y)}_{U\times V}$,
+such that $(x,y)\in\mathcal O_{(x,y)}\subseteq W$.
+Notice the following trick:
+\[W=\bigcup_{(x,y)\in W}\mathcal O_{(x,y)}.\]
+Together with the Arbitrary Union property,
+we conclude $W\in\eval{(\T_X\otimes\T_Y)}_{U\times V}$.
+
+$(\supseteq)$
+Let $W\cap(U\times V)\in\eval{(\T_X\otimes\T_Y)}_{U\times V}$
+with $W\in\T_X\otimes \T_Y$. Let $(x,y)\in W\cap(U\times V)$.
+This means $(x,y)\in W$ with $x\in U$ and $y\in V$.
+Since $W\in\T_X\otimes\T_Y$, we can find $A\in\T_X$ and $B\in\T_Y$
+such that $(x,y)\in A\times B\subseteq W$.
+Notice that
+$(x,y)\in\underbrace{(A\cap U)}_{\in\eval{\T_X}_U}
+\times\underbrace{(B\cap V)}_{\in\eval{\T_Y}_V}=(A\times B)\cap (U\times V)
+\subseteq W\cap(U\times V)$,
+which is precisely the definition for
+$W\cap(U\times V)\in\eval{\T_X}_U\otimes\eval{\T_Y}_V$.
+\end{proof}
+
+\begin{Def}
+Let $(X,\T_X)$ and $(Y,\T_Y)$ be topological spaces.
+A map $f:X\to Y$ is said to be \ul{continuous w.r.t. $\T_X$ and $\T_Y$} iff:
+\[\forall V\in\T_Y:\quad f\inv\Br{V}\in\T_X.\]
+\end{Def}
+
+\begin{Def}
+Let $(X,\T_X)$ and $(Y,\T_Y)$ be topological spaces.
+A map $f:X\to Y$ is said to be a
+\ul{homeomorphism between $(X,\T_X)$ and $(Y,\T_Y)$} iff it satisfies
+the following three properties:
+\begin{enumerate}
+\item (Invertibility) $f:X\to Y$ is a bijection.
+\item (Continuity) $f:X\to Y$ is continuous w.r.t. $\T_X$ and $\T_Y$.
+\item (Continuity of the Inverse) $f\inv:Y\to X$ is continuous w.r.t. $\T_Y$ and $\T_X$.
+\end{enumerate}
+\end{Def}
+
+\begin{Def}
+A topological space $(X,\T_X)$ is said to be \ul{homeomorphic} to another topological space $(Y,\T_Y)$,
+denoted by ``$(X,\T_X)\cong(Y,\T_Y)$'', iff
+there exists a homeomorphism between $(X,\T_X)$ and $(Y,\T_Y)$.
+\end{Def}
+
+\begin{Thm}[Restriction of a homeomorphism to a subspace]\label{res}
+Let $(X,\T_X)$ and $(Y,\T_Y)$ be topological spaces.
+Let $(X,\T_X)\cong(Y,\T_Y)$.
+Let $A\subseteq X$.
+Let $f:X\to Y$ be a homeomorphism between $(X,\T_X)$ and $(Y,\T_Y)$.
+Then $\Br{A,\eval{\T_X}_A}\cong\Br{f(A),\eval{\T_Y}_{f(A)}}$.
+\end{Thm}
+\begin{proof}
+Consider the restriction $\eval{f}_A:A\to f(A)$.
+We show that it is a homeomorphism between $\Br{A,\eval{\T_X}_A}$ and
+$\Br{f(A),\eval{\T_Y}_{f(A)}}$.
+\begin{enumerate}
+\item (Invertibility)
+The restriction $\eval{f\inv}_{f(A)}:f(A)\to A$ is the inverse.
+
+\item (Continuity of $\eval{f}_A$)
+Let $V\cap f(A)\in\eval{\T}_{f(A)}$ with $V\in\T_Y$.
+We have the following:
+\[\begin{aligned}
+\FUNC{\Br{\eval{f}_A}\inv}{V\cap f(A)}
+&=\set{x\in A\st\eval{f}_A(x)\in V\cap f(A)}\\
+&=\set{x\in A\st\eval{f}_A(x)\in V\tand \eval{f}_A(x)\in f(A)}\\
+&=\set{x\in A\st \eval{f}_A(x)\in V}\\
+&=A\cap\underbrace{f\inv(V)}_{\in\T_X}\in\eval{\T_X}_{A}.
+\end{aligned}\]
+
+\item (Continuity of $\eval{f\inv}_{f(A)}$)
+The same argument as (2), with $f$ replaced by $f\inv$.
+\end{enumerate}
+\end{proof}
+
+\begin{Thm}[Invariance of the Product under Homeomorphism]\label{thm:prod-homeo-inv}
+Let $(X,\T_X)$, $(Y,\T_Y)$, $(Z,\T_Z)$ and $(W,\T_W)$ be topological spaces.
+Let $(X,\T_X)\cong(Y,\T_Y)$ and $(Z,\T_Z)\cong(W,\T_W)$.
+Then $(X\times Z,\T_X\otimes\T_Z)\cong (Y\times W,\T_Y\otimes\T_W)$.
+\end{Thm}
+\begin{proof}
+Let $f:X\to Y$ be a homeomorphism between $(X,\T_X)$ and $(Y,\T_Y)$.
+Let $g:Z\to W$ be a homeomorphism between $(Z,\T_Z)$ and $(W,\T_W)$.
+Define a map $f\times g:X\times Z\to Y\times W$ as follows:
+\[
+\forall (x,z)\in X\times Z:\quad
+\FUNC{f\times g}{x,z}\df(f(x),g(z)).
+\]
+I claim that $f\times g$ is a homeomorphism between
+$(X\times Z,\T_X\otimes\T_Z)$ and $(Y\times W,\T_Y\otimes\T_W)$:
+\begin{enumerate}
+\item(Invertibility)
+The map $(f\times g)\inv:Y\times W\to X\times Z$ defined by
+\[\forall (y,w)\in Y\times W:\quad
+\FUNC{(f\times g)\inv}{y,w}\df\Br{f\inv(y),g\inv(w)}
+\]
+is an inverse for $f\times g$.
+For any $(x,z)\in X\times Z$, we have
+\[
+\FUNC{\Br{f\times g}\inv\circ\Br{f\times g}}{x,z}
+=\FUNC{\Br{f\times g}\inv}{f(x),g(z)}
+=\Br{f\inv(f(x)),g\inv(g(z))}
+=\Br{x,z}.
+\]
+For any $(y,w)\in Y\times W$, we have
+\[
+\FUNC{(f\times g)\circ\Br{f\times g}\inv}{y,w}
+=\FUNC{f\times g}{f\inv(y),g\inv(w)}
+=\Br{f\Br{f\inv(y)},g\Br{g\inv(w)}}
+=\Br{y,w}.
+\]
+
+\item(Continuity)
+Let $K\in\T_Y\otimes\T_W$.
+Let $(x,z)\in\FUNC{\Br{f\times g}\inv}{K}$.
+This means $\Br{f(x),g(z)}\in K$.
+Since $K\in\T_Y\otimes\T_W$, we can find
+$U\in\T_Y$ and $V\in\T_W$ such that
+$\Br{f(x),g(z)}\in U\times V\subseteq K$.
+Taking preimages, we have
+\[
+(x,z)\in
+\underbrace{f\inv(U)}_{\in\T_X}\times
+\underbrace{g\inv(V)}_{\in\T_Z}
+\subseteq\FUNC{\Br{f\times g}\inv}{U\times V}
+\subseteq\FUNC{\Br{f\times g}\inv}{K}.\]
+In other words, for any $(x,z)\in\FUNC{\Br{f\times g}\inv}{K}$,
+there is a $\mathcal O_{(x,z)}\in\T_X\otimes\T_Z$ satisfying
+$(x,z)\in\mathcal O_{(x,z)}\subseteq\FUNC{\Br{f\times g}\inv}{K}$.
+We use the trick
+\[\FUNC{\Br{f\times g}\inv}{K}
+=\bigcup_{(x,z)\in\FUNC{\Br{f\times g}\inv}{K}}\mathcal O_{(x,z)},
+\]
+as well as the Arbitrary Union property, to conclude that
+$\FUNC{\Br{f\times g}\inv}{K}\in\T_X\otimes\T_Z$.
+
+\item(Continuity of the Inverse)
+The same argument as (2), with $(f\times g)$ replaced by $\Br{f\times g}\inv$.
+\end{enumerate}
+\end{proof}
+
+\begin{Def}
+A \ul{metric space} is a pair $(X,d)$, where
+\begin{itemize}
+\item $X$ is a set, and
+\item $d:X\times X\to\R$,
+\end{itemize}
+that satisfy the following three properties:
+\begin{enumerate}
+\item (Identity of Indiscernibles)
+$\forall x,y\in X:\quad d(x,y)=0\iff x=y$.
+\item (Symmetry)
+$\forall x,y\in X:\quad d(x,y)=d(y,x)$.
+\item (Triangle Inequality)
+$\forall x,y,z\in X:\quad
+d(x,y)+d(y,z)\ge d(x,z)$.
+\end{enumerate}
+\end{Def}
+\begin{lemma}[Non-Negativity of a Metric]\label{lem:metric-nonneg}
+Let $(X,d)$ be a metric space. Let $x,y\in X$. Then $d(x,y)\ge 0$.
+\end{lemma}
+\begin{proof}
+\[
+d(x,y)=\frac{d(x,y)+d(x,y)}2\stackrel{(2)}{=}
+\frac{d(x,y)+d(y,x)}2
+\stackrel{(3)}{\ge}\frac{d(x,x)}2
+\stackrel{(1)}{=}
+0.
+\]
+\end{proof}
+
+\begin{Def}
+Let $(X,d)$ be a metric space.
+Let $x\in X$.
+The \ul{$\epsilon$-ball centered at $x$},
+denoted by ``$B_d(x,\epsilon)$'', is defined as:
+\[B_d(x,\epsilon)\df\set{y\in X\st d(x,y)<\epsilon}.\]
+The \ul{topology associated to $d$}, denoted by ``$\T_d$'', is defined as:
+\[\T_d\df\set{U\subseteq X\st\forall x\in U,\exists\epsilon>0:
+B_d(x,\epsilon)\subseteq U
+}.
+\]
+\end{Def}
+
+\begin{lemma}[Metric Topology is a Topology]\label{lem:metric-topo}
+Let $(X,d)$ be a metric space.
+Then $(X,\T_d)$ is a topological space.
+\end{lemma}
+\begin{proof}
+$X$ is a set.
+By definition, for any $U\in\T_d$, $U\subseteq X$, meaning $\T_d\subseteq\P(X)$.
+
+\begin{enumerate}
+\item (Trivial Bounds)
+Vacuously, $\es\in\T_d$.
+For any $x\in X$, there exists $\epsilon=67>0$ such that $B_d(x,\epsilon)\subseteq X$, so $X\in\T_d$.
+
+\item (Arbitrary Unions)
+Let $\set{U_\alpha}_{\alpha\in\I}\subseteq\T_d$. We have
+\[\begin{aligned}
+&\forall\alpha\in\I:\quad U_\alpha\in\T_d;\\
+\iff
+&\forall\alpha\in\I,\forall x\in U_\alpha,\exists\epsilon>0:\quad
+B_d(x,\epsilon)\subseteq U_\alpha\\
+\end{aligned}\]
+Let $x\in\bigcup_{\alpha\in\I}U_\alpha$. We can find a particular $\alpha^*\in\I$ such that
+$x\in U_{\alpha^*}$.
+So,
+\[\exists\epsilon>0:\quad B_d(x,\epsilon)\subseteq U_{\alpha*}\subseteq\bigcup_{\alpha\in\I}U_\alpha.\]
+Thus, $\bigcup_{\alpha\in\I}U_\alpha\in\T_d$.
+
+\item (Finite Intersections)
+Let $U,V\in\T_d$. Let $x\in U\cap V$, so $x\in U$ and $x\in V$.
+We can find $\epsilon_1,\epsilon_2>0$ such that
+$B_d(x,\epsilon_1)\subseteq U$ and $B_d(x,\epsilon_2)\subseteq V$.
+Choose $\epsilon=\min\Br{\set{\epsilon_1,\epsilon_2}}$.
+By how the $\epsilon$-balls are defined, we have
+$B_d(x,\epsilon)\ss B_d(x,\epsilon_1)\ss U$
+and
+$B_d(x,\epsilon)\ss B_d(x,\epsilon_2)\ss V$,
+so
+$B_d(x,\epsilon)\subseteq U\cap V$.
+Finally, $U\cap V\in\T_d$, as desired.
+\end{enumerate}
+\end{proof}
+
+\begin{Def}
+The \ul{Pythagorean Distance Function for $\R^n$} is the function
+$\dist_n:\R^n\times\R^n\to \R$ defined by
+\[\forall\bm x,\bm y\in\R^n:\quad
+\dist_n(\bm x,\bm y)\df\sqrt{\sum_{i=1}^n\Br{x_i-y_i}^2}
+\]
+\end{Def}
+
+\begin{lemma}[Euclidean Space is a Metric Space]\label{lem:euclidean-metric}
+The pair $\Br{\R^n,\dist_n}$ is a metric space.
+The pair $\Br{\R^n,\T_{\dist_n}}$ is a topological space.
+\end{lemma}
+
+\begin{Thm}[Compatibility of Euclidean and Product Topologies]\label{thm:euclid-prod}
+Let $U\in\T_{\dist_m}$. Let $V\in\T_{\dist_n}$.
+Then
+$
+\eval{\T_{\dist_m}}_U\otimes\eval{\T_{\dist_n}}_V
+=\eval{\T_{\dist_{m+n}}}_{U\times V}
+$.
+\end{Thm}
+\begin{proof}
+We shall first show that
+$\T_{\dist_m}\otimes\T_{\dist_n}=\T_{\dist_{m+n}}$.
+
+$(\subseteq)$
+Let $W\in\T_{\dist_m}\otimes\T_{\dist_n}$.
+Let $(\bm x,\bm y)\in W$.
+By the definition of product topology, we can find
+$U\in\T_{\dist_m}$ and $V\in\T_{\dist_n}$ such that
+$(\bm x,\bm y)\in U\times V\subseteq W$.
+Furthermore, we can find $r,s>0$ such that
+$B_{\dist_m}(\bm x,r)\subseteq U$ and
+$B_{\dist_n}(\bm y,s)\subseteq V$.
+Choose $\epsilon=\min\Br{\set{r,s}}$
+and consider $B_{\dist_{m+n}}((\bm x,\bm y),\epsilon)$.
+Let $\Br{\bm x',\bm y'}\in B_{\dist_{m+n}}((\bm x,\bm y),\epsilon)$.
+Notice the following trick:
+\[\begin{aligned}
+\dist_m\Br{\bm x,\bm x'}
+&\le\sqrt{\dist_m\Br{\bm x,\bm x'}^2+\dist_n\Br{\bm y,\bm y'}^2}\\
+&=\sqrt{\sum_{i=1}^m\Br{x_i-x_i'}^2+\sum_{i=1}^n\Br{y_i-y_i'}^2}\\
+&=\sqrt{\sum_{i=1}^{m+n}\Br{z_i-z_i'}^2}
+\qquad\qquad
+\text{where $\bm z=(\bm x,\bm y)$ and $\bm z'=\Br{\bm x',\bm y'}$}\\
+&=\dist_{m+n}\Br{(\bm x,\bm y),\Br{\bm x',\bm y'}}\\
+&<\epsilon\\
+&\le r.
+\end{aligned}\]
+This means $\bm x'\in B_{\dist_m}(\bm x,r)\subseteq U$.
+Similarly, we have $\bm y'\in B_{\dist_n}(\bm y,s)\subseteq V$.
+In sum, $\Br{\bm x',\bm y'}\in U\times V$.
+So, $B_{\dist_{m+n}}((\bm x,\bm y),\epsilon)\subseteq U\times V\subseteq W$.
+We thus have satisfied the condition for $W\in\T_{\dist_{m+n}}$.
+
+$(\supseteq)$
+Let $W\in\T_{\dist_{m+n}}$.
+Let $(\bm x,\bm y)\in W$ with $\bm x\in\R^m$ and $\bm y\in\R^n$.
+We can find a $\epsilon>0$ such that
+$B_{\dist_{m+n}}\Br{(\bm x,\bm y),\epsilon}\subseteq W$.
+Consider $X=B_{\dist_m}\Br{\bm x,\frac\epsilon2}$ and
+$Y=B_{\dist_n}\Br{\bm y,\frac\epsilon2}$.
+Clearly $\bm x\in X\in\T_{\dist_m}$ and $\bm y\in Y\in\T_{\dist_n}$.
+Let $\Br{\bm x',\bm y'}\in X\times Y$.
+Notice the following trick:
+\[
+\dist_{m+n}\Br{(\bm x,\bm y),\Br{\bm x',\bm y'}}
+=\sqrt{\dist_m\Br{\bm x,\bm x'}^2+\dist_n\Br{\bm y,\bm y'}^2}\\
+\le\sqrt{\Br{\frac\epsilon2}^2+\Br{\frac\epsilon2}^2}<\epsilon.
+\]
+This means, $\Br{\bm x',\bm y'}\in B_{\dist_{m+n}}\Br{(\bm x,\bm y),\epsilon}$,
+meaning
+$X\times Y\subseteq B_{\dist_{m+n}}\Br{(\bm x,\bm y),\epsilon}\subseteq W$.
+So, $(\bm x,\bm y)\in X\times Y\subseteq W$, yielding
+$W\in\T_{\dist_m}\otimes\T_{\dist_n}$.
+
+At last, the original proposition can be proven by citing \ref{comm}:
+Let $U\in\T_{\dist_m}$ and $V\in\T_{\dist_n}$.
+Since $\Br{\R^m,\T_{\dist_m}}$ and $\Br{\R^n,\T_{\dist_n}}$
+are topological spaces, we have
+\[
+\eval{\T_{\dist_m}}_U\otimes\eval{\T_{\dist_n}}_V
+=\eval{(\T_{\dist_m}\otimes\T_{\dist_n})}_{U\times V}
+=\eval{\T_{\dist_{m+n}}}_{U\times V}.
+\]
+\end{proof}
+
+\section{Topological Manifolds}
+\begin{Def}
+A \ul{topological manifold of dimension $n$} is a pair $(M,\T)$, where
+\begin{itemize}
+\item $(M,\T)$ is a topological space
+\end{itemize}
+that satisfies the following three properties:
+\begin{enumerate}
+\item(Hausdorffness)
+$\forall p\in M,\forall q\in M\setminus\set{p},\exists U,V\in\T:\quad
+p\in U\tand q\in V\tand U\cap V=\varnothing$.
+\item(Second-Countability)
+$\exists\set{B_i}_{i\in\N}\subseteq\T,
+\forall U\in\T,\forall p\in U,\exists i\in\N:\quad p\in B_i\subseteq U
+$.
+\item(Local Euclideanness of Dimension $n$)
+\[\forall p\in M,\exists U\in\set{U\in\T\st p\in U},\exists V\in\T_{\dist_n}:
+\quad (U,\T|_U)\cong \Br{V,\eval{\T_{\dist_n}}_V}.\]
+\end{enumerate}
+\end{Def}
+
+\begin{Prop}[Product of Topological Manifolds]\label{prop:prod-manifold}
+Let $(M,\T_M)$ and $(N,\T_N)$ be topological manifolds
+of dimensions $m$ and $n$ respectively.
+Then $(M\times N,\T_M\otimes\T_N)$ is a
+topological manifold of dimension $m+n$.
+\end{Prop}
+\begin{proof}
+By \ref{prop:prod-topo}, we know that $(M\times N,\T_M\otimes\T_N)$
+is a topological space. It remains to check that it satisfies
+the three properties.
+\begin{enumerate}
+\item (Hausdorffness)
+Let $(p_1,p_2)\in M\times N$.
+Let $(q_1,q_2)\in M\times N\setminus\set{(p_1,p_2)}$.
+WLoG, assume $p_1\ne q_1$.
+We can find $U,V\in\T_M$ such that $p_1\in U$, $q_1\in V$, and $U\cap V=\es$.
+Consequently, we have found $U\times N,V\times N\in\T_M\otimes\T_N$ satisfying
+$(p_1,p_2)\in U\times N$, $(q_1,q_2)\in V\times N$, and
+$(U\times N)\cap(V\times N)=(U\cap V)\times(N\cap N)=\es\times N=\es$.
+
+\item (Second-Countability)
+Let $\set{B_i}_{i\in\N}\subseteq\T_M$ satisfy
+for any $U\in\T_M$ and for any $p\in U$, there is an $i\in\N$ such that
+$p\in B_i\subseteq U$.
+Let $\set{C_j}_{j\in\N}\subseteq\T_N$ satisfy
+for any $V\in\T_N$ and for any $q\in V$, there is a $j\in\N$ such that
+$q\in C_j\subseteq V$.
+Consider the collection
+$\set{B_i\times C_j}_{i,j\in\N}\subseteq\T_M\otimes\T_N$.
+Let $W\in\T_M\otimes\T_N$. Let $(p,q)\in W$.
+Recall from \ref{product topology},
+we can find $U\in\T_M$ and $V\in\T_N$ satisfying $(p,q)\in U\times V\subseteq W$. By above, we can further find $i,j\in\N$ such that
+$p\in B_i\subseteq U$ and $q\in C_j\subseteq V$.
+So, $(p,q)\in B_i\times C_j\subseteq U\times V\subseteq W$.
+
+\item (Local Euclideanness of Dimension $m+n$)
+Let $(p,q)\in M\times N$.
+Since $p\in M$, we can find a $U_1\in\T_M$ with $p\in U_1$ and
+a $V_1\in\T_{\dist_m}$ such that
+$\Br{U_1,\eval{\T_M}_{U_1}}\cong\Br{V_1,\eval{\T_{\dist_m}}_{V_1}}$.
+Since $q\in N$, we can find a $U_2\in\T_N$ with $q\in U_2$ and
+a $V_2\in\T_{\dist_n}$ such that
+$\Br{U_2,\eval{\T_N}_{U_2}}\cong\Br{V_2,\eval{\T_{\dist_n}}_{V_2}}$.
+By \ref{thm:prod-homeo-inv}, we know that
+\[\Br{U_1\times U_2,\eval{\T_M}_{U_1}\otimes\eval{\T_N}_{U_2}}
+\cong\Br{V_1\times V_2,\eval{\T_{\dist_m}}_{V_1}\otimes\eval{\T_{\dist_n}}_{V_2}}.
+\]
+By \ref{comm} on the LHS and \ref{thm:euclid-prod} on the RHS, this is equivalent to:
+\[
+\Br{U_1\times U_2,\eval{\Br{\T_M\otimes\T_N}}_{U_1\times U_2}}
+\cong
+\Br{V_1\times V_2,\eval{\T_{\dist_{m+n}}}_{V_1\times V_2}}.
+\]
+\end{enumerate}
+\end{proof}
+
+\begin{Prop}[Open Subspace of a Topological Manifold]\label{prop:open-sub-manifold}
+Let $(M,\T)$ be a topological manifold of dimension $n$.
+Let $W\in\T$.
+Then $(W,\T|_W)$ is a topological manifold of dimension $n$.
+\end{Prop}
+\begin{proof}
+By \ref{prop:sub-topo}, we know that $(W,\T|_W)$ is a topological space.
+It remains to check that it satisfies the three properties.
+\begin{enumerate}
+
+\item (Hausdorffness)
+Let $p\in W$. Let $q\in W\setminus\set{p}$.
+This means $p\in M$ and $q\in M\setminus\set{p}$.
+We can find $U,V\in\T$ such that $p\in U$, $q\in V$ and $U\cap V=\es$.
+Note that $p\in U\cap W$ and $q\in V\cap W$. At the end,
+$(U\cap W)\cap(V\cap W)=(U\cap V)\cap(W\cap W)=\es\cap W=\es$, and we are done.
+
+\item (Second-Countability)
+Let $\set{B_i}_{i\in\N}\subseteq\T$ satisfy for any $U\in\T$ and for any
+$p\in U$, there is an $i\in\N$ such that $p\in B_i\subseteq U$.
+Let $U\cap W\in\T|_W$ for some $U\in\T$. Let $p\in U\cap W$.
+Remember that $W\in\T$, so $U\cap W\in\T$.
+We can find an $i\in\N$ such that $p\in B_i\subseteq U\cap W$.
+I can also say that $p\in B_i\cap W\subseteq U\cap W$.
+So, the collection $\set{B_i\cap W}_{i\in\N}$ is a countable basis for $(W,\T|_W)$.
+
+\item (Local Euclideanness of Dimension $n$)
+Let $p\in W$. So $p\in M$.
+We can find $U\in\T$ with $p\in U$ and $V\in\T_{\dist_n}$ such that
+$(U,\T|_U)\cong\Br{V,\eval{\T_{\dist_n}}_V}$.
+Let $\phi:U\to V$ be a homeomorphism between $(U,\T|_U)$ and
+$\Br{V,\eval{\T_{\dist_n}}_V}$.
+By \ref{res}, since $U\cap W\subseteq U$, we have
+$\Br{U\cap W,\eval{\Br{\T|_U}}_{U\cap W}}\cong
+\Br{\phi(U\cap W),\eval{\Br{\eval{\T_{\dist_n}}_V}}_{\phi(U\cap W)}}$.
+By \ref{prop:iter-subspace}, we have the following chain of equivalences:
+\[\begin{aligned}
+\Br{U\cap W,\eval{\Br{\T|_U}}_{U\cap W}}
+&\cong\Br{\phi(U\cap W),\eval{\Br{\eval{\T_{\dist_n}}_V}}_{\phi(U\cap W)}}\\
+\Br{U\cap W,\eval{\T}_{U\cap(U\cap W)}}
+&\cong\Br{\phi(U\cap W),\eval{\T_{\dist_n}}_{V\cap\phi(U\cap W)}}\\
+\Br{U\cap W,\eval{\T}_{U\cap W}}
+&\cong\Br{\phi(U\cap W),\eval{\T_{\dist_n}}_{\phi(U\cap W)}}\\
+\Br{U\cap W,\eval{\Br{\T|_U}}_W}
+&\cong\Br{\phi(U\cap W),\eval{\T_{\dist_n}}_{\phi(U\cap W)}}.
+\end{aligned}\]
+Thus $U\cap W\in\T|_W$ with $p\in U\cap W$, and
+$\phi(U\cap W)\in\T_{\dist_n}$, since $U\cap W\in\T$ and $\phi$ is
+a homeomorphism that maps open to open.
+\end{enumerate}
+\end{proof}
+
+\section{Smooth Manifolds}
+\begin{Def}
+Let $U\in\T_{\dist_m}$. A map $\bm f:U\to\R^n$ is said to be \ul{$C^\infty$} iff:
+\[
+\forall k_1,\ldots,k_m\in\Z_{\ge0},
+\forall i\in\set{1,\ldots,n}:\quad
+\frac{\partial^{k_1+\cdots+k_m}f_i}{{\partial x_1}^{k_1}\cdots{\partial x_m}^{k_m}}
+~\text{exists}.
+\]
+\end{Def}
+\begin{lemma}[Restriction of a $C^\infty$ Map]\label{lem:Cinfty-restriction}
+Let $\bm f$ be $C^\infty$.
+Let $U\subseteq\Dom{\bm f}$ and $U\in\T_{\dist_m}$.
+Then $\eval{\bm f}_U$ is $C^\infty$.
+\end{lemma}
+
+\begin{Def}
+Let $(M,\T)$ be a topological manifold of dimension $n$.
+Let $U\in\T$ be an open set in $M$. Let $\phi:U\to\R^n$ be a coordinate map for $U$.
+The pair $(U,\phi)$ is said to be an \ul{$(M,\T)$-chart} iff
+$\phi:U\to\phi(U)$ is a homeomorphism between $(U,\T|_U)$
+and $\Br{\phi(U),\eval{\T_{\dist_n}}_{\phi(U)}}$.
+\end{Def}
+
+\begin{Def}
+A \ul{smooth manifold of dimension $n$} is a triplet $(M,\T,\A)$, where
+\begin{itemize}
+\item $(M,\T)$ is a topological manifold of dimension $n$, and
+\item $\A\df\set{(U_\alpha,\varphi_\alpha)}_{\alpha\in\I}$
+is called a smooth structure on $(M,\T)$,
+\end{itemize}
+that satisfy the following three properties:
+\begin{enumerate}
+\item (Atlas)\qquad
+$\forall(U,\phi)\in\A:(U,\phi)~\text{is an $(M,\T)$-chart}$
+\qquad and \qquad
+$\bigcup_{(U,\phi)\in\A}U=M$.
+\item (Smoothness)
+$\forall(U,\phi),(V,\psi)\in\A:\quad
+\Br{\psi\circ\phi\inv}|_{\phi(U\cap V)}
+~\text{is $C^\infty$}$.
+\item (Maximality)
+$\set{(U,\phi)\st
+\begin{aligned}
+&(U,\phi)~\text{is an $(M,\T)$-chart}\\
+&\forall(V,\psi)\in\A:\\
+&\Br{\psi\circ\phi\inv}|_{\phi(U\cap V)}\tand
+\Br{\phi\circ\psi\inv}|_{\phi(U\cap V)}
+~\text{are $C^\infty$}
+\end{aligned}
+}
+\subseteq\A
+$.
+\end{enumerate}
+\end{Def}
+
+\begin{Def}
+Let $(M,\T_M,\A_M)$ and $(N,\T_N,\A_N)$ be smooth manifolds.
+The \ul{product smooth structure on $(M\times N,\T_M\otimes\T_N)$},
+denoted by ``$\A_M\otimes\A_N$'', is defined as:
+\[\begin{aligned}
+&\A_M\otimes\A_N\df\mathcal P\cup\mathcal Q\\
+\end{aligned}\]
+where
+\[
+\mathcal P
+=\set{(U\times V,\phi\times\psi)\st(U,\phi)\in\A_M\tand(V,\psi)\in\A_N}
+\]
+and
+\[
+\mathcal Q=\set{(W,\chi)\st
+\begin{aligned}
+&(W,\chi)~\text{is an $(M\times N,\T_M\otimes\T_N)$-chart}\\
+&(W,\chi)\notin\mathcal P\\
+&\forall (U\times V,\phi\times\psi)\in\mathcal P:\\
+&\chi\circ\Br{\phi\times\psi}\inv:
+\FUNC{\phi\times\psi}{(U\times V)\cap W}\to
+\chi((U\times V)\cap W)~\text{is $C^\infty$}\\
+&\Br{\phi\times\psi}\circ\chi\inv:
+\chi((U\times V)\cap W)\to
+\FUNC{\phi\times\psi}{(U\times V)\cap W}~\text{is $C^\infty$}\\
+\end{aligned}
+}.
+\]
+\end{Def}
+
+\begin{Thm}[Product of Smooth Manifolds]\label{thm:prod-smooth-manifold}
+Let $(M,\T_M,\A_M)$ and $(N,\T_N,\A_N)$ be smooth manifolds
+of dimensions $m$ and $n$ respectively.
+Then $(M\times N,\T_M\otimes\T_N,\A_M\otimes\A_N)$ is a
+smooth manifold of dimension $m+n$.
+\end{Thm}
+\begin{proof}
+By \ref{prop:prod-manifold}, we know that $(M\times N,\T_M\otimes\T_N)$ is a
+topological manifold of dimension $m+n$. It remains to check that
+$\A_M\otimes\A_N$ satisfy the three properties.
+
+\begin{enumerate}
+\item (Atlas)
+By design, any $(W,\chi)\in\mathcal Q\subseteq \A_M\otimes\A_N$
+is an $(M\times N,\T_M\otimes\T_N)$-chart.
+Otherwise, let $(U\times V,\phi\times\psi)\in\mathcal P
+\subseteq\A_M\otimes\A_N$.
+We know that $(U,\phi)$ is an $(M,\T_M)$-chart and
+$(V,\psi)$ is an $(N,\T_N)$-chart.
+So, $\phi:U\to\phi(U)$ is a homeomorphism between $(U,\T|_U)$ and
+$\Br{\phi(U),\eval{\T_{\dist_m}}_{\phi(U)}}$.
+Similarly, $\psi:V\to\psi(V)$ is a homeomorphism between $(V,\T|_V)$ and
+$\Br{\psi(V),\eval{\T_{\dist_n}}_{\psi(V)}}$.
+By the same argument used in the proof for \ref{thm:prod-homeo-inv},
+$\phi\times\psi:U\times V\to\phi(U)\times\psi(V)=
+\FUNC{\phi\times\psi}{U\times V}\subseteq\R^{m+n}$ is a homeomorphism
+between $(M\times N,\T_M\otimes\T_N)$ and
+$\Br{\phi(U)\times\psi(V),
+\eval{\T_{\dist_m}}_{\phi(U)}\otimes\eval{\T_{\dist_n}}_{\psi(V)}}$.
+Now notice the following:
+\[\begin{aligned}
+\Br{\phi(U)\times\psi(V),
+\eval{\T_{\dist_m}}_{\phi(U)}\otimes\eval{\T_{\dist_n}}_{\psi(V)}}
+&=
+\Br{\phi(U)\times\psi(V),
+\eval{\T_{\dist_{m+n}}}_{\phi(U)\times\psi(V)}}\\
+&=
+\Br{\FUNC{\phi\times\psi}{U\times V},
+\eval{\T_{\dist_{m+n}}}_{\FUNC{\phi\times\psi}{U\times V}}}.\\
+\end{aligned}\]
+Indeed, $(U\times V,\phi\times\psi)$ is an
+$\Br{M\times N,\T_M\otimes\T_N}$-chart.
+Also, we have
+\[
+\bigcup_{(\alpha,\beta)\in\I\times\J}U_\alpha\times V_\beta
+=
+\bigcup_{\alpha\in\I}U_\alpha\times\bigcup_{\beta\in\J}V_\beta
+=M\times N.
+\]
+
+\item (Smoothness)
+There are three cases:
+\begin{enumerate}
+\item (Both charts in $\mathcal P$)
+Let $(U\times V,\phi\times\psi),\Br{U'\times V',\phi'\times\psi'}
+\in\mathcal P$.
+We have the following:
+\[\begin{aligned}
+\Br{\phi'\times\psi'}\circ\Br{\phi\times\psi}\inv
+&=\Br{\phi'\times\psi'}\circ\Br{\phi\inv\times\psi\inv}\\
+&=\underbrace{\Br{\phi'\circ\phi\inv}}_{C^\infty}
+\times\underbrace{\Br{\psi'\circ\psi\inv}}_{C^\infty}.\\
+\end{aligned}\]
+
+\item (One chart in $\mathcal P$ and one chart in $\mathcal Q$)
+The transition map is $C^\infty$ by design.
+
+\item (Both charts in $\mathcal Q$)
+Let $(W,\chi),\Br{W',\chi'}\in\mathcal Q$.
+Let $p\in W\cap W'$. Since $\mathcal P$ covers $M\times N$ as shown
+in (1), we can find a chart
+$(U\times V,\phi\times\psi)\in\mathcal P$
+with $p\in U\times V$.
+On the neighborhood $\chi\Br{(U\times V)\cap W\cap W'}$,
+we have the following:
+\[
+\chi'\circ\chi\inv
+=\underbrace{\Br{\chi'\circ\Br{\phi\times\psi}\inv}}_{C^\infty}
+\circ\underbrace{\Br{\Br{\phi\times\psi}\circ\chi\inv}}_{C^\infty}.
+\]
+This argument could be repeated for any point $p\in W\cap W'$. So,
+$\chi'\circ\chi\inv:\chi\Br{W\cap W'}\to\chi'\Br{W\cap W'}$
+is $C^\infty$.
+\end{enumerate}
+
+\item (Maximality)
+This is by design.
+\end{enumerate}
+\end{proof}
+
+\begin{Def}
+Let $(M,\T,\A)$ be a smooth manifold.
+Let $W\in\T$.
+The \ul{restricted smooth structure on $W$},
+denoted by $\A|_W$, is defined as:
+\[
+\A|_W\df\set{(U,\phi)\in\A \st U\subseteq W }.
+\]
+\end{Def}
+
+\begin{lemma}[Restriction of a Chart]\label{lem:chart-restriction}
+Let $(M,\T,\A)$ be a smooth manifold.
+Let $W\in\T$.
+Let $(U,\phi)\in\A$.
+Then $\Br{U\cap W,\phi|_{U\cap W}}\in\A$.
+Consequently,
+$\Br{U\cap W,\phi|_{U\cap W}}\in\A|_W$.
+\end{lemma}
+\begin{proof}
+\begin{enumerate}
+\item ($(U\cap W,\phi|_{U\cap W})$ is an $(M,\T)$-chart)
+Since $U,W\in\T$, $U\cap W\in\T$. Moreover, by the same reasoning used
+in the proof for \ref{res}, it can be seen that
+$\phi|_{U\cap W}:U\cap W\to\phi(U\cap W)$ is a homeomorphism between
+$\Br{U\cap W,\eval{\Br{\T|_U}}_{U\cap W}}$ and
+$\Br{\phi(U\cap W),\eval{\Br{\eval{\T_{\dist_n}}_{\phi(U)}}}_{\phi(U\cap W)}}$.
+By \ref{prop:iter-subspace} and the fact that $\phi$ is injective,
+$\phi|_{U\cap W}:U\cap W\to\phi(U\cap W)$ is a homeomorphism between
+$\Br{U\cap W,\eval{\T}_{U\cap W}}$ and
+$\Br{\phi(U\cap W),\eval{\T_{\dist_n}}_{\phi(U\cap W)}}$.
+
+\item ($(U\cap W,\phi|_{U\cap W})$ is smoothly compatible with
+every chart in $\A$)
+Let $(V,\psi)\in\A$. We have the following:
+\begin{gather*}
+\psi\circ\Br{\phi|_{U\cap W}}\inv
+=
+\psi\circ\phi\inv|_{\phi(U\cap W)}
+=
+\underbrace{\Br{\psi\circ\phi\inv}}_{C^\infty}|_{\phi(U\cap V\cap W)};\\
+\phi|_{U\cap W}\circ\psi\inv
+=
+\underbrace{\Br{\phi\circ\psi\inv}}_{C^\infty}|_{\psi(U\cap V\cap W)}.
+\end{gather*}
+
+\end{enumerate}
+By the maximality of $\A$, we have $(U\cap W,\phi|_{U\cap W})\in\A$.
+Consequently, since $U\in\T$, $U\cap W\in\T|_W$, so
+$\Br{U\cap W,\phi|_{U\cap W}}\in\A|_W$.
+\end{proof}
+
+\begin{Thm}[Open Subspace of a Smooth Manifold]\label{thm:open-smooth-submanifold}
+Let $(M,\T,\A)$ be a smooth manifold of dimension $n$.
+Let $W\in\T$.
+Then $(W,\T|_W,\A|_W)$ is a smooth manifold of dimension $n$.
+\end{Thm}
+\begin{proof}
+By \ref{prop:open-sub-manifold}, we know that $(W,\T|_W)$ is a topological
+manifold of dimension $n$.
+It remains to check that $\A|_W$ is a smooth structure on $(W,\T|_W)$.
+\begin{enumerate}
+\item (Atlas)
+Let $(U,\phi)\in\A|_W$.
+Since $U\subseteq W\in\T$, we have $U=U\cap W\in\T|_W$.
+Also, $\phi:U\to \phi(U)$ is by definition a homeomorphism between
+$(U,\T|_U)$ and $\Br{\phi(U),\eval{\T_{\dist_n}}_{\phi(U)}}$.
+Thus, $(U,\phi)$ is a $(W,\T|_W)$-chart.
+The coverage is done as follows:
+\[\bigcup_{(U,\phi)\in\A|_W}U=\bigcup_{U\subseteq W}U=W.\]
+
+
+\item (Smoothness)
+Smooth compatibility is inherited from $\A$, since $\A|_W\subseteq\A$.
+
+\item (Maximality)
+Let $(U,\phi)$ be a $(W,\T|_W)$-chart that is smoothly compatible with
+every chart in $\A|_W$.
+Let $(V,\psi)\in\A$.
+By \ref{lem:chart-restriction}, since $W\in\T$,
+we have $(V\cap W,\psi|_{V\cap W})\in\A|_W$.
+So, $(U,\phi)$ and $(V\cap W,\psi|_{V\cap W})$ are smoothly compatible.
+Now, noticing that $U\cap V=U\cap V\cap W$ because $U\subseteq W$, we have
+\begin{gather*}
+\Br{\psi\circ\phi\inv}|_{\phi(U\cap V)}
+=\Br{\psi\circ\phi\inv}|_{\phi(U\cap V\cap W)}
+=\underbrace{\Br{\psi|_{V\cap W}\circ\phi\inv}|_{\phi(U\cap(V\cap W))}}
+_{C^\infty};\\
+\Br{\phi\circ\psi\inv}|_{\psi(U\cap V)}
+=\Br{\phi\circ\psi\inv}|_{\psi(U\cap V\cap W)}
+=\underbrace{\Br{\phi\circ\Br{\psi|_{V\cap W}}\inv}|_{\psi(U\cap(V\cap W))}}
+_{C^\infty}.\\
+\end{gather*}
+This means $(U,\phi)$ is smoothly compatible with every chart in $\A$.
+Since $U\in\T|_W$ and $W\in\T$, $U\in\T$ and $(U,\phi)$ is an $(M,\T)$-chart.
+By the maximality of $\A$, $(U,\phi)\in\A$.
+Since $U\subseteq W$, $(U,\phi)\in\A|_W$.
+\end{enumerate}
+\end{proof}
+
+\begin{Def}
+Let $(M,\T_M,\A_M)$ and $(N,\T_N,\A_N)$ be smooth manifolds.
+A map $F:M\to N$ is said to be
+\ul{smooth w.r.t. $\A_M$ and $\A_N$} iff:
+\begin{gather*}
+\forall p\in M,
+\forall(V,\psi)\in\set{(V,\psi)\in\A_N\st F(p)\in V},
+\exists(U,\phi)\in\set{(U,\phi)\in\A_M\st p\in U\tand F(U)\ss V}:\\
+\psi\circ F\circ\phi\inv:\phi(U)\to\psi(V)~\text{is $C^\infty$}.
+\end{gather*}
+\end{Def}
+
+\begin{lemma}[Simpler Smoothness Criterion]\label{lem:Cinfty-simple-criterion}
+Let $(M,\T_M,\A_M)$ and $(N,\T_N,\A_N)$ be smooth manifolds.
+Let $F:M\to N$.
+Then $F$ is smooth w.r.t. $\A_M$ and $\A_N$ iff
+\begin{gather*}
+\forall p\in M,
+\exists(U,\phi)\in\A_M,
+\exists(V,\psi)\in\A_N:\\
+p\in U\tand
+F(U)\subseteq V\tand
+\psi\circ F\circ\phi\inv:\phi(U)\to\psi(V)~\text{is $C^\infty$}.
+\end{gather*}
+\end{lemma}
+\begin{proof}
+The forward direction follows directly from the definition. We prove the converse.
+
+$(\impliedby)$
+Let $p\in M$. Let $(W,\chi)\in\A_N$ with $F(p)\in W$.
+Since $p\in M$, by assumption, we can find
+$(U,\phi)\in\A_M$ and $(V,\psi)\in\A_N$ such that
+$p\in U$, $F(U)\subseteq V$ and $\psi\circ F\circ\phi\inv$ is $C^\infty$.
+Notice that $F(p)\in V\cap W$.
+Because $\phi$ and $\psi$ are homeomorphisms,
+$F|_U$ is continuous w.r.t $\eval{\T_M}_U$ and $\eval{\T_N}_{F(U)}$.
+By \ref{lem:chart-restriction},
+$\Br{U\cap F\inv(V\cap W),\eval{\phi}_{U\cap F\inv(V\cap W)}}\in\A_M$, with $p\in U\cap F\inv(V\cap W)$,
+and $F\Br{U\cap F\inv(V\cap W)}=F(U)\cap V\cap W\subseteq W$.
+We also have
+\[
+\chi\circ F\circ\Br{\eval{\phi}_{\phi(U\cap F\inv(V\cap W))}}\inv
+=\underbrace{\Br{\chi\circ\psi\inv}}_{C^\infty}\circ
+\eval{\underbrace{\Br{\psi\circ F\circ\phi\inv}}_{C^\infty}}_{\phi(U\cap F\inv(V\cap W))}.
+\]
+\end{proof}
+
+\begin{Def}
+Let $(M,\T_M,\A_M)$ and $(N,\T_N,\A_N)$ be smooth manifolds.
+A map $F:M\to N$ is said to be a
+\ul{diffeomorphism between $(M,\T_M,\A_M)$ and $(N,\T_N,\A_N)$}
+iff it satisfies
+the following three properties:
+\begin{enumerate}
+\item (Invertibility) $F:M\to N$ is a bijection.
+\item (Smoothness) $F:M\to N$ is smooth w.r.t. $\A_M$ and $\A_N$.
+\item (Smoothness of the Inverse) $F\inv:N\to M$ is smooth w.r.t. $\A_N$ and $\A_M$.
+\end{enumerate}
+\end{Def}
+
+\begin{Def}
+A smooth manifold $(M,\T_M,\A_M)$
+is said to be \ul{diffeomorphic} to another
+smooth manifold $(N,\T_N,\A_N)$,
+denoted by ``$(M,\T_M,\A_M)\simeq(N,\T_N,\A_N)$'', iff
+there exists a diffeomorphism between $(M,\T_M,\A_M)$ and $(N,\T_N,\A_N)$.
+\end{Def}
+
+\section{Algebraic Structures}
+\begin{Def}
+An \ul{algebraic signature} is a pair $(\I,\ar)$, where
+\begin{itemize}
+\item $\I$ is an index set, and
+\item $\ar:\I\to\Z_{\ge0}$ assigns each index to a nonnegative integer.
+\end{itemize}
+\end{Def}
+
+\begin{Def}
+Let $\sigma=(\I,\ar)$ be an algebraic signature.
+A \ul{$\sigma$-structure} is a pair
+$\Br{A,\set{\mu_i}_{i\in\I}}$, where
+\begin{itemize}
+\item $A$ is a set, and
+\item
+$\forall i\in\I:\quad
+\mu_i:A^{\ar(i)}\to A
+~\text{is an $\ar(i)$-ary operation}$.
+\end{itemize}
+\end{Def}
+
+\begin{Def}
+Let $\Br{A,\set{\mu_i^A}_{i\in\I}}$ and $\Br{B,\set{\mu_i^B}_{i\in\I}}$
+be $\sigma$-structures.
+A map $\phi:A\to B$ is said to be a \ul{$\sigma$-homomorphism} iff
+\[
+\forall i\in\I,\forall a_1,\dots,a_{\ar(i)}\in A:\quad
+\phi\Br{\mu_i^A\Br{a_1,\dots,a_{\ar(i)}}}
+=\mu_i^B\Br{\phi(a_1),\dots,\phi(a_{\ar(i)})}.
+\]
+\end{Def}
+
+\begin{Def}
+Let $\Br{A,\set{\mu_i^A}_{i\in\I}}$ and $\Br{B,\set{\mu_i^B}_{i\in\I}}$
+be $\sigma$-structures.
+A map $\phi:A\to B$ is said to be a \ul{$\sigma$-isomorphism} iff
+it satisfies the following three properties:
+\begin{enumerate}
+\item $\phi:A\to B$ is a bijection.
+\item $\phi:A\to B$ is a $\sigma$-homomorphism.
+\item $\phi\inv:B\to A$ is a $\sigma$-homomorphism.
+\end{enumerate}
+\end{Def}
+
+\begin{Thm}[a Concise Characterization for Isomorphisms]
+\label{concise}
+Let
+\[
+\Br{A,\set{\mu_i^A}_{i\in\I}}
+\quad\text{and}\quad
+\Br{B,\set{\mu_i^B}_{i\in\I}}
+\]
+be $\sigma$-structures.
+A map $\phi:A\to B$ is a $\sigma$-isomorphism iff
+the following two statements hold:
+\begin{enumerate}
+\item $\phi:A\to B$ is a bijection.
+\item $\phi:A\to B$ is a $\sigma$-homomorphism.
+\end{enumerate}
+\end{Thm}
+\begin{proof}
+$(\implies)$
+The forward direction is logically trivial.
+
+$(\impliedby)$
+We want to show that $\phi\inv:B\to A$ is a $\sigma$-homomorphism.
+Let $i\in\I$.
+Let $b_1,\dots,b_{\ar(i)}\in B$.
+Since $\phi:A\to B$ is a bijection,
+we can find uniquely $a_1,\dots,a_{\ar(i)}\in A$ such that
+$\phi(a_k)=b_k$ for every $k\in\set{1,\dots,\ar(i)}$.
+We thus have the following:
+\[\begin{aligned}
+\phi\inv\Br{\mu_i^B\Br{b_1,\dots,b_{\ar(i)}}}
+&=\phi\inv\Br{\mu_i^B\Br{\phi(a_1),\dots,\phi\Br{a_{\ar(i)}}}}\\
+&=\phi\inv\Br{\phi\Br{\mu_i^A\Br{a_1,\dots,a_{\ar(i)}}}}\\
+&=\mu_i^A\Br{a_1,\dots,a_{\ar(i)}}\\
+&=\mu_i^A\Br{\phi\inv(b_1),\dots,\phi\inv\Br{b_{\ar(i)}}}\\
+\end{aligned}\]
+\end{proof}
+
+\begin{lemma}[Transport of Structures]
+Let $\Br{A,\set{\mu_i^A}_{i\in\I}}$ be a $\sigma$-structure.
+Let $\set{k_j}_{j\in\J}\subseteq\Z_{\ge0}$.
+For each $j\in\J$, define maps $s_j^A,t_j^A:A^{k_j}\to A$
+satisfying:
+\[\forall a_1,\dots,a_{k_j}\in A:\quad
+s_j^A\Br{a_1,\dots,a_{k_j}}=t_j^A\Br{a_1,\dots,a_{k_j}}.
+\]
+
+Let $B$ be a set.
+Let $\phi:A\to B$ be a bijection.
+For each $i\in\I$, define an $\ar(i)$-ary operation
+$\mu_i^B:B^{\ar(i)}\to B$ by:
+\[\forall b_1,\dots,b_{\ar(i)}\in B:\quad
+\mu_i^B\Br{b_1,\dots,b_{\ar(i)}}\df
+\phi\Br{\mu_i^A\Br{\phi\inv(b_1),\dots,\phi\inv\Br{b_{\ar(i)}}}}.
+\]
+Further, for each $j\in\J$, define maps
+$s_j^B,t_j^B:B^{k_j}\to B$ by:
+\[
+\forall b_1,\dots,b_{k_j}\in B:\quad
+\begin{cases}
+s_j^B\Br{b_1,\dots,b_{k_j}}
+\df\phi\Br{s_j^A\Br{\phi\inv(b_1),\dots,\phi\inv\Br{b_{k_j}}}};\\
+t_j^B\Br{b_1,\dots,b_{k_j}}
+\df\phi\Br{t_j^A\Br{\phi\inv(b_1),\dots,\phi\inv\Br{b_{k_j}}}}.\\
+\end{cases}
+\]
+
+Then the following three statements hold:
+\begin{enumerate}
+\item $\Br{B,\set{\mu_i^B}_{i\in\I}}$ is a $\sigma$-structure.
+\item $\phi:A\to B$ is a $\sigma$-isomorphism.
+\item $\forall j\in\J,\forall b_1,\dots,b_{k_j}\in B:\quad
+s_j^B\Br{b_1,\dots,b_{k_j}}=t_j^B\Br{b_1,\dots,b_{k_j}}$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\begin{enumerate}
+\item
+$B$ is a set by assumption.
+For each $i\in\I$, $\mu_i^B:B^{\ar(i)}\to B$ has the correct type.
+
+\item Since $\phi:A\to B$ is a bijection, by \ref{concise},
+we just need to show that $\phi:A\to B$ is a $\sigma$-homomorphism.
+Let $i\in\I$.
+Let $a_1,\dots,a_{\ar(i)}\in A$.
+We can find $b_1,\dots,b_{\ar(i)}\in B$ such that
+$b_k=\phi(a_k)$ for every $k\in\set{1,\dots,\ar(i)}$.
+We then have the following:
+\[\begin{aligned}
+\phi\Br{\mu_i^A\Br{a_1,\dots,a_{\ar(i)}}}
+&=\phi\Br{\mu_i^A\Br{\phi\inv(b_1),\dots,\phi\inv\Br{b_{\ar(i)}}}}\\
+&=\mu_i^B\Br{b_1,\dots,b_{\ar(i)}}\\
+&=\mu_i^B\Br{\phi(a_1),\dots,\phi\Br{a_{\ar(i)}}}.\\
+\end{aligned}\]
+
+\item Let $j\in\J$.
+Let $b_1,\dots,b_{k_j}\in B$.
+Since $\phi:A\to B$ is a bijection, we can find $a_1,\dots,a_{k_j}\in A$ such that
+$b_i=\phi(a_i)$ for every $i\in\set{1,\dots,k_j}$.
+We have the following:
+\[\begin{aligned}
+s_j^A\Br{a_1,\dots,a_{k_j}}&=t_j^A\Br{a_1,\dots,a_{k_j}}\\
+s_j^A\Br{\phi\inv(b_1),\dots,\phi\inv\Br{b_{k_j}}}
+&=t_j^A\Br{\phi\inv(b_1),\dots,\phi\inv\Br{b_{k_j}}}\\
+\phi\Br{s_j^A\Br{\phi\inv(b_1),\dots,\phi\inv\Br{b_{k_j}}}}
+&=\phi\Br{t_j^A\Br{\phi\inv(b_1),\dots,\phi\inv\Br{b_{k_j}}}}\\
+s_j^B\Br{b_1,\dots,b_{k_j}}
+&=t_j^B\Br{b_1,\dots,b_{k_j}}.\\
+\end{aligned}\]
+\end{enumerate}
+\end{proof}
+
+
+\begin{corollary}[Partial Transport]
+\label{partial}
+Let $\Br{A,\set{\mu_i^A}_{i\in\I}}$ be a $\sigma$-structure.
+Let $\set{k_j}_{j\in\J}\subseteq\Z_{\ge0}$.
+For each $j\in\J$, define maps $s_j^A,t_j^A:A^{k_j}\to A$
+satisfying:
+\[\forall a_1,\dots,a_{k_j}\in A:\quad
+s_j^A\Br{a_1,\dots,a_{k_j}}=t_j^A\Br{a_1,\dots,a_{k_j}}.
+\]
+Let $\K\subseteq\I$.
+Let $\tau=\Br{\K,\eval{\ar}_\K}$ be a signature.
+Let $\Br{B,\set{\mu_k^B}_{k\in\K}}$ be a $\tau$-structure.
+Let $\phi:A\to B$ be a bijective $\tau$-homomorphism.
+For each $i\in\I\setminus\K$, define an $\ar(i)$-ary operation
+$\mu_i^B:B^{\ar(i)}\to B$ by:
+\[\forall b_1,\dots,b_{\ar(i)}\in B:\quad
+\mu_i^B\Br{b_1,\dots,b_{\ar(i)}}\df
+\phi\Br{\mu_i^A\Br{\phi\inv(b_1),\dots,\phi\inv\Br{b_{\ar(i)}}}}.
+\]
+Further, for each $j\in\J$, define maps
+$s_j^B,t_j^B:B^{k_j}\to B$ by:
+\[
+\forall b_1,\dots,b_{k_j}\in B:\quad
+\begin{cases}
+s_j^B\Br{b_1,\dots,b_{k_j}}
+\df\phi\Br{s_j^A\Br{\phi\inv(b_1),\dots,\phi\inv\Br{b_{k_j}}}};\\
+t_j^B\Br{b_1,\dots,b_{k_j}}
+\df\phi\Br{t_j^A\Br{\phi\inv(b_1),\dots,\phi\inv\Br{b_{k_j}}}}.\\
+\end{cases}
+\]
+Then the following three statements hold:
+\begin{enumerate}
+\item $\Br{B,\set{\mu_i^B}_{i\in\I}}$ is a $\sigma$-structure.
+\item $\phi:A\to B$ is a $\sigma$-isomorphism.
+\item $\forall j\in\J,\forall b_1,\dots,b_{k_j}\in B:\quad
+s_j^B\Br{b_1,\dots,b_{k_j}}=t_j^B\Br{b_1,\dots,b_{k_j}}$.
+\end{enumerate}
+\end{corollary}
+\begin{Def}
+A \ul{group} is a quadruplet $(G,\mu,\iota,e)$, where
+\begin{itemize}
+\item $G$ is a set,
+\item $\mu:G\times G\to G$ is a binary operation on $G$,
+\item $\iota:G\to G$ is the inversion map, and
+\item $e\in G$ is the identity element,
+\end{itemize}
+that satisfy the following three properties:
+\begin{enumerate}
+\item(Associativity)
+$\forall x,y,z\in G:\quad\mu(\mu(x,y),z)=\mu(x,\mu(y,z))$.
+\item(Identity)
+$\forall x\in G:\quad\mu(e,x)=x=\mu(x,e)$.
+\item(Inverse)
+$\forall x\in G:\quad\mu(\iota(x),x)=e=\mu(x,\iota(x))$.
+\end{enumerate}
+\end{Def}
+
+\begin{Def}
+An \ul{abelian group} is a quadruplet $(G,\mu,\iota,e)$, where
+\begin{itemize}
+\item $(G,\mu,\iota,e)$ is a group,
+\end{itemize}
+that satisfies the following property:
+\begin{enumerate}
+\item (Commutativity)
+$\forall x,y\in G:\quad\mu(x,y)=\mu(y,x)$.
+\end{enumerate}
+\end{Def}
+
+\begin{Def}
+A \ul{field} is a septuplet $\Br{\F,+_\F,-_\F,0_\F,\times_\F,\inv,1_\F}$, where
+\begin{itemize}
+\item $(\F,+_\F,-_\F,0_\F)$ is an abelian group,
+\item $\times_\F:\F\times\F\to\F$ is the field multiplication, and
+\item $\Br{\F^\times,\eval{\times_\F}_{\F^\times},
+\inv,1_\F}$ is an abelian group,
+\end{itemize}
+that satisfy the following property:
+\begin{enumerate}
+\item (Left Distributivity of Field Multiplication over Field Addition)
+\[
+\forall a,b,c\in\F:\quad
+a\times_\F(b+_\F c)=(a\times_\F b)+_\F(a\times_\F c).
+\]
+\end{enumerate}
+\end{Def}
+
+\begin{Def}
+An $\F$-vector space
+is a quintuplet $\Br{V,+_V,-_V,\bm0_V,\cdot_V}$, where
+\begin{itemize}
+\item $\Br{V,+_V,-_V,\bm0_V}$ is an abelian group, and
+\item $\cdot_V:\F\times V\to V$ is the scalar multiplication,
+\end{itemize}
+that satisfy the following four properties:
+\begin{enumerate}
+\item (Left Distributivity of Scalar Multiplication over Vector Addition)
+\[
+\forall c\in\F,\forall\bm u,\bm v\in V:\quad
+c\cdot_V(\bm u+_V\bm v)=(c\cdot_V\bm u)+_V(c\cdot_V\bm v).
+\]
+
+\item (Right Distributivity of Scalar Multiplication over field Addition)
+\[
+\forall c,d\in\F,\forall\bm u\in V:\quad
+(c+_\F d)\cdot_V\bm u=(c\cdot_V\bm u)+_V(d\cdot_V\bm u).
+\]
+
+\item (Compatibility of Scalar Multiplication with Field Multiplication)
+\[
+\forall c,d\in\F,\forall\bm u\in V:\quad
+c\cdot_V(d\cdot_V\bm u)=(c\times_\F d)\cdot_V\bm u.
+\]
+
+\item (Existence of an Identity for Scalar Multiplication)
+\[
+\forall\bm u\in V:\quad 1_\F\cdot_V\bm u=\bm u.
+\]
+\end{enumerate}
+\end{Def}
+
+\begin{Thm}[Subspace Test]\label{thm:subspace-test}
+Let
+$\Br{V,+,-,\bm0,\cdot}$ be an $\F$-vector space.
+Let $W\subseteq V$.
+Then $\Br{W,+,-,\bm0,\cdot}$
+is an $\F$-vector space iff the following two statements hold:
+\begin{enumerate}
+\item (Non-Emptiness) $\bm0\in W$.
+\item (Closure under Vector Addition and Scalar Multiplication)
+\[\forall\bm u,\bm v\in W,\forall\lambda\in\F:\quad
+\bm u+\lambda\cdot\bm v\in W.\]
+\end{enumerate}
+\end{Thm}
+
+\begin{Thm}[Maps between a Set and a Vector Space Form a Vector Space]
+\label{def:pointwise-ops}
+Let $(V,+,-,\bm0,\cdot)$ be an $\F$-vector space.
+Let $X$ be a set.
+Define the operations
+\begin{itemize}
+\item $\pwplus:V^X\times V^X\to V^X$, called ``pointwise addition'',
+\item $\pwminus:V^X\to V^X$, called ``pointwise additive inversion'',
+\item $0_{X\to V}\in V^X$, called ``zero map'', and
+\item $\pwcdot:\F\times V^X\to V^X$,
+called ``pointwise scalar multiplication'',
+\end{itemize}
+as follows:
+\begin{enumerate}
+\item (Pointwise Addition)
+$\forall f,g\in V^X,\forall x\in X:\quad
+\FUNC{f\pwplus g}{x}\df f(x)+g(x)
+$.
+\item (Pointwise Additive Inversion)
+$\forall f\in V^X,\forall x\in X:\quad
+\FUNC{\pwminus f}{x}\df -f(x).
+$
+\item (Zero Transformation)
+The map $\bm0_{X\to V}:X\to V$ is defined as:
+\[\forall x\in X:\quad\bm0_{X\to V}(x)\df\bm 0.\]
+\item (Pointwise Scalar Multiplication)
+$\forall f\in V^X,\forall\lambda\in\F,\forall x\in X\quad
+\FUNC{\lambda\pwcdot f}{x}\df\lambda\cdot f(x)
+$.
+\end{enumerate}
+Then $\Br{V^X,\pwplus,\pwminus,\bm0_{X\to V},\pwcdot}$ is an $\F$-vector space.
+\end{Thm}
+
+\begin{Def}
+Let
+$\Br{V,+_V,-_V,\bm0_V,\cdot_V}$ and $\Br{W,+_W,-_W,\bm0_W,\cdot_W}$
+be $\F$-vector spaces.
+A map $T:V\to W$ is said to be a
+\ul{linear transformation from $V$ to $W$} iff it satisfies the
+following property:
+\begin{enumerate}
+\item (Linearity)
+$
+\forall\bm u,\bm v\in V,\forall\lambda\in\F:\quad
+T(\bm u+_V(\lambda\cdot_V\bm v))
+=T(\bm u)+_W(\lambda\cdot_WT(\bm v)).
+$
+\end{enumerate}
+A linear transformation from $V$ to itself is called an
+\ul{operator on $V$}.
+The \ul{set of linear transformations from $V$ to $W$},
+denoted by ``$\L(V,W)$'', is defined as:
+\[\L(V,W)\df\set{T:V\to W\st T~\text{is a linear transformation}}.\]
+In the case where $V=W$, we simply denote $\L(V,W)=\L(V,V)$ by $\L(V)$.
+\end{Def}
+
+\begin{Def}
+Let $\Br{V,+_V,-_V,\bm0_V,\cdot_V}$ and $\Br{W,+_W,-_W,\bm0_W,\cdot_W}$
+be $\F$-vector spaces.
+A map $T\in\L(V,W)$ is said to be a
+\ul{linear isomorphism} iff it is bijective.
+(The inverse of a bijective linear map is automatically linear.)
+\end{Def}
+
+\begin{Def}
+$\Br{V,+_V,-_V,\bm0_V,\cdot_V}$ is said to be
+\ul{isomorphic} to $\Br{W,+_W,-_W,\bm0_W,\cdot_W}$,
+denoted by ``$V\cong W$'', iff
+there exists a linear isomorphism between them.
+\end{Def}
+
+\begin{Thm}[linear transformations between vector spaces form a vector space]
+\label{thm:LVW-vec-space}
+Let
+$\Br{V,+_V,-_V,\bm0_V,\cdot_V}$\\ and $\Br{W,+_W,-_W,\bm0_W,\cdot_W}$
+be $\F$-vector spaces.
+Then $\Br{\L(V,W),\pwplus,\pwminus,\bm0_{V\to W},\pwcdot}$, is an $\F$-vector space.
+\end{Thm}
+
+\begin{Def}
+An \ul{$\F$-algebra} is a sextuplet
+$\Br{A,+,-,\bm0,\cdot,\times}$, where
+\begin{itemize}
+\item $(A,+,-,\bm0,\cdot)$ is an
+$\F$-vector space, and
+\item $\times:A\times A\to A$ is the algebra multiplication,
+\end{itemize}
+that satisfy the following property:
+\begin{enumerate}
+\item (Bilinearity of the Algebra Multiplication)
+$\forall a,b,c\in A,\forall\lambda\in\F:$
+\[a\times(b+\lambda\cdot c)=(a\times b)+\lambda\cdot(a\times c)
+\tand
+(a+\lambda\cdot b)\times c=(a\times c)+\lambda\cdot(b\times c).
+\]
+\end{enumerate}
+\end{Def}
+
+\begin{Def}
+An $\F$-algebra $(A,+,-,\bm0,\cdot,\times)$ is said to be:
+\begin{enumerate}
+\item \ul{associative} iff
+$\forall a,b,c\in A:\quad (a\times b)\times c=a\times(b\times c)$.
+\item \ul{commutative} iff
+$\forall a,b\in A:\quad a\times b=b\times a$.
+\end{enumerate}
+\end{Def}
+
+\begin{Def}
+An $\F$-algebra $(A,+,-,\bm0,\cdot,\times)$ is said to be \ul{unital} iff
+there exists an element $1\in A$ such that
+$\forall a\in A:\;1\times a=a=a\times 1$.
+In this case the tuple expands to a septuplet $(A,+,-,\bm0,\cdot,\times,1)$.
+\end{Def}
+
+\begin{Thm}[Subalgebra Test]\label{thm:subalgebra-test}
+Let $\Br{A,+,-,\bm0,\cdot,\times}$ be an $\F$-algebra.
+Let $B\subseteq A$.
+Then $\Br{B,+,-,\bm0,\cdot,\times}$ is an $\F$-algebra iff the following three statements hold:
+\begin{enumerate}
+\item (Non-Emptiness) $\bm0\in B$.
+\item (Closure under Vector Addition and Scalar Multiplication)
+$\forall a,b\in B,\forall\lambda\in\F:\quad a+\lambda\cdot b\in B$.
+\item (Closure under Algebra Multiplication)
+$\forall a,b\in B:\quad a\times b\in B$.
+\end{enumerate}
+\end{Thm}
+
+\begin{remark}
+Since associativity and commutativity are universally quantified equations,
+they are inherited by subsets automatically. Consequently,
+if $B\subseteq A$ satisfies the subalgebra test:
+\begin{itemize}
+\item if $A$ is associative then $B$ is associative.
+\item if $A$ is commutative then $B$ is commutative.
+\item if $A$ is unital then $B$ is unital iff $1\in B$.
+\end{itemize}
+\end{remark}
+
+\begin{Thm}[Maps between a Set and an Algebra Form an Algebra]
+\label{thm:AX-algebra}
+Let $(A,+,-,\bm0,\cdot,\times,1)$ be an associative unital $\F$-algebra.
+Let $X$ be a set.
+Define the pointwise algebra multiplication $\pwtimes:A^X\times A^X\to A^X$
+and unit $\pwone\in A^X$ by:
+\[\forall f,g\in A^X,\forall x\in X:\quad
+\FUNC{f\pwtimes g}{x}\df f(x)\times g(x)\tand
+\pwone(x)\df 1.\]
+Then $\Br{A^X,\pwplus,\pwminus,0_{X\to A},\pwcdot,\pwtimes,\pwone}$ is an associative unital $\F$-algebra.
+\end{Thm}
+
+\begin{Prop}[Associative Unital Algebra on $\L(V)$]
+\label{prop:LV-assoc-unital-alg}
+Let
+$\Br{V,+,-,\bm0,\cdot}$
+be a $\F$-vector space.
+Then
+$\Br{\L(V),\pwplus,\pwminus,\bm0_{V\to V},\pwcdot,\circ,I_V}$
+is an associative unital algebra.
+\end{Prop}
+
+\begin{Def}
+A \ul{Lie $\F$-algebra}
+is a sextuplet $\Br{\mathfrak{g},+,-,\bm0,\cdot,[\bullet,\bullet]}$, where
+\begin{itemize}
+\item $\Br{\mathfrak{g},+,-,\bm0,\cdot,[\bullet,\bullet]}$
+is an $\F$-algebra,
+\end{itemize}
+that satisfy the following two properties:
+\begin{enumerate}
+\item (Skew‑symmetry)
+$\forall X,Y\in\mathfrak{g}:\quad [Y,X]=-[X,Y]$.
+\item (Jacobi Identity)
+$\forall X,Y,Z\in\mathfrak{g}:\quad
+[X,[Y,Z]]+[Y,[Z,X]]+[Z,[X,Y]]=\mathbf{0}$.
+\end{enumerate}
+\end{Def}
+
+\begin{Thm}[Lie Subalgebra Test]\label{thm:Lie-subalg-test}
+Let $\Br{\mathfrak{g},+,-,\bm0,\cdot,[\bullet,\bullet]}$ be a Lie $\F$-algebra.
+Let $\mathfrak{h}\subseteq\mathfrak{g}$.
+Then $\Br{\mathfrak{h},+,-,\bm0,\cdot,[\bullet,\bullet]}$ is a Lie $\F$-algebra iff the following three statements hold:
+\begin{enumerate}
+\item (Non-Emptiness) $\bm0\in\mathfrak{h}$.
+\item (Closure under Vector Addition and Scalar Multiplication)
+$\forall X,Y\in\mathfrak{h},\forall\lambda\in\F:\quad X+\lambda\cdot Y\in\mathfrak{h}$.
+\item (Closure under the Lie Bracket)
+$\forall X,Y\in\mathfrak{h}:\quad [X,Y]\in\mathfrak{h}$.
+\end{enumerate}
+\end{Thm}
+
+\begin{Thm}[Lie Algebra Associated to an Associative Algebra]
+\label{thm:assoc-to-lie}
+Let $(A,+,-,\bm0,\cdot,\times)$ be an associative $\F$-algebra.
+Define the \ul{commutator} $[\bullet,\bullet]_\times:A\times A\to A$ by
+\[\forall a,b\in A:\quad [a,b]_\times\df a\times b-b\times a.\]
+Then $\Br{A,+,-,\bm0,\cdot,[\bullet,\bullet]_\times}$ is a Lie $\F$-algebra.
+\end{Thm}
+\begin{proof}
+$(A,+,-,\bm0,\cdot)$ is a vector space (since $A$ is an associative algebra).
+Also, $[\bullet,\bullet]_\times:A\times A\to A$ has the correct type.
+We just have to check the three properties:
+\begin{enumerate}
+\item (Bilinearity)
+Let $\lambda\in\F$. Let $a,b,c\in A$. We have the following:
+\[\begin{aligned}
+[a+\lambda\cdot b,c]_\times
+&=(a+\lambda\cdot b)\times c-c\times(a+\lambda\cdot b)\\
+&=a\times c+(\lambda\cdot b)\times c-c\times a-c\times(\lambda\cdot b)\\
+&=a\times c+\lambda\cdot(b\times c)-c\times a-\lambda\cdot(c\times b)\\
+&=a\times c-c\times a+\lambda\cdot(b\times c-c\times b)\\
+&=[a,c]_\times+\lambda\cdot[b,c]_\times;\\
+\end{aligned}\]
+\[\begin{aligned}
+[a,b+\lambda\cdot c]_\times
+&=a\times(b+\lambda\cdot c)-(b+\lambda\cdot c)\times a\\
+&=a\times b+a\times(\lambda\cdot c)-b\times a-(\lambda\cdot c)\times a\\
+&=a\times b+\lambda\cdot(a\times c)-b\times a-\lambda\cdot(c\times a)\\
+&=a\times b-b\times a+\lambda\cdot(a\times c-c\times a)\\
+&=[a,b]_\times+\lambda\cdot[a,c]_\times.\\
+\end{aligned}\]
+\item (Skew-symmetry)
+Let $a,b\in A$. We have the following:
+\[[b,a]_\times=b\times a-a\times b=-(a\times b-b\times a)=-[a,b]_\times.\]
+\item (Jacobi Identity)
+Let $a,b,c\in A$. We have the following:
+\[\begin{aligned}
+[a,[b,c]_\times]_\times
+&=a\times[b,c]_\times-[b,c]_\times\times a\\
+&=a\times(b\times c-c\times b)-(b\times c-c\times b)\times a\\
+&=a\times b\times c-a\times c\times b-b\times c\times a+c\times b\times a.
+\end{aligned}\]
+By the symmetry of the expressions, we also have:
+\begin{gather*}
+[b,[c,a]_\times]_\times
+=b\times c\times a-b\times a\times c-c\times a\times b+a\times c\times b;\\
+[c,[a,b]_\times]_\times
+=c\times a\times b-c\times b\times a-a\times b\times c+b\times a\times c.\\
+\end{gather*}
+Summing the three equations, we obtain:
+\[
+[a,[b,c]_\times]_\times+
+[b,[c,a]_\times]_\times+
+[c,[a,b]_\times]_\times=\bm0.
+\]
+\end{enumerate}
+\end{proof}
+
+
+\begin{corollary}[Lie Subalgebra Criterion for Associative Algebras]\label{cor:Lie-subalg-associative}
+Let $(A,+,-,\bm0,\cdot,\times)$ be an associative $\F$-algebra.
+Let $B\subseteq A$.
+Then $\Br{B,+,-,\bm0,\cdot,[\bullet,\bullet]_\times}$ is a Lie $\F$-algebra iff the following three statements hold:
+\begin{enumerate}
+\item (Non-Emptiness) $\bm0\in B$.
+\item (Closure under Vector Addition and Scalar Multiplication)
+$\forall a,b\in B,\forall\lambda\in\F:\quad a+\lambda\cdot b\in B$.
+\item (Closure under the Commutator)
+$\forall a,b\in B:\quad [a,b]_\times\in B$.
+\end{enumerate}
+\end{corollary}
+
+\begin{Def}
+Let $\Br{\g,+,-,\bm0,\cdot,[\bullet,\bullet]_\g}$ and
+$\Br{\h,+,-,\bm0,\cdot,[\bullet,\bullet]_\h}$ be Lie $\F$-algebras.
+A map $\phi:\g\to\h$ is said to be a
+\ul{Lie algebra homomorphism between
+$\Br{\g,+,-,\bm0,\cdot,[\bullet,\bullet]_\g}$
+and $\Br{\h,+,-,\bm0,\cdot,[\bullet,\bullet]_\h}$} iff it satisfies
+the following two properties:
+\begin{enumerate}
+\item (Linearity) $\phi$ is a linear map.
+\item (Preservation of the Bracket)
+$\forall X,Y\in\g:\quad\phi\Br{[X,Y]_\g}=[\phi(X),\phi(Y)]_\h$.
+\end{enumerate}
+\end{Def}
+
+\begin{Def}
+A Lie algebra homomorphism is called a
+\ul{Lie algebra isomorphism} iff it is bijective.
+(The inverse of a bijective Lie algebra homomorphism is automatically
+a Lie algebra homomorphism.)
+\end{Def}
+
+\begin{Def}
+$\Br{\g,+,-,\bm0,\cdot,[\bullet,\bullet]_\g}$ is said to be
+\ul{isomorphic} to $\Br{\h,+,-,\bm0,\cdot,[\bullet,\bullet]_\h}$,
+denoted by ``$\g\cong\h$'', iff
+there exists a Lie algebra isomorphism between them.
+\end{Def}
+
+\begin{Def}
+Let $V$ be an $\F$-vector space. The
+\ul{general linear Lie algebra of $V$},
+denoted by ``$\gl(V)$'', is defined as
+\[\gl(V)\df\Br{\L(V),\pwplus,\pwminus,\bm0_{V\to V},\pwcdot,
+\SqBr{\bullet,\bullet}_\circ}.\]
+\end{Def}
+
+\section{Differential Calculus on Smooth Manifolds}\label{sec:diff-calc}
+\subsection{Local Constructions}
+\begin{Def}
+The \ul{standard smooth structure on $\R$}, denoted by ``$\A_\R$'',
+is the smooth structure on $(\R,\T_{\dist_1})$ that contains the identity chart $(\R,\id_\R)$.
+\end{Def}
+
+\begin{Def}
+Let $(M,\T,\A)$ be a smooth manifold. Let $p\in M$.
+The \ul{set of local smooth representatives at $p$},
+denoted by ``$\Rep_p(M,\T,\A)$'', is defined as:
+\[
+\Rep_p(M,\T,\A)\df
+\set{(U,f)\st p\in U\in\T\tand f:U\to\R~\text{is smooth
+w.r.t. $\A|_U$ and $\A_\R$}}.
+\]
+\end{Def}
+
+\begin{Def}
+Let $(M,\T,\A)$ be a smooth manifold. Let $p\in M$.\\
+Let $(U,f),(V,g)\in\Rep_p(M,\T,\A)$.
+$(U,f)$ and $(V,g)$ are said to be \ul{germ equivalent at $p$}, denoted by
+``$(U,f)\sim_p(V,g)$'', iff
+\[
+\exists W\in\T:\quad p\in W\subseteq U\cap V\tand f|_W=g|_W.
+\]
+\end{Def}
+
+\begin{Def}
+Let $(M,\T,\A)$ be a smooth manifold. Let $p\in M$.
+Let $(U,f)\in\Rep_p(M,\T,\A)$.
+The \ul{$(U,f)$-germ at $p$}, denoted by ``$\SqBr{(U,f)}_p$'', is defined as:
+\[
+\SqBr{(U,f)}_p\df\set{(V,g)\in\Rep_p(M,\T,\A)\st
+(U,f)\sim_p(V,g)
+}.
+\]
+The \ul{stalk of smooth functions at $p$}, denoted by
+``$C_p^\infty(M,\T,\A)$'', is defined as:
+\[
+C_p^\infty(M,\T,\A)\df
+\left.\Rep_p(M,\T,\A)\middle/\sim_p\right.
+=\set{\SqBr{(U,f)}_p\st(U,f)\in\Rep_p(M,\T,\A)}.
+\]
+\end{Def}
+
+\begin{Thm}[Stalk is a Commutative Associative Unital Algebra]\label{thm:stalk-algebra}
+Let $(M,\T,\A)$ be a smooth manifold. Let $p\in M$.
+Define the operations
+\begin{itemize}
+\item $+:C_p^\infty(M,\T,\A)\times C_p^\infty(M,\T,\A)\to C_p^\infty(M,\T,\A)$,
+  the germ addition,
+\item $-:C_p^\infty(M,\T,\A)\to C_p^\infty(M,\T,\A)$,
+  the additive germ inversion,
+\item $\SqBr{\Br{M,0_{M\to\R}}}_p\in C_p^\infty(M,\T,\A)$,
+  the zero germ,
+\item $\cdot:\R\times C_p^\infty(M,\T,\A)\to C_p^\infty(M,\T,\A)$,
+  the scalar germ multiplication,
+\item $\times:C_p^\infty(M,\T,\A)\times C_p^\infty(M,\T,\A)\to C_p^\infty(M,\T,\A)$,
+  the algebra germ multiplication,
+\item $\SqBr{\Br{M,1_{M\to\R}}}_p\in C_p^\infty(M,\T,\A)$,
+  the unit germ,
+\end{itemize}
+on germs (via representatives) as follows:
+\begin{enumerate}
+\item (Germ Addition)
+  \[\forall \SqBr{(U,f)}_p,\SqBr{(V,g)}_p\in C_p^\infty(M,\T,\A):\quad
+  \SqBr{(U,f)}_p+\SqBr{(V,g)}_p\df\SqBr{\Br{U\cap V,\eval{f}_{U\cap V}
++\eval{g}_{U\cap V}}}_p.\]
+\item (Additive Germ Inversion)
+  \[\forall \SqBr{(U,f)}_p\in C_p^\infty(M,\T,\A):\quad
+  -\SqBr{(U,f)}_p\df\SqBr{(U,-f)}_p.\]
+\item (Zero Germ)
+  \[\SqBr{\Br{M,0_{M\to\R}}}_p,\quad
+  \forall q\in M:\;0_{M\to\R}(q)\df0.\]
+\item (Scalar Germ Multiplication)
+  \[\forall \SqBr{(U,f)}_p\in C_p^\infty(M,\T,\A),\forall\lambda\in\R:\quad
+  \lambda\cdot\SqBr{(U,f)}_p\df\SqBr{(U,\lambda\cdot f)}_p.\]
+\item (Algebra Germ Multiplication)
+  \[\forall \SqBr{(U,f)}_p,\SqBr{(V,g)}_p\in C_p^\infty(M,\T,\A):\quad
+  \SqBr{(U,f)}_p\times\SqBr{(V,g)}_p\df\SqBr{\Br{U\cap V,
+\eval{(f\cdot g)}_{U\cap V}}}_p.\]
+\item (Unit Germ)
+  \[\SqBr{\Br{M,1_{M\to\R}}}_p,\quad
+  \forall q\in M:\;1_{M\to\R}(q)\df1.\]
+\end{enumerate}
+These operations are well-defined $\tand$
+$\Br{C_p^\infty(M,\T,\A),+,-,\SqBr{\Br{M,0_{M\to\R}}}_p,\cdot,\times,\SqBr{\Br{M,1_{M\to\R}}}_p}$
+is a commutative associative unital $\R$-algebra.
+\end{Thm}
+
+\begin{Def}
+Let $(M,\T,\A)$ be a smooth manifold. Let $p\in M$.
+A map $v:C_p^\infty(M,\T,\A)\to\R$ is said to be a \ul{derivation at $p$} iff:
+\begin{enumerate}
+\item ($\R$-Linearity)
+$
+\forall\lambda\in\R,\forall \SqBr{(U,f)}_p,\SqBr{(V,g)}_p\in C_p^\infty(M,\T,\A):
+$
+\[
+v\Br{\SqBr{(U,f)}_p+\lambda\cdot\SqBr{(V,g)}_p}
+=v\Br{\SqBr{(U,f)}_p}+\lambda\cdot v\Br{\SqBr{(V,g)}_p}.
+\]
+\item (Leibniz Rule)
+$
+\forall \SqBr{(U,f)}_p,\SqBr{(V,g)}_p\in C_p^\infty(M,\T,\A):
+$
+\[
+v\Br{\SqBr{(U,f)}_p\times\SqBr{(V,g)}_p}
+=v\Br{\SqBr{(U,f)}_p}\cdot g(p)+f(p)\cdot v\Br{\SqBr{(V,g)}_p}.
+\]
+\end{enumerate}
+The \ul{tangent space of $(M,\T,\A)$ at $p$}, denoted by
+``$T_p(M,\T,\A)$'', is defined as:
+\[
+T_p(M,\T,\A)\df\set{v:C_p^\infty(M,\T,\A)\to\R\st
+v~\text{is a derivation at $p$}}.
+\]
+\end{Def}
+
+\begin{Thm}[Tangent Space is a Vector Space]\label{thm:tangent-vec-space}
+Let $(M,\T,\A)$ be a smooth manifold. Let $p\in M$.
+Then $\Br{T_p(M,\T,\A),\pwplus,\pwminus,0_{T_p(M)},\pwcdot}$ is an $\R$-vector space.
+\end{Thm}
+\begin{proof}
+\[
+\R^{C_p^\infty(M,\T,\A)}
+\]
+is an $\R$-vector space under pointwise operations
+(Theorem \ref{def:pointwise-ops}).
+$T_p(M,\T,\A)\subseteq\R^{C_p^\infty(M,\T,\A)}$.
+Every derivation is linear, so $T_p(M,\T,\A)$ is closed under $\pwplus$
+and $\pwcdot$, and the zero map is a derivation.
+By the Subspace Test (Theorem \ref{thm:subspace-test}),
+\[
+\Br{T_p(M,\T,\A),\pwplus,\pwminus,0_{T_p(M)},\pwcdot}
+\]
+is an $\R$-vector space.
+\end{proof}
+
+\begin{Thm}[The Differential]\label{thm:differential}
+Let $(M,\T_M,\A_M)$ and $(N,\T_N,\A_N)$ be smooth manifolds.
+Let $F:M\to N$ be smooth w.r.t. $\A_M$ and $\A_N$.
+Let $p\in M$.
+The \ul{differential of $F$ at $p$}, denoted by ``$\dd F_p$'',
+is the map
+$\dd F_p:T_p(M,\T_M,\A_M)\to T_{F(p)}(N,\T_N,\A_N)$
+defined by:\\
+$
+\forall v\in T_p(M,\T_M,\A_M),
+\forall \SqBr{(V,g)}_{F(p)}\in C_{F(p)}^\infty(N,\T_N,\A_N):
+$
+\[
+\FUNC{\dd F_p(v)}{\SqBr{(V,g)}_{F(p)}}\df
+v\Br{\SqBr{\Br{F\inv(V),g\circ F}}_p}.
+\]
+Then $\dd F_p$ is a well-defined linear transformation.
+\end{Thm}
+\begin{proof}
+\begin{enumerate}
+\item (Well-definedness — $\dd F_p(v)$ is a derivation at $F(p)$)
+Let $v\in T_p(M,\T_M,\A_M)$.
+We verify that $\dd F_p(v):C_{F(p)}^\infty(N,\T_N,\A_N)\to\R$
+satisfies the two defining properties of a derivation.
+
+\begin{enumerate}
+\item ($\R$-Linearity of $\dd F_p(v)$)
+Let $\lambda\in\R$ and
+$\SqBr{(V,g)}_{F(p)},\SqBr{(W,h)}_{F(p)}\in C_{F(p)}^\infty(N,\T_N,\A_N)$.
+Then
+\[\begin{aligned}
+\FUNC{\dd F_p(v)}{\SqBr{(V,g)}_{F(p)}+\lambda\cdot\SqBr{(W,h)}_{F(p)}}
+&=\FUNC{\dd F_p(v)}{\SqBr{\Br{V\cap W,g+\lambda\cdot h}}_{F(p)}}\\
+&=v\Br{\SqBr{\Br{F\inv(V\cap W),(g+\lambda\cdot h)\circ F}}_p}\\
+&=v\Br{\SqBr{\Br{F\inv(V)\cap F\inv(W),g\circ F+\lambda\cdot(h\circ F)}}_p}\\
+&=v\Br{\SqBr{\Br{F\inv(V),g\circ F}}_p
++\lambda\cdot\SqBr{\Br{F\inv(W),h\circ F}}_p}\\
+&=v\Br{\SqBr{\Br{F\inv(V),g\circ F}}_p}
++\lambda\cdot v\Br{\SqBr{\Br{F\inv(W),h\circ F}}_p}\\
+&=\FUNC{\dd F_p(v)}{\SqBr{(V,g)}_{F(p)}}
++\lambda\cdot\FUNC{\dd F_p(v)}{\SqBr{(W,h)}_{F(p)}}.
+\end{aligned}\]
+
+\item (Leibniz Rule of $\dd F_p(v)$)
+Let $\SqBr{(V,g)}_{F(p)},\SqBr{(W,h)}_{F(p)}\in C_{F(p)}^\infty(N,\T_N,\A_N)$.
+Then
+\[\begin{aligned}
+&\FUNC{\dd F_p(v)}{\SqBr{(V,g)}_{F(p)}\times\SqBr{(W,h)}_{F(p)}}\\
+&=\FUNC{\dd F_p(v)}{\SqBr{\Br{V\cap W,g\cdot h}}_{F(p)}}\\
+&=v\Br{\SqBr{\Br{F\inv(V\cap W),(g\cdot h)\circ F}}_p}\\
+&=v\Br{\SqBr{\Br{F\inv(V)\cap F\inv(W),(g\circ F)\cdot(h\circ F)}}_p}\\
+&=v\Br{\SqBr{\Br{F\inv(V),g\circ F}}_p
+\times\SqBr{\Br{F\inv(W),h\circ F}}_p}\\
+&=v\Br{\SqBr{\Br{F\inv(V),g\circ F}}_p}\cdot(h\circ F)(p)
++(g\circ F)(p)\cdot v\Br{\SqBr{\Br{F\inv(W),h\circ F}}_p}\\
+&=\FUNC{\dd F_p(v)}{\SqBr{(V,g)}_{F(p)}}\cdot h(F(p))
++g(F(p))\cdot\FUNC{\dd F_p(v)}{\SqBr{(W,h)}_{F(p)}}.
+\end{aligned}\]
+\end{enumerate}
+Thus $\dd F_p(v)\in T_{F(p)}(N,\T_N,\A_N)$, so the codomain is correct.
+
+\item (Linearity of $\dd F_p$)
+Let $v,w\in T_p(M,\T_M,\A_M)$ and $\lambda\in\R$.
+For any germ $\SqBr{(V,g)}_{F(p)}\in C_{F(p)}^\infty(N,\T_N,\A_N)$,
+\[\begin{aligned}
+\FUNC{\dd F_p(v\pwplus\lambda\pwcdot w)}{\SqBr{(V,g)}_{F(p)}}
+&=(v\pwplus\lambda\pwcdot w)
+\Br{\SqBr{\Br{F\inv(V),g\circ F}}_p}\\
+&=v\Br{\SqBr{\Br{F\inv(V),g\circ F}}_p}
++\lambda\cdot w\Br{\SqBr{\Br{F\inv(V),g\circ F}}_p}\\
+&=\FUNC{\dd F_p(v)}{\SqBr{(V,g)}_{F(p)}}
++\lambda\cdot\FUNC{\dd F_p(w)}{\SqBr{(V,g)}_{F(p)}}\\
+&=\FUNC{\dd F_p(v)+\lambda\cdot\dd F_p(w)}{\SqBr{(V,g)}_{F(p)}}.
+\end{aligned}\]
+Since the germ was arbitrary,
+$\dd F_p(v\pwplus\lambda\pwcdot w)
+=\dd F_p(v)\pwplus\lambda\pwcdot\dd F_p(w)$,
+establishing linearity.
+\end{enumerate}
+\end{proof}
+
+\begin{Thm}[Chain Rule]\label{thm:chain-rule}
+Let $(M,\T_M,\A_M)$, $(N,\T_N,\A_N)$ and $(P,\T_P,\A_P)$ be smooth manifolds.
+Let $U\in\T_M$ and $V\in\T_N$.
+If
+\begin{itemize}
+\item $F:U\to N$ is smooth w.r.t. $\eval{\A_M}_U$ and $\A_N$,
+\item $G:V\to P$ is smooth w.r.t. $\eval{\A_N}_V$ and $\A_P$, and
+\item $F(U)\subseteq V$,
+\end{itemize}
+then $G\circ F:U\to P$ is smooth w.r.t. $\eval{\A_M}_U$ and
+$\A_P$, and, for each $p\in U$,
+\[\dd\Br{G\circ F}_p=\dd G_{F(p)}\circ\dd F_p.\]
+\end{Thm}
+\begin{proof}
+\begin{enumerate}
+\item (Smoothness of $G\circ F$)
+Let $p\in U$. Let $(W,\chi)\in\A_P$ with $\FUNC{G\circ F}{p}\in W$.
+By assumption $F(U)\subseteq V$, so $F(p)\in V$.
+Also, $\FUNC{G\circ F}{p}=G(F(p))$.
+Since $F(p)\in V$ and $(W,\chi)\in\A_P$ with $G(F(p))\in W$,
+by the smoothness of $G$,
+we can find $(V_0,\psi)\in\eval{\A_N}_V$ with $F(p)\in V_0$ and $G(V_0)\subseteq W$,
+such that $\chi\circ G\circ\psi\inv:\psi(V_0)\to\chi(W)$ is $C^\infty$.
+Since $p\in U$ and $(V_0,\psi)\in\eval{\A_N}_V$ with $F(p)\in V_0$, by the smoothness
+of $F$, we can find $(U_0,\phi)\in\eval{\A_M}_U$ with $p\in U_0$ and
+$F(U_0)\subseteq V_0$, such that
+$\psi\circ F\circ\phi\inv:\phi(U_0)\to\psi(V_0)$ is $C^\infty$.
+Notice the following:
+\[\chi\circ(G\circ F)\circ\phi\inv
+=\underbrace{\Br{\chi\circ G\circ\psi\inv}}_{C^\infty}\circ
+\underbrace{\Br{\psi\circ F\circ\phi\inv}}_{C^\infty}.\]
+Thus, we have found
+a $(U_0,\phi)\in\eval{\A_M}_U$ with $p\in U_0$ and
+$\FUNC{G\circ F}{U_0}=G(F(U_0))\subseteq G(V_0)\subseteq W$, such that
+$\chi\circ(G\circ F)\circ\phi\inv:\phi(U_0)\to\chi(W)$ is $C^\infty$.
+\item (the Formula)
+Let $p\in U$.
+Let $v\in T_p(M,\T_M,\A_M)$.
+Let $\SqBr{(W,h)}_{\FUNC{G\circ F}{p}}\in
+C_{\FUNC{G\circ F}{p}}^\infty(P,\T_P,\A_P)$.
+From RHS to LHS:
+\[\begin{aligned}
+\FUNC{\Func{\dd G_{F(p)}\circ\dd F_p}{v}}{\SqBr{(W,h)}_{\FUNC{G\circ F}{p}}}
+&=\FUNC{\dd G_{F(p)}\Br{\dd F_p(v)}}{\SqBr{(W,h)}_{G(F(p))}}\\
+&=\FUNC{\dd F_p(v)}{\SqBr{\Br{G\inv(W),h\circ G}}_{F(p)}}\\
+&=v\Br{\SqBr{\Br{F\inv\Br{G\inv(W)},(h\circ G)\circ F}}_p}\\
+&=v\Br{\SqBr{\Br{\FUNC{\Br{G\circ F}\inv}{W},h\circ(G\circ F)}}_p}\\
+&=\FUNC{\dd\Br{G\circ F}_p(v)}{\SqBr{(W,h)}_{\FUNC{G\circ F}{p}}}
+\end{aligned}\]
+\end{enumerate}
+\end{proof}
+
+\subsection{Global Constructions}
+\begin{Def}
+Let $(M,\T,\A)$ be a smooth manifold.
+The \ul{set of smooth functions on $(M,\T,\A)$}, denoted by
+``$C^{\infty}(M,\T,\A)$'', is defined as:
+\[
+C^{\infty}(M,\T,\A) \df
+\set{f:M\to\R\st f~\text{is smooth w.r.t. $\A$ and $\A_\R$}}.
+\]
+\end{Def}
+
+\begin{Thm}[$C^\infty(M)$ is a Commutative Associative Unital Algebra]\label{thm:Cinfty-algebra}
+Let $(M,\T,\A)$ be a smooth manifold.
+The set $C^\infty(M,\T,\A)$ carries the pointwise operations
+(Definition \ref{def:pointwise-ops} with $X=M$ and $A=\R$).
+Then $\Br{C^\infty(M,\T,\A),+,-,0_{M\to\R},\cdot,\times,1_{M\to\R}}$
+is a commutative associative unital $\R$-algebra.
+Consequently,
+$\Br{\L\Br{C^\infty(M,\T,\A)},\pwplus,\pwminus,\bm0,\pwcdot,\circ,I}$
+is an associative unital $\R$-algebra.
+\end{Thm}
+
+
+\begin{Def}
+Let $(M,\T,\A)$ be a smooth manifold.
+A map $X\in\L\Br{C^\infty(M,\T,\A)}$
+is said to be a \ul{smooth vector field} iff
+it satisfies the following property:
+\begin{enumerate}
+\item (Leibniz Rule)
+$\forall f,g\in C^\infty(M,\T,\A):\quad
+X(f\times g)=X(f)\times g+f\times X(g)$.
+\end{enumerate}
+The \ul{set of smooth vector fields}, denoted by ``$\X(M,\T,\A)$'', is
+defined as:
+\[\X(M,\T,\A)\df
+\set{X\in\L\Br{C^\infty(M,\T,\A)}\st
+X~\text{is a smooth vector field}}.
+\]
+\end{Def}
+
+\begin{lemma}[$\X(M)$ is a Vector Space]\label{lem:vector-fields-vec-space}
+Let $(M,\T,\A)$ be a smooth manifold.
+Then $\X(M,\T,\A)\subseteq\L\Br{C^\infty(M,\T,\A)}$ and
+$\Br{\X(M,\T,\A),\pwplus,\pwminus,\bm0,\pwcdot}$
+is an $\R$-vector space.
+\end{lemma}
+
+\subsection{Local-to-Global Correspondences}
+\begin{lemma}[Germ Extension]\label{lem:germ-extension}
+Let $(M,\T,\A)$ be a smooth manifold. Let $p\in M$.
+Let $(U,f)\in\Rep_p(M,\T,\A)$.
+Then there exists $\tilde f\in C^\infty(M,\T,\A)$ such that
+$(U,f)\sim_p\Br{M,\tilde f}$. Consequently,
+${\SqBr{(U,f)}}_p=\SqBr{\Br{M,\tilde f}}_p$.
+\end{lemma}
+\begin{proof}
+Since $U\in\T$ and $p\in U$, we can choose an open neighbourhood $V$ of $p$
+with $\overline V\subseteq U$ (e.g., take a coordinate ball around $p$
+contained in $U$).  Let $\rho:M\to[0,1]$ be a smooth bump function with
+$\rho\equiv 1$ on $V$ and $\operatorname{supp}(\rho)\subseteq U$.
+Such a function exists on any smooth manifold.
+
+Define $\tilde f:M\to\R$ by
+\[
+\tilde f(q)\df\begin{cases}
+\rho(q)\cdot f(q),&q\in U,\\
+0,&q\in M\setminus U.
+\end{cases}
+\]
+On $U$, $\tilde f=\rho\cdot f$ is smooth because both $\rho$ and $f$ are
+smooth on $U$.  On $M\setminus\operatorname{supp}(\rho)$, we have $\rho\equiv 0$, so
+$\tilde f\equiv 0$, which is smooth.  Since the two definitions agree on the
+overlap (where $\rho$ transitions to $0$), $\tilde f$ is smooth on all of
+$M$.  Thus $\tilde f\in C^\infty(M,\T,\A)$.
+
+Finally, for any $q\in V$ we have $\rho(q)=1$, so
+$\tilde f(q)=f(q)$.  Hence $V$ is an open neighbourhood of $p$ on which
+$\tilde f$ and $f$ agree, i.e., $(U,f)\sim_p\Br{M,\tilde f}$.
+The equality of germs follows directly.
+\end{proof}
+
+\begin{lemma}[Locality of a Smooth Vector Field]
+\label{lem:locality-vector-field}
+Let $(M,\T,\A)$ be a smooth manifold.
+Let $p\in M$.
+Let $X\in\X(M,\T,\A)$.
+Let $h\in C^\infty(M,\T,\A)$.
+If
+\[\exists U\in\set{U\in\T\st p\in U},\forall q\in U:\quad h(q)=0,\]
+then $\FUNC{X(h)}{p}=0$.
+\end{lemma}
+\begin{proof}
+Since $U\in\T$ and $p\in U$, we can find a smooth bump function
+$\rho\in C^\infty(M,\T,\A)$ such that
+$\rho(p)=0$ and $\rho\equiv 1$ on $M\setminus U$.
+(Such a function exists because on a smooth manifold one can construct
+a smooth function that vanishes at a point and equals $1$ outside any
+prescribed open neighbourhood of that point.)
+
+Now observe that $h=\rho\pwtimes h$ globally:
+\begin{itemize}
+\item If $q\in U$, then $h(q)=0$ by hypothesis,
+  so $\FUNC{\rho\pwtimes h}{q}=\rho(q)\cdot 0=0=h(q)$.
+\item If $q\notin U$, then $\rho(q)=1$, so
+  $\FUNC{\rho\pwtimes h}{q}=1\cdot h(q)=h(q)$.
+\end{itemize}
+Thus $h=\rho\pwtimes h$.  Applying $X$ to both sides and using the
+Leibniz rule for smooth vector fields, we obtain
+\[
+X(h)=X(\rho\pwtimes h)=X(\rho)\pwtimes h\;\pwplus\;\rho\pwtimes X(h).
+\]
+Evaluating at $p$ and using the pointwise definitions (Definition~\ref{def:pointwise-ops}) gives
+\[
+\FUNC{X(h)}{p}
+=\FUNC{X(\rho)}{p}\cdot h(p)+\rho(p)\cdot\FUNC{X(h)}{p}.
+\]
+Since $p\in U$, we have $h(p)=0$ by hypothesis, and by construction
+$\rho(p)=0$.  Hence
+\[
+\FUNC{X(h)}{p}= \FUNC{X(\rho)}{p}\cdot 0 + 0\cdot\FUNC{X(h)}{p}=0,
+\]
+which completes the proof.
+\end{proof}
+
+\begin{Def}
+Let $(M,\T,\A)$ be a smooth manifold. Let $p\in M$.
+Let $X\in\X(M,\T,\A)$.
+The value of $X$ at $p$,
+``denoted by $\eval{X}_p$'', is the map $\eval{X}_p:C_p^\infty(M,\T,\A)\to\R$
+defined as the following:
+\[\forall{\SqBr{(U,f)}}_p\in C^\infty_p(M,\T,\A):\quad
+\eval{X}_p\Br{{\SqBr{(U,f)}}_p}\df\FUNC{X\Br{\tilde f}}{p}.
+\]
+\end{Def}
+
+\begin{lemma}[Value of a Vector Field is a Derivation]\label{lem:Xp-derivation}
+Let $(M,\T,\A)$ be a smooth manifold. Let $p\in M$.
+Let $X\in\X(M,\T,\A)$. Then $\eval{X}_p\in T_p(M,\T,\A)$.
+\end{lemma}
+\begin{proof}
+$\eval{X}_p:C_p^\infty(M,\T,\A)\to\R$ already has the correct type. We just need to check
+that it is a derivation at $p$.
+\begin{enumerate}
+\item (Linearity)
+Let $\lambda\in\R$. Let ${\SqBr{(U,f)}}_p,{\SqBr{(V,g)}}_p\in C_p^\infty(M,\T,\A)$.
+We have the following:
+\[\begin{aligned}
+\eval{X}_p\Br{\SqBr{(U,f)}_p+\lambda\cdot\SqBr{(V,g)}_p}
+&=\eval{X}_p\Br{\SqBr{(U,f)}_p+\SqBr{(V,\lambda\cdot g)}_p}\\
+&=\eval{X}_p\Br{\SqBr{\Br{U\cap V,f+\lambda\cdot g}}_p}\\
+&=\FUNC{X\widetilde{\Br{f+\lambda\cdot g}}}{p}\\
+&=\FUNC{X\Br{\tilde f+\lambda\cdot\tilde g}}{p}\\
+&=\FUNC{X\Br{\tilde f}+\lambda\cdot X\Br{\tilde g}}{p}\\
+&=\FUNC{X\Br{\tilde f}+\Func{\lambda\cdot X}{\tilde g}}{p}\\
+&=\FUNC{X\Br{\tilde f}}{p}+\FUNC{\Func{\lambda\cdot X}{\tilde g}}{p}\\
+&=\FUNC{X\Br{\tilde f}}{p}+\FUNC{\lambda\cdot X\Br{\tilde g}}{p}\\
+&=\FUNC{X\Br{\tilde f}}{p}+\lambda\cdot \FUNC{X\Br{\tilde g}}{p}\\
+&=\eval{X}_p\Br{\SqBr{(U,f)}_p}+\lambda\cdot \eval{X}_p\Br{\SqBr{(V,g)}_p}
+\end{aligned}\]
+
+\item (Leibniz Rule)
+Let ${\SqBr{(U,f)}}_p,{\SqBr{(V,g)}}_p\in C_p^\infty(M,\T,\A)$.
+We have the following:
+\[\begin{aligned}
+\eval{X}_p\Br{\SqBr{(U,f)}_p\times\SqBr{(V,g)}_p}
+&=\eval{X}_p\Br{\SqBr{\Br{U\cap V,\eval{\Br{f\cdot g}}_{U\cap V}}}_p}\\
+&=\FUNC{X\Br{\widetilde{\eval{\Br{f\cdot g}}_{U\cap V}}}}{p}\\
+&=\FUNC{X\Br{\tilde f\times\tilde g}}{p}\\
+&=\FUNC{X\Br{\tilde f}\times\tilde g+\tilde f\times X\Br{\tilde g}}{p}\\
+&=\FUNC{X\Br{\tilde f}\times\tilde g}{p}
++\FUNC{\tilde f\times X\Br{\tilde g}}{p}\\
+&=\FUNC{X\Br{\tilde f}}{p}\cdot\tilde g(p)+
+\tilde f(p)\cdot\FUNC{X\Br{\tilde g}}{p}\\
+&=\eval{X}_p\Br{\SqBr{(U,f)}_p}\cdot g(p)+
+f(p)\cdot \eval{X}_p\Br{\SqBr{(V,g)}_p}.\\
+\end{aligned}\]
+
+\end{enumerate}
+\end{proof}
+
+\begin{Def}[General Evaluation Map]\label{def:ev-p}
+Let $(M,\T,\A)$ be a smooth manifold and $p\in M$.
+The \ul{evaluation map at $p$} is the map
+\[
+\operatorname{ev}_p:\X(M,\T,\A)\to T_p(M,\T,\A),\qquad
+\operatorname{ev}_p(X)\df \eval{X}_p,
+\]
+where $\eval{X}_p$ is the value of the smooth vector field $X$ at $p$.
+Lemma~\ref{lem:Xp-derivation} guarantees that $\eval{X}_p\in T_p(M,\T,\A)$,
+so the codomain is correct.
+\end{Def}
+
+\begin{lemma}[$\operatorname{ev}_p$ is Linear]\label{lem:ev-p-linear}
+Let $(M,\T,\A)$ be a smooth manifold and $p\in M$.
+Then the evaluation map $\operatorname{ev}_p:\X(M,\T,\A)\to T_p(M,\T,\A)$
+is a linear transformation.
+\end{lemma}
+\begin{proof}
+Let $X,Y\in\X(M,\T,\A)$ and $\lambda\in\R$.
+For any germ $\SqBr{(U,f)}_p\in C_p^\infty(M,\T,\A)$, let
+$\tilde f\in C^\infty(M,\T,\A)$ be a global representative
+(Lemma~\ref{lem:germ-extension}).
+Then
+\[\begin{aligned}
+\operatorname{ev}_p(X\pwplus\lambda\pwcdot Y)\Br{\SqBr{(U,f)}_p}
+&=\FUNC{(X\pwplus\lambda\pwcdot Y)\Br{\tilde f}}{p}
+&\text{(definition of $\eval{X}_p$)}\\
+&=\FUNC{X\Br{\tilde f}+\lambda\cdot Y\Br{\tilde f}}{p}
+&\text{(pointwise operations)}\\
+&=\FUNC{X\Br{\tilde f}}{p}+\lambda\cdot\FUNC{Y\Br{\tilde f}}{p}\\
+&=\operatorname{ev}_p(X)\Br{\SqBr{(U,f)}_p}
++\lambda\cdot\operatorname{ev}_p(Y)\Br{\SqBr{(U,f)}_p}.
+\end{aligned}\]
+Since the germ was arbitrary,
+$\operatorname{ev}_p(X\pwplus\lambda\pwcdot Y)
+=\operatorname{ev}_p(X)\pwplus\lambda\pwcdot\operatorname{ev}_p(Y)$,
+establishing linearity.
+\end{proof}
+
+\begin{Thm}[Vector Fields form a Lie Algebra]\label{thm:vector-fields-lie-algebra}
+Let $(M,\T,\A)$ be a smooth manifold.
+Define the \ul{commutator} of $X,Y\in\X(M,\T,\A)$ by
+$[X,Y]_\circ\df X\circ Y-Y\circ X$, i.e.,
+\[\forall f\in C^\infty(M,\T,\A):\quad
+\Func{[X,Y]_\circ}{f}=X(Y(f))-Y(X(f)).\]
+Then $[X,Y]_\circ\in\X(M,\T,\A)$ and
+$\Br{\X(M,\T,\A),+,-,0_{\X(M)},\cdot,[\bullet,\bullet]_\circ}$
+is a Lie $\R$-algebra.
+\end{Thm}
+\begin{proof}
+First, we verify that $[X,Y]_\circ$ is a smooth vector field.
+\[
+[X,Y]_\circ:C^\infty(M,\T,\A)\to C^\infty(M,\T,\A)
+\]
+already has the correct type. We check the Leibniz Rule:
+\begin{enumerate}
+\item (Linearity)
+Let $\lambda\in\R$. Let $f,g\in C^\infty(M,\T,\A)$.
+\[\begin{aligned}
+[X,Y]_\circ(f+\lambda\cdot g)
+&=X(Y(f+\lambda\cdot g))-Y(X(f+\lambda\cdot g))\\
+&=X(Y(f)+\lambda\cdot Y(g))-Y(X(f)+\lambda\cdot X(g))\\
+&=X(Y(f))+\lambda\cdot X(Y(g))-(Y(X(f))+\lambda\cdot Y(X(g))\\
+&=X(Y(f))+\lambda\cdot X(Y(g))-Y(X(f))-\lambda\cdot Y(X(g))\\
+&=X(Y(f))-Y(X(f))+\lambda\cdot X(Y(g))-\lambda\cdot Y(X(g))\\
+&=X(Y(f))-Y(X(f))+\lambda\cdot (X(Y(g))-Y(X(g)))\\
+&=[X,Y]_\circ(f)+\lambda\cdot[X,Y]_\circ(g).
+\end{aligned}\]
+\item (Leibniz Rule)
+Let $f,g\in C^\infty(M,\T,\A)$.
+\[\begin{aligned}
+[X,Y]_\circ(f\times g)
+&=X(Y(f\times g))-Y(X(f\times g))\\
+&=X(Y(f)\times g+f\times Y(g))-Y(X(f)\times g+f\times X(g))\\
+&=X(Y(f)\times g)+X(f\times Y(g))-Y(X(f)\times g)-Y(f\times X(g))\\
+&=X(Y(f))\times g+Y(f)\times X(g)+X(f)\times Y(g)+f\times X(Y(g))\\
+&\quad-Y(X(f))\times g-X(f)\times Y(g)-Y(f)\times X(g)-f\times Y(X(g))\\
+&=X(Y(f))\times g-Y(X(f))\times g+f\times X(Y(g))-f\times Y(X(g))\\
+&=(X(Y(f))-Y(X(f)))\times g+f\times(X(Y(g))-Y(X(g)))\\
+&=[X,Y]_\circ(f)\times g+f\times[X,Y]_\circ(g).
+\end{aligned}\]
+\end{enumerate}
+Thus $[X,Y]_\circ\in\X(M,\T,\A)$.
+
+Now,
+$\Br{\L\Br{C^\infty(M,\T,\A)},\pwplus,\pwminus,0,\pwcdot,\circ}$
+is an associative algebra,
+$\X(M,\T,\A)\subseteq\L\Br{C^\infty(M,\T,\A)}$,
+$\Br{\X(M,\T,\A),\pwplus,\pwminus,0,\pwcdot}$ is a vector space,
+$\tand$ $\forall X,Y\in\X(M,\T,\A):\;[X,Y]_\circ\in\X(M,\T,\A)$.
+By \ref{cor:Lie-subalg-associative},
+$\Br{\X(M,\T,\A),\pwplus,\pwminus,0,\pwcdot,[\bullet,\bullet]_\circ}$
+is a Lie $\R$-algebra.
+\end{proof}
+
+\section{Lie Groups and Lie Algebras}
+\begin{remark}
+Replacing ``smooth manifold'' with ``topological space'' and ``smooth'' with ``continuous'' in the definition below yields the notion of a \ul{topological group}.
+\end{remark}
+
+
+
+\begin{Def}
+A \ul{Lie group} is a septuplet $(G,\T,\A,\mu,\iota,e)$, where
+\begin{itemize}
+\item $(G,\T,\A)$ is a smooth manifold, and
+\item $(G,\mu,\iota,e)$ is a group,
+\end{itemize}
+that satisfy the following two properties:
+\begin{enumerate}
+\item (Smoothness of the Group Operation)\\
+$\mu:G\times G\to G$ is smooth w.r.t.
+$\A\otimes\A$ and $\A$.
+\item (Smoothness of the Inversion Map)
+$\iota:G\to G$ is smooth w.r.t. $\A$ and $\A$.
+\end{enumerate}
+We would adopt the common notation $
+\forall g,h\in G:\quad gh\df\mu(g,h)\tand g\inv\df\iota(g)$.
+\end{Def}
+
+\begin{lemma}[Left Inclusion is $C^\infty$]\label{lem:left-inclusion-Cinfty}
+Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+The left inclusion map $i_g:G\to G\times G$
+defined by
+\[\forall h\in G:\quad i_g(h)=(g,h)\]
+is smooth w.r.t. $\A$ and $\A\otimes\A$.
+\end{lemma}
+\begin{proof}
+We would use the simpler smoothness criterion (Lemma \ref{lem:Cinfty-simple-criterion}).
+Let $h\in G$. Choose $(U,\phi)\in\A$ with $g\in U$ and $(V,\psi)\in\A$
+with $h\in V$.
+Consider $(U\times V,\phi\times\psi)\in\A\otimes\A$.
+We have
+\[i_g(V)=\set{g}\times V\subseteq U\times V.\]
+Moreover,
+\[(\phi\times\psi)\circ i_g\circ\psi\inv=\Br{
+\underbrace{c_{\phi(g)}}_{C^\infty},\underbrace{\id_\R}_{C^\infty}}.\]
+\end{proof}
+
+\begin{Def}
+Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+Let $g\in G$.
+The \ul{left translation at $g$}, denoted by ``$L_g$'',
+is the map $L_g:G\to G$ defined as the following:
+\[\forall h\in G:\quad L_g(h)\df \FUNC{\mu\circ i_g}{h}= gh.\]
+\end{Def}
+
+\begin{Thm}[Left Translation is a Diffeomorphism]\label{thm:left-translation-diffeo}
+Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+Let $g\in G$.
+Then $L_g:G\to G$ is a diffeomorphism between $(G,\T,\A)$ and itself.
+\end{Thm}
+\begin{proof}
+\begin{enumerate}
+\item (Invertibility)
+The map $L_{g\inv}:G\to G$ defined by
+\[\forall h\in G:\quad L_{g\inv}(h)=g\inv h\]
+is an inverse for $L_g$. For any $h\in G$, we have
+\begin{gather*}
+\FUNC{L_{g\inv}\circ L_g}{h}
+=L_{g\inv}(L_g(h))
+=L_{g\inv}(gh)
+=g\inv(gh)
+=\Br{g\inv g}h
+=eh
+=h;\\
+\FUNC{L_g\circ L_{g\inv}}{h}
+=L_g\Br{L_{g\inv}(h)}
+=L_g\Br{g\inv h}
+=g\Br{g\inv h}
+=\Br{gg\inv}h
+=eh
+=h.
+\end{gather*}
+\item (Smoothness of $L_g$)
+Since we have a Lie group,
+$\mu:G\times G\to G$ is smooth w.r.t. $\A\otimes\A$ and $\A$.
+Also, $i_g:G\to G\times G$ is smooth w.r.t.
+$\A$ and $\A\otimes\A$.
+By the argument used in the proof for the Chain Rule,
+the composition $\mu\circ i_g$ is smooth w.r.t. $\A$ and $\A$.
+\item (Smoothness of $L_{g\inv}$)
+The same argument as (2), with $g$ replaced by $g\inv$.
+\end{enumerate}
+\end{proof}
+
+\begin{Def}
+Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+Let $X\in\X(G,\T,\A)$.
+The smooth vector field $X:C^\infty(G,\T,\A)\to C^\infty(G,\T,\A)$
+is said to be \ul{$\mu$-left-invariant} iff it satisfy the following property:
+\[\forall g\in G,\forall f\in C^\infty(G,\T,\A):\quad
+X\Br{f\circ L_g}=X(f)\circ L_g.
+\]
+\end{Def}
+
+\begin{lemma}[Equivalent Characterization of Left-Invariance]\label{lem:left-inv-char}
+Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+Let $X\in\X(G,\T,\A)$.
+The smooth vector field $X:C^\infty(G,\T,\A)\to C^\infty(G,\T,\A)$
+is $\mu$-left-invariant iff
+\[
+\forall g,h\in G,\forall\SqBr{(U,f)}_{gh}\in C_{gh}^\infty(G,\T,\A):\quad
+\eval{X}_{gh}\Br{\SqBr{(U,f)}_{gh}}=\eval{X}_{h}\Br{\SqBr{\Br{L_g\inv(U),f\circ L_g}}_h}.
+\]
+\end{lemma}
+\begin{proof}
+$(\implies)$
+Let $g,h\in G$.
+Let $\SqBr{(U,f)}_{gh}\in C_{gh}^\infty(G,\T,\A)$.
+Since $gh\in G$ and $(U,f)\in\Rep_{gh}(G,\T,\A)$,
+by the Germ Extension Lemma, we can find
+$\tilde f\in C^\infty(G,\T,\A)$ such that
+$
+\SqBr{(U,f)}_{gh}=\SqBr{\Br{G,\tilde f}}_{gh}
+$.
+On the LHS, we have
+\[
+\eval{X}_{gh}\Br{\SqBr{(U,f)}_{gh}}
+=\eval{X}_{gh}\Br{\SqBr{\Br{G,\tilde f}}_{gh}}
+=\FUNC{X\Br{\tilde f}}{gh}.
+\]
+Notice that
+\[\Br{U,f}\sim_{gh}\Br{G,\tilde f}\implies
+\Br{L_g\inv(U),f\circ L_g}\sim_h\Br{L_g\inv(G),\tilde f\circ L_g}
+=\Br{G,\tilde f\circ L_g}.\]
+On the RHS, we have
+\[
+\eval{X}_{h}\Br{\SqBr{\Br{L_g\inv(U),f\circ L_g}}_h}
+=\eval{X}_{h}\Br{\SqBr{\Br{G,\tilde f\circ L_g}}_h}
+=\FUNC{X\Br{\tilde f\circ L_g}}{h}.
+\]
+By assumption, we have
+\[
+\FUNC{X\Br{\tilde f\circ L_g}}{h}
+=\FUNC{X\Br{\tilde f}\circ L_g}{h}
+=\FUNC{X\Br{\tilde f}}{L_g(h)}
+=\FUNC{X\Br{\tilde f}}{gh}.
+\]
+
+$(\impliedby)$
+Let $g\in G$. Let $f\in C^\infty(G,\T,\A)$.
+Let $h\in G$.
+Since $gh\in G$ and $\SqBr{(G,f)}_{gh}\in C^\infty(G,\T,\A)$,
+by assumption, we have
+\[\begin{aligned}
+\eval{X}_{gh}\Br{\SqBr{(G,f)}_{gh}}&=\eval{X}_{h}\Br{\SqBr{\Br{L_g\inv(G),f\circ L_g}}_h}\\
+\eval{X}_{gh}\Br{\SqBr{(G,f)}_{gh}}&=\eval{X}_{h}\Br{\SqBr{\Br{G,f\circ L_g}}_h}\\
+\FUNC{X(f)}{gh}&=\FUNC{X\Br{f\circ L_g}}{h}\\
+\FUNC{X(f)}{L_g(h)}&=\FUNC{X\Br{f\circ L_g}}{h}\\
+\FUNC{X(f)\circ L_g}{h}&=\FUNC{X\Br{f\circ L_g}}{h}\\
+\end{aligned}\]
+So, $X\Br{f\circ L_g}=X(f)\circ L_g$, as desired.
+\end{proof}
+
+\begin{Def}
+Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+The \ul{set of left-invariant vector fields on $G$},
+denoted by ``$\X_L(G,\T,\A,\mu,\iota,e)$'', is defined as:
+\[
+\X_L(G,\T,\A,\mu,\iota,e)
+\df\set{X\in\X(G,\T,\A)\st X~\text{is $\mu$-left-invariant}}.
+\]
+\end{Def}
+
+
+\begin{Thm}[Left-Invariant Fields form a Lie Algebra]
+\label{thm:left-inv-lie-algebra}
+Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+Then $\Br{\X_L(G,\T,\A,\mu,\iota,e),\pwplus,\pwminus,0_{\X(G)},\pwcdot,
+[\bullet,\bullet]_\circ}$
+is a Lie $\R$-algebra.
+\end{Thm}
+\begin{proof}
+We apply the Lie Subalgebra Test (Theorem~\ref{thm:Lie-subalg-test})
+to $\X_L(G,\T,\A,\mu,\iota,e)\subseteq\X(G,\T,\A)$, where
+$\X(G,\T,\A)$ is a Lie $\R$-algebra with the commutator bracket
+(Theorem~\ref{thm:vector-fields-lie-algebra}).
+We verify the three conditions.
+
+\begin{enumerate}
+\item (Non-Emptiness)
+The zero smooth vector field $0_{\X(G)}\in\X(G,\T,\A)$ is $\mu$-left-invariant,
+because for any $g\in G$ and $f\in C^\infty(G,\T,\A)$,
+\[
+0_{\X(G)}(f\circ L_g)=0_{\X(G)}=0_{G\to\R}=0_{G\to\R}\circ L_g=0_{\X(G)}(f)\circ L_g.
+\]
+Hence $0_{\X(G)}\in\X_L(G,\T,\A,\mu,\iota,e)$.
+
+\item (Closure under Vector Addition and Scalar Multiplication)
+Let $X,Y\in\X_L(G,\T,\A,\mu,\iota,e)$ and $\lambda\in\R$.
+For any $g\in G$ and $f\in C^\infty(G,\T,\A)$,
+\[
+\begin{aligned}
+\FUNC{X\pwplus\lambda\pwcdot Y}{f\circ L_g}
+&=X(f\circ L_g)+\lambda\cdot Y(f\circ L_g)
+\qquad\text{(pointwise operations)}\\
+&=X(f)\circ L_g+\lambda\cdot\Br{Y(f)\circ L_g}
+\qquad\text{($X,Y$ are left-invariant)}\\
+&=\Br{X(f)+\lambda\cdot Y(f)}\circ L_g\\
+&=\FUNC{X\pwplus\lambda\pwcdot Y}{f}\circ L_g.
+\end{aligned}
+\]
+Thus $X\pwplus\lambda\pwcdot Y$ is $\mu$-left-invariant.
+
+\item (Closure under the Lie Bracket)
+Let $X,Y\in\X_L(G,\T,\A,\mu,\iota,e)$.
+For any $g\in G$ and $f\in C^\infty(G,\T,\A)$,
+\[
+\begin{aligned}
+\FUNC[\circ]{X,Y}{f\circ L_g}
+&=X(Y(f\circ L_g))-Y(X(f\circ L_g))\\
+&=X(Y(f)\circ L_g)-Y(X(f)\circ L_g)
+\qquad\text{($X$ and $Y$ are $\mu$-left-invariant)}\\
+&=X(Y(f))\circ L_g-Y(X(f))\circ L_g\\
+&=\Br{X(Y(f))-Y(X(f))}\circ L_g\\
+&=\FUNC[\circ]{X,Y}{f}\circ L_g.
+\end{aligned}
+\]
+Thus $[X,Y]_\circ$ is $\mu$-left-invariant, i.e.,
+$[X,Y]_\circ\in\X_L(G,\T,\A,\mu,\iota,e)$.
+\end{enumerate}
+
+All three conditions of Theorem~\ref{thm:Lie-subalg-test} are satisfied,
+so
+$\Br{\X_L(G,\T,\A,\mu,\iota,e),\pwplus,\pwminus,0_{\X(G)},\pwcdot,
+[\bullet,\bullet]_\circ}$
+is a Lie $\R$-algebra.
+\end{proof}
+
+\begin{Thm}[Evaluation at the Identity is a Linear Isomorphism]
+\label{thm:ev-e-isomorphism}
+Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+The map
+\[
+\operatorname{ev}_e:\X_L(G,\T,\A,\mu,\iota,e)\to T_e(G,\T,\A),\qquad
+\operatorname{ev}_e(X)\df \eval{X}_{e},
+\]
+is a linear isomorphism.
+\end{Thm}
+\begin{proof}
+\begin{enumerate}
+\item (Linearity)
+The evaluation map $\operatorname{ev}_p$ on the full space $\X(M,\T,\A)$
+is linear (a consequence of the pointwise operations on
+$\L\Br{C^\infty(M,\T,\A)}$).  Restricting to the subspace
+$\X_L(G,\T,\A,\mu,\iota,e)$ preserves linearity.
+
+\item (Injectivity)
+Let $X\in\X_L(G,\T,\A,\mu,\iota,e)$ and suppose
+$\operatorname{ev}_e(X)=\eval{X}_{e}=0$.
+Let $g\in G$ and let $\SqBr{(U,f)}_{g}\in C_{g}^\infty(G)$ be an
+arbitrary germ at $g$.
+Using the equivalent characterisation of left-invariance
+(Lemma~\ref{lem:left-inv-char}) with $h=e$, we obtain
+\[
+X_g\Br{\SqBr{(U,f)}_{g}}
+=\eval{X}_{e}\Br{\SqBr{\Br{L_g\inv(U),f\circ L_g}}_{e}}
+=0\Br{\SqBr{\Br{L_g\inv(U),f\circ L_g}}_{e}}
+=0.
+\]
+Since the germ at $g$ was arbitrary, $X_g=0$ for every $g\in G$.
+Hence $X=0_{\X(G)}$, the zero smooth vector field.
+This proves $\operatorname{ev}_e$ is injective.
+
+\item (Surjectivity)
+Let $v\in T_e(G,\T,\A)$ be an arbitrary tangent vector at the identity.
+Define a map $X^v$ on germs by
+\[
+\forall g\in G,\;\forall\SqBr{(U,f)}_{g}\in C_{g}^\infty(G):\quad
+X^v_g\Br{\SqBr{(U,f)}_{g}}\df
+v\Br{\SqBr{\Br{L_g\inv(U),f\circ L_g}}_{e}}.
+\]
+We verify that $X^v$ is a well-defined left-invariant smooth vector field
+and that $\operatorname{ev}_e(X^v)=v$.
+
+\begin{enumerate}
+\item (Well-definedness on germs)
+If $\SqBr{(U,f)}_{g}=\SqBr{(V,\tilde f)}_{g}$, then
+$f$ and $\tilde f$ agree on an open neighbourhood $W$ of $g$.
+Then $f\circ L_g$ and $\tilde f\circ L_g$ agree on $L_g\inv(W)$,
+which is an open neighbourhood of $e$.
+Hence the germs at $e$ coincide, and the value
+$v\Br{\SqBr{\Br{L_g\inv(U),f\circ L_g}}_{e}}$
+depends only on the germ $\SqBr{(U,f)}_{g}$.
+
+\item ($X^v_g$ is a derivation at $g$)
+Let $\lambda\in\R$ and
+$\SqBr{(U,f)}_{g},\SqBr{(V,\tilde f)}_{g}\in C_{g}^\infty(G)$.
+For linearity:
+\[\begin{aligned}
+X^v_g\Br{\SqBr{(U,f)}_{g}+\lambda\cdot\SqBr{(V,\tilde f)}_{g}}
+&=v\Br{\SqBr{\Br{L_g\inv(U\cap V),(f+\lambda\cdot\tilde f)\circ L_g}}_{e}}\\
+&=v\Br{\SqBr{\Br{L_g\inv(U),f\circ L_g}}_{e}
++\lambda\cdot\SqBr{\Br{L_g\inv(V),\tilde f\circ L_g}}_{e}}\\
+&=X^v_g\Br{\SqBr{(U,f)}_{g}}+\lambda\cdot X^v_g\Br{\SqBr{(V,\tilde f)}_{g}}.
+\end{aligned}\]
+For the Leibniz rule:
+\[\begin{aligned}
+X^v_g\Br{\SqBr{(U,f)}_{g}\times\SqBr{(V,\tilde f)}_{g}}
+&=v\Br{\SqBr{\Br{L_g\inv(U\cap V),(f\cdot\tilde f)\circ L_g}}_{e}}\\
+&=v\Br{
+\SqBr{\Br{L_g\inv(U),f\circ L_g}}_{e}
+\times
+\SqBr{\Br{L_g\inv(V),\tilde f\circ L_g}}_{e}
+}\\
+&=v\Br{\SqBr{\Br{L_g\inv(U),f\circ L_g}}_{e}}
+\cdot\tilde f(g)
++f(g)\cdot
+v\Br{\SqBr{\Br{L_g\inv(V),\tilde f\circ L_g}}_{e}}\\
+&=X^v_g\Br{\SqBr{(U,f)}_{g}}\cdot\tilde f(g)
++f(g)\cdot X^v_g\Br{\SqBr{(V,\tilde f)}_{g}},
+\end{aligned}\]
+where we used that $\FUNC{\Br{\tilde f\circ L_g}}{e}=\tilde f(g)$ and
+$\FUNC{\Br{f\circ L_g}}{e}=f(g)$.
+
+\item (Smoothness of $X^v$)
+Let $f\in C^\infty(G,\T,\A)$.  The map
+\[
+g\mapsto X^v_g\Br{\SqBr{(G,f)}_{g}}
+=v\Br{\SqBr{\Br{G,f\circ L_g}}_{e}}
+\]
+is smooth because $v$ is a tangent vector (a differential operator)
+acting on the smooth map $(g,h)\mapsto f(gh)$, which is smooth
+since the group multiplication is smooth.
+Consequently $X^v\in\X(G,\T,\A)$.
+
+\item (Left-invariance of $X^v$)
+For any $g,h\in G$ and any germ $\SqBr{(U,f)}_{gh}$ at $gh$,
+\[\begin{aligned}
+X^v_{gh}\Br{\SqBr{(U,f)}_{gh}}
+&=v\Br{\SqBr{\Br{L_{gh}\inv(U),f\circ L_{gh}}}_{e}}\\
+&=v\Br{\SqBr{\Br{L_h\inv\Br{L_g\inv(U)},
+\Br{f\circ L_g}\circ L_h}}_{e}}\\
+&=X^v_h\Br{\SqBr{\Br{L_g\inv(U),f\circ L_g}}_{h}},
+\end{aligned}\]
+which, by Lemma~\ref{lem:left-inv-char}, means $X^v$ is
+$\mu$-left-invariant.  Hence $X^v\in\X_L(G,\T,\A,\mu,\iota,e)$.
+
+\item (Evaluation at the identity)
+For any germ $\SqBr{(U,f)}_{e}$ at $e$,
+\[\begin{aligned}
+\FUNC{\operatorname{ev}_e(X^v)}{\SqBr{(U,f)}_{e}}
+=X^v_e\Br{\SqBr{(U,f)}_{e}}
+=v\Br{\SqBr{\Br{L_e\inv(U),f\circ L_e}}_{e}}
+=v\Br{\SqBr{(U,f)}_{e}},
+\end{aligned}\]
+because $L_e=\id_G$ and $f\circ L_e=f$.
+Thus $\operatorname{ev}_e(X^v)=v$, establishing surjectivity.
+\end{enumerate}
+\end{enumerate}
+\end{proof}
+
+\begin{Thm}[Lie Algebra of a Lie Group]
+Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+Let $\g=T_e(G,\T,\A)$.
+For every $v\in\g$,
+let $X^v\in\X_L(G,\T,\A,\mu,\iota,e)$
+denote the \ul{unique} left-invariant smooth vector field satisfying
+$\eval{X^v}_{e}=v$.
+(Existence and uniqueness follows from
+\[
+\ev_e:\X_L(G,\T,\A,\mu,\iota,e)\xrightarrow{\cong} T_e(G,\T,\A)
+\]
+being an isomorphism.)
+Define a map $\SqBr{\bullet,\bullet}_\g:\g\times\g\to\g$ by
+\[\forall v,w\in\g:\quad\SqBr{v,w}_\g\df\eval{\SqBr{X^v,X^w}_\circ}_e.\]
+
+Then
+\[
+\Br{\g,\pwplus,\pwminus,\bm0_{T_e(G)},\pwcdot,\SqBr{\bullet,\bullet}_\g}
+\]
+is a Lie $\R$-algebra, and $\ev_e:\X_L(G,\T,\A,\mu,\iota,e)\to\g$
+is an isomorphism of Lie algebras.
+\end{Thm}
+\begin{proof}
+From \ref{thm:left-inv-lie-algebra},
+we know that $\Br{\X_L(G),\SqBr{\bullet,\bullet}_\circ}$ is a
+Lie $\R$-algebra.
+We have also proven in
+\ref{thm:ev-e-isomorphism}
+that $\ev_e:\X_L(G)\to\g$ is a linear isomorphism.
+So it is a bijective vector space homomorphism.
+Since the Lie algebra axioms are equational,
+by \ref{partial}, defining the bracket as above
+allows for a partial transport of Lie structure
+onto $\g$, making $\Br{\g,\SqBr{\bullet,\bullet}_\g}$ a Lie $\R$-algebra
+and the map $\ev_e:\X_L(G)\to\g$ a Lie isomorphism.
+\end{proof}
+
+\section{Representation Theory}
+\begin{Def}
+Let $\Br{\g,+,-,\bm0,\cdot,\SqBr{\bullet,\bullet}_\g}$ be a Lie $\F$-algebra.
+Let $V$ be an $\F$-vector space.
+Recall that $\Br{\gl(V),\pwplus,\pwcdot,\SqBr{\bullet,\bullet}_\circ}$
+is a Lie $\F$-algebra.
+A \ul{representation of $\g$ on $V$} is a map $\pi:\g\to\gl(V)$
+that satisfies the following two properties:
+\begin{enumerate}
+\item($\F$-Linearity)
+$\forall X,Y\in\g,\forall\lambda\in\F:\quad
+\pi(X+\lambda\cdot Y)=\pi(X)\pwplus\lambda\pwcdot\pi(Y)
+$.
+\item(Preservation of the Bracket)
+\[\forall X,Y\in\g:\quad
+\pi\Br{\SqBr{X,Y}_\g}=\SqBr{\pi(X),\pi(Y)}_\circ
+=\pi(X)\circ\pi(Y)\pwminus\pi(Y)\circ\pi(X)
+.\]
+\end{enumerate}
+In other words, it is a Lie homomorphism from $\g$ to $\gl(V)$.
+The vector space $V$ is called the \ul{representation space}.
+\end{Def}
+
+\begin{Def}
+Let $\g$ be an Lie $\F$-algebra and $V$ be an $\F$-vector space.
+A representation $\pi:\g\to\gl(V)$ is said to be \ul{irreducible} iff:
+\[
+W\le V\tand\forall X\in\g:\FUNC{\pi(X)}{W}\subseteq W
+\qquad\implies\qquad W\in\set{\set{\bm0_{V}},V}.
+\]
+In other words, for any $X\in\g$,
+the only invariant subspaces of $V$ under $\pi(X)$ are the trivial ones.
+\end{Def}
+
+\begin{Def}
+Let $\g$ be an Lie $\F$-algebra.
+Let $\pi_1:\g\to\gl(V_1)$ and $\pi_2:\g\to\gl(V_2)$ be representations.
+$\pi_1$ and $\pi_2$ are said to be \ul{equivalent} iff
+there exists an linear isomorphism $T:V_1\to V_2$ such that:
+\[\forall X\in\g:\quad T\circ\pi_1(X)=\pi_2(X)\circ T.\]
+\end{Def}
+
+\section{Physics}
+
+\begin{Def}
+The \ul{General $\F$-Linear set of degree $n$},
+denoted by ``$\GLset(n;\F)$'', is defined as:
+\[
+\GLset(n;\F)\df\set{\bm A\in\F^{n,n}\st\det(\bm A)\ne 0}.
+\]
+\end{Def}
+
+\begin{Def}
+The \ul{standard smooth structure on $\R^{3,3}$},
+denoted by ``$\A_{\R^{3,3}}$'',
+is defined as the unique maximal smooth atlas on $\R^{3,3}$ that contains
+the $\Br{\R^{3,3},\T_{\dist_9}}$-chart $\Br{\R^{3,3},\id_{\R^{3,3}}}$.
+\end{Def}
+
+\begin{Def}
+The \ul{General $\R$-Linear group of degree $3$},
+denoted by ``$\GL(3;\R)$'', is defined as the following:
+\[
+\GL(3;\R)\df\Br{\GLset(3;\R),\eval{\T_{\dist_9}}_{\GLset(3;\R)},
+\eval{\A_{\R^{3,3}}}_{\GLset(3;\R)},\bullet\bullet,\bullet\inv,\bm I_3}.
+\]
+\end{Def}
+
+\begin{Def}
+The \ul{standard smooth structure on $\C^{2,2}$},
+denoted by ``$\A_{\C^{2,2}}$'',
+is the unique smooth structure on $\C^{2,2}$ that contains
+the $\Br{\C^{2,2},\T_{\dist_8}}$-chart $\Br{\C^{2,2},\id_{\C^{2,2}}}$,
+where $\C^{2,2}$ is identified with $\R^8$ via the natural map
+$(a_{ij}) \mapsto (\Re(a_{11}),\Im(a_{11}),\dots,\Re(a_{22}),\Im(a_{22}))$.
+\end{Def}
+
+\begin{Def}
+The \ul{General $\C$-Linear group of degree $2$},
+denoted by ``$\GL(2;\C)$'', is defined as the following:
+\[
+\GL(2;\C)\df\Br{\GLset(2;\C),\eval{\T_{\dist_8}}_{\GLset(2;\C)},
+\eval{\A_{\C^{2,2}}}_{\GLset(2;\C)},\bullet\bullet,\bullet\inv,\bm I_2}.
+\]
+\end{Def}
+
+\begin{Thm}[Closed Subgroup Theorem -- \'{E}.~Cartan]
+\label{cst}
+Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group and let $H\subseteq G$
+be a subgroup with $G\setminus H\in\T$.
+Then there exists a unique smooth structure $\A_H$
+satisfying the following two properties:
+\begin{enumerate}
+\item $\iota_H\colon H\hookrightarrow G$ is a smooth embedding.
+\item $\Br{H,\eval{\T}_H,\A_H,\eval{\mu}_{H\times H},\eval{\iota}_H,e}$
+is a Lie group.
+\end{enumerate}
+\end{Thm}
+(The proof is very long.)
+
+\begin{Def}
+The \ul{Special Orthorgonal set of degree $n$},
+denoted by ``$\SOset(n)$'', is defined as:
+\[
+\SOset(n)\df\set{\bm R\in\R^{n,n}\st\bm R\transp\bm R=\bm I_n
+\tand\det(\bm R)=1}.
+\]
+\end{Def}
+
+\begin{Def}
+The \ul{Special Orthorgonal group of degree 3}, denoted by ``$\SO(3)$'',
+is defined as the following:
+\[
+\SO(3)\df\Br{\SOset(3),\eval{\T_{\dist_9}}_{\SOset(3)},\A_{\SO(3)},
+\bullet\bullet,\bullet\transp,\bm I_3},
+\]
+where $\A_{\SO(3)}$ is the unique smooth structure as per \ref{cst}
+when considering $\SO(3)$ as a closed subgroup of $\GL(3;\R)$.
+\end{Def}
+
+\begin{Def}
+The \ul{Rigid Rotation Group}, is defined as the group ``$\SO(3)$''.
+\end{Def}
+
+\begin{Def}
+The \ul{Special Unitary set of degree $n$},
+denoted by ``$\SUset(n)$'', is defined as:
+\[
+\SUset(n)\df\set{\bm U\in\C^{n,n}\st\bm U\herm\bm U=\bm I_n
+\tand\det(\bm U)=1}.
+\]
+\end{Def}
+
+\begin{Def}
+The \ul{Special Unitary group of degree 2}, denoted by ``$\SU(2)$'',
+is defined as the following:
+\[
+\SU(2)\df\Br{\SUset(2),\eval{\T_{\dist_8}}_{\SUset(2)},\A_{\SU(2)},
+\bullet\bullet,\bullet\herm,\bm I_2},
+\]
+where $\A_{\SU(2)}$ is the unique smooth structure as per \ref{cst}
+when considering $\SU(2)$ as a closed subgroup of $\GL(2;\C)$.
+\end{Def}
+
+\begin{lemma}[Hadamard]
+Let $U\in\T_{\dist_n}$.
+Let $f:U\to\R^n$ be smooth w.r.t. $A_{\dist_n}$
+\end{lemma}
+
+\begin{Thm}
+\[
+T_{I_3}\GL_{I_3}(3;\R)\cong\Br{\R^9,\T}
+\]
+\end{Thm}
+\[\begin{aligned}
+T_{I_3}\GL(3,\R)
+&=\set{v:C_{I_3}^\infty\GL(3,\R)\to\R\st v~\text{is a derivation at $I_3$}}
+\end{aligned}\]
+For each $i,j\in\set{1,2,3}$, let the map $x_{ij}:\GLset(3,\R)\to\R$
+be defined by:
+\[\forall\bm A=(a_{ij})\in\GLset(3;\R):\quad x_{ij}(\bm A)\df a_{ij}.\]
+
+
+
+\end{document}

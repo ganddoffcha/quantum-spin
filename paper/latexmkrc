@@ -1,0 +1,3 @@
+# Paper: pdflatex (default)
+# Auto-copy compiled PDF to repo root for the QR code link
+$success_cmd = 'cp "out/%B.pdf" "../gordon-chan-quantum-spin.pdf"';

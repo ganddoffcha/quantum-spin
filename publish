@@ -1,13 +1,30 @@
 #!/bin/sh
-# publish — commit and push the quantum-spin public repo
+# publish — compile paper + poster, commit, and push to github.com/ganddoffcha/quantum-spin
 set -eu
-cd "/home/gc/Documents/quantum-spin-public"
+
+REPO="/home/gc/Documents/quantum-spin-public"
+TEXINPUTS=".:/home/gc/Documents/texnow//:"
+
+cd "$REPO"
 git pull --rebase
-if git diff --quiet && git diff --cached --quiet; then
+
+# Compile paper (pdflatex)
+echo "=== Compiling paper ==="
+cd "$REPO/paper"
+TEXINPUTS="$TEXINPUTS" latexmk -g -pdf "Representations_of_Lie_Groups_A_Mathematical_Dissection_of_Quantum.tex"
+
+# Compile poster (lualatex)
+echo "=== Compiling poster ==="
+cd "$REPO/poster"
+TEXINPUTS="$TEXINPUTS" latexmk -g -lualatex poster.tex
+
+# Commit and push
+cd "$REPO"
+git add gordon-chan-quantum-spin.pdf poster.pdf paper/ poster/
+if git diff --cached --quiet; then
     echo "Nothing to publish."
-    exit 0
+else
+    git commit -m "Update paper and poster"
+    git push
+    echo "=== Published → github.com/ganddoffcha/quantum-spin ==="
 fi
-git add -A
-git commit -m "Update paper and poster PDFs"
-git push
-echo "Published → github.com/ganddoffcha/quantum-spin"

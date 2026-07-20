@@ -1,0 +1,523 @@
+\documentclass[final]{beamer}
+
+\usetheme{Madrid}
+\usepackage[size=a1,scale=1.25,orientation=portrait]{beamerposter}
+
+% --- Pre-declare rsfs as fully scalable BEFORE leopard loads mathrsfs ---
+\makeatletter
+\DeclareFontFamily{U}{rsfs}{\skewchar\font127 }
+\DeclareFontShape{U}{rsfs}{m}{n}{<-> rsfs10}{}
+% Prevent ursfs.fd from overriding our scalable declaration
+\expandafter\def\csname ver@ursfs.fd\endcsname{9999/99/99}
+\makeatother
+
+\usepackage{leopard}
+\renewcommand{\mathrm}[1]{\mathsf{#1}}
+
+\usepackage{fontspec}
+\setmainfont{CMU Serif}            % Computer Modern Roman (matches pdflatex)
+\setsansfont{CMU Sans Serif}       % Computer Modern Sans
+\setmonofont{CMU Typewriter Text}  % Computer Modern Mono
+\newfontfamily\dinfont[Path=./]{din.otf}
+
+\usepackage{multicol}
+\usepackage{qrcode}
+
+\definecolor{titleColor}{HTML}{d71440}
+\definecolor{footColor}{HTML}{181c62}
+\setbeamercolor{palette tertiary}{bg=footColor}
+
+\setbeamertemplate{headline}
+{
+\vspace{1cm}\hspace{1cm}
+\begin{minipage}{0.24\textwidth}
+\includegraphics[scale=0.58]{ntu.pdf}
+\end{minipage} \hfill
+\begin{minipage}{0.72\textwidth}
+\centering
+{\huge\bfseries
+\textcolor{titleColor}{Representations of Lie Groups
+and Lie Algebras:\\
+A Mathematical Dissection of Quantum Spin}
+}\\
+\vspace{1em}
+{\hfill
+\Large\bfseries Chan Lok Hin Gordon (U2440785A)
+\hfill}
+\end{minipage}
+\vspace{1cm}
+}
+
+\setbeamertemplate{footline}
+{
+\begin{beamercolorbox}
+[wd=\paperwidth,ht=2cm,dp=1cm]{palette tertiary}%
+{\fontsize{34pt}{34pt}\selectfont\dinfont
+\hspace{1cm}
+School of Physical and Mathematical Sciences
+\hspace{\fill}
+Odyssey Research Programme
+\hspace{1cm}
+}
+\end{beamercolorbox}
+}
+
+% Define your hex colours
+\definecolor{defTitle}{HTML}{CBC04D}
+\definecolor{defBody} {HTML}{FFFBD5}
+\definecolor{thmTitle}{HTML}{262685}
+\definecolor{thmBody} {HTML}{E9E9F2}
+\definecolor{exTitle} {HTML}{005F00}
+\definecolor{exBody}  {HTML}{E5EFE5}
+
+% Custom block environments
+\newenvironment{Def}[1]
+  {\begingroup
+   \setbeamercolor{block title}{fg=white, bg=defTitle}
+   \setbeamercolor{block body} {fg=black, bg=defBody}
+   \begin{block}{#1}}
+  {\end{block}
+   \endgroup}
+
+\newenvironment{Thm}[1]
+  {\begingroup
+   \setbeamercolor{block title}{fg=white, bg=thmTitle}
+   \setbeamercolor{block body} {fg=black, bg=thmBody}
+   \begin{block}{#1}}
+  {\end{block}
+   \endgroup}
+
+\newenvironment{Ex}[1]
+  {\begingroup
+   \setbeamercolor{block title}{fg=white, bg=exTitle}
+   \setbeamercolor{block body} {fg=black, bg=exBody}
+   \begin{block}{#1}}
+  {\end{block}
+   \endgroup}
+
+\renewcommand{\phi}{\varphi}
+\newcommand{\Rep}{\mathrm{Rep}}
+
+\newcommand{\mqty}[1]{
+\begin{bmatrix*}[r]
+#1
+\end{bmatrix*}
+}
+
+%\renewcommand{\bm}{\bm}
+
+\newcommand{\pwplus}{\mathbin{\dot{+}}}
+\newcommand{\pwminus}{\mathbin{\dot{-}}}
+\newcommand{\pwcdot}{\mathbin{\dot{\cdot}}}
+\newcommand{\pwtimes}{\mathbin{\dot{\times}}}
+\newcommand{\pwzero}{\mathbin{\dot{0}}}
+\newcommand{\pwone}{\mathbin{\dot{1}}}
+
+\usefonttheme{serif}
+\setbeamerfont{block title}{family=\sffamily}
+\setbeamerfont{block title alerted}{family=\sffamily\bfseries}
+\setbeamerfont{block title example}{family=\sffamily\bfseries}
+
+\begin{document}
+\begin{frame}
+
+\begin{abstract}
+Introductory quantum mechanics often introduces the concept of spin heuristically. In this project, we investigate the mathematical foundations of quantum mechanical spin. In particular, we explore the geometric and algebraic origins of spin, in the language of Lie groups, Lie algebras, and their unitary and irreducible representations. A central focus will be the topological and algebraic relationship between the rotation group $\SO(3)$ and its universal double cover, the special unitary group $\SU(2)$, which is homeomorphic to $\S^3$. By classifying the irreducible representations of $\SU(2)$, we present the formalism of how this abstract algebraic classification naturally gives rise to the physical phenomena of integer and half-integer spin. Ultimately, we hope to bridge topology and abstract algebra with the ideas in quantum physics.
+\end{abstract}
+
+\vfill
+
+\begin{columns}\column{0.3\textwidth}
+% ======================================================================
+% LEFT COLUMN
+% ======================================================================
+
+\begin{Def}{Topological Spaces $(X,\T)$}
+\hfill
+set $X$,\hfill
+$\T\subseteq\P(X):$
+\hfill
+\begin{enumerate}
+\item(Trivial Bounds)
+$\varnothing\in\T$ and $X\in\T$.
+\item(Arbitrary Unions)
+$\forall\set{U_\alpha}_{\alpha\in\I}\subseteq\T
+:\bigcup_{\alpha\in\I}U_\alpha\in\T$.
+\item(Finite Intersections)
+$\forall U,V\in\T:U\cap V\in\T$.
+\end{enumerate}
+\end{Def}
+
+\begin{Def}{Topological Manifolds $(M,\T)$}
+\hfill topological space $(M,\T)$:\hfill~
+\begin{enumerate}
+\item(Hausdorffness)
+$\forall p\in M,\forall q\in M\setminus\set{p},\exists U,V\in\T:$\\
+~\hfill$p\in U\tand q\in V\tand U\cap V=\varnothing$.\hfill~
+\item(Second-Countability)\\
+$\exists\set{B_i}_{i\in\N}\subseteq\T,
+\forall U\in\T,\forall x\in U,\exists i\in\N:$\\
+~\hfill$x\in B_i\subseteq U$.\hfill~
+\item(Local Euclideanness)\\
+$\forall p\in M,\exists U\in\set{U\in\T\st p\in U},\exists V\in\T_{\R^n}:$\\
+~\hfill$(U,\T|_U)\cong \Br{V,\eval{\T_{\R^n}}_V}$.\hfill~
+\end{enumerate}
+\end{Def}
+
+\begin{Def}{Smooth Manifolds $(M,\T,\A)$}
+topological manifold $(M,\T)$,\hfill
+$\A=\set{(U_\alpha,\varphi_\alpha)}_{\alpha\in\I}$:
+\begin{enumerate}
+\item (Atlas)
+$\forall\alpha\in\I:$\\
+$(U_\alpha,\phi_\alpha)~\text{is an $(M,\T)$-chart}\tand
+\bigcup_{\alpha\in\I}U_\alpha=M$.
+\item (Smoothness)
+$\forall \alpha,\beta\in\I:\quad
+\phi_\beta\circ\phi_\alpha\inv~\text{is $C^\infty$}$.
+\item (Maximality)
+$\A$ is maximal w.r.t. Smoothness.
+\end{enumerate}
+\end{Def}
+
+\begin{Def}{Tangent Spaces $T_pM$}
+smooth manifold $M$,\hfill
+$p\in M$,\hfill
+$C_p^\infty M=\left.\Rep_pM\middle/\sim_p\right.$:\\
+~\hfill
+$T_pM=\set{v : C_p^\infty M\to\R \st v \text{ is a derivation at }p}$.
+\hfill~
+\end{Def}
+
+\begin{Def}{Groups $\Br{G,\set{\mu,\iota,e}}$}
+set $G$,\hfill
+$\mu:G\times G\to G,$\hfill
+$\iota:G\to G$,\hfill
+$e\in G$:
+\begin{enumerate}
+\item(Associativity)
+$\mu(\mu(x,y),z)=\mu(x,\mu(y,z))$.
+\item(Identity)
+$\mu(e,x)=x=\mu(x,e)$.
+\item(Inverse)
+$\mu(\iota(x),x)=e=\mu(x,\iota(x))$.
+\end{enumerate}
+\end{Def}
+
+\begin{Def}{Lie Groups $(G,\T,\A,\set{\mu,\iota,e})$}
+smooth manifold $(G,\T,\A)$,\hfill
+group $(G,\set{\mu,\iota,e})$:
+\begin{enumerate}
+\item
+$\mu:G\times G\to G$ is smooth w.r.t.
+$\A\otimes\A$ and $\A$.
+\item
+$\iota:G\to G$ is smooth w.r.t. $\A$ and $\A$.
+\end{enumerate}
+\end{Def}
+
+\begin{Def}{Lie $\F$-Algebra
+$\Br{\mathfrak{g},\set{+,-,\bm0,\cdot,[\bullet,\bullet]}}$}
+$\F$-vector space $\Br{\mathfrak{g},\set{+,-,\bm0,\cdot}}$, \hfill
+$[\bullet,\bullet]:\g\times\g\to\g$:
+\begin{enumerate}
+\item (Bilinearity)
+$\forall X,Y,Z\in\g,\forall\lambda\in\F:$\\
+~\hfill $[X+\lambda\cdot Y,Z]=[X,Z]+\lambda\cdot[Y,Z]$;\hfill~\\
+~\hfill $[X,Y+\lambda\cdot Z]=[X,Y]+\lambda\cdot[X,Z]$.\hfill~
+\item (Skew‑symmetry)
+$\forall X,Y\in\mathfrak{g}:[Y,X]=-[X,Y]$.
+\item (Jacobi Identity)
+$\forall X,Y,Z\in\mathfrak{g}:$\\
+~\hfill $[X,[Y,Z]]+[Y,[Z,X]]+[Z,[X,Y]]=\bm{0}$.\hfill~
+\end{enumerate}
+\end{Def}
+
+\begin{Thm}{Tangent Spaces at Identity are Lie Algebras}
+Let $\g=T_eG$ be the tangent space of a Lie group $G$ at the identity.
+For each $v\in\g$, pick the \ul{unique} left‑invariant vector field
+$X^v\in\X_LG$ with $\eval{X^v}_e=v$.
+For any $v,w\in\g$, define
+$[v,w]_\g=\eval{\SqBr{X^v,X^w}_\circ}_e$.
+This makes $\Br{\g,[\bullet,\bullet]_\g}$ the \ul{Lie algebra of $G$}.
+Moreover, we have $\dim(\g)=\dim(G)$.
+\end{Thm}
+
+\begin{Thm}{Closed Subgroup Theorem -- \'{E}.~Cartan}
+Given a Lie group $(G,\T,\A,\set{\mu,\iota,e})$ and
+a closed subgroup $H\subseteq G$,
+there exists a \ul{unique} smooth structure $\A_H$
+satisfying:
+\begin{enumerate}
+\item $\iota_H\colon H\hookrightarrow G$ is a smooth embedding.
+\item $\Br{H,\eval{\T}_H,\A_H,\eval{\mu}_{H\times H},\eval{\iota}_H,e}$
+is a Lie group.
+\end{enumerate}
+\end{Thm}
+
+\begin{Ex}{The General Linear Group}
+$
+\GL(n;\F)
+=\set{\bm A\in\F^{n,n}\st\det(\bm A)\ne0}
+={\det}\inv(\F\setminus\set{0})
+$\\
+Since $\det:\F^{n,n}\to\F$ is continuous,
+$\GL(n;\F)$ is open in $\F^{n,n}$,
+making it a Lie group with the substructure.
+\end{Ex}
+
+
+\column{0.33\textwidth}
+% ======================================================================
+% MIDDLE COLUMN
+% ======================================================================
+
+\begin{Ex}{The Special Orthogonal Group (Rigid Rotations)}
+~\hfill$\begin{aligned}
+\SO(3)&=\set{\bm R\in\R^{3,3}\st\bm R\transp\bm R=\bm
+I_3\tand\det(\bm R)=1};\\
+\so(3)&=T_{\bm I_3}\SO(3)=\set{\bm R\in\R^{3,3}\st \bm
+R\transp=-\bm R}.
+\end{aligned}$\hfill~\\
+$\SO(3)$ is a closed Lie subgroup of $\GL(3;\R)$.\\
+$\dim(\so(3))=\dim(\SO(3))=3$, with basis
+$\SqBr{\bm L_i,\bm L_j}=\varepsilon_{ijk}\bm L_k$:\\
+~\hfill
+$
+\Br{\bm L_1,\bm L_2,\bm L_3}=
+\Br{
+\mqty{0&0&0\\0&0&-1\\0&1&0},
+\mqty{0&0&1\\0&0&0\\-1&0&0},
+\mqty{0&-1&0\\1&0&0\\0&0&0}
+}$.
+\hfill~
+\end{Ex}
+
+\begin{Ex}{The Special Unitary Group}
+~\hfill$\begin{aligned}
+\SU(2)&=\set{\bm U\in\C^{2,2}\st\bm U\herm\bm U=\bm
+I_2\tand\det(\bm U)=1};\\
+\su(2)&=T_{\bm I_2}\SU(2)
+=\set{\bm U\in\C^{2,2}\st \bm U\herm=-\bm U
+,\tr(\bm U)=0}.
+\end{aligned}$\hfill~
+$\SU(2)$ is a closed Lie subgroup of $\GL(2;\C)$.\\
+$\dim(\su(2))=\dim(\SU(2))=3$, with basis
+$\SqBr{\bm T_i,\bm T_j}=\varepsilon_{ijk}\bm T_k$:\\
+~\hfill
+$
+\Br{\bm T_1,\bm T_2,\bm T_3}=
+\Br{
+\frac12\mqty{0&-i\\-i&0},
+\frac12\mqty{0&-1\\1&0},
+\frac12\mqty{-i&0\\0&i}
+}$.
+~\hfill
+\end{Ex}
+
+\begin{Thm}{The Double Cover $\Phi:\SU(2)\to\SO(3)$}
+For each $\bm U\in\SU(2)$, define a linear map
+$\Phi(\bm U):\su(2)\to\su(2)$ by
+$\FUNC{\Phi(\bm U)}{\bm X}=\bm U\bm X\bm U\herm$.
+Coordinatize
+$\su(2)$ by $\beta=(\bm T_1,\bm T_2,\bm
+T_3)$.
+One verifies:
+\begin{itemize}
+\item $\SqBr{\Phi(\bm U)}_\beta^\beta\in\SO(3)$,
+\item $\Phi(\bm U\bm V)=\Phi(\bm U)\circ\Phi(\bm V)$
+      (smooth homomorphism),
+\item $\ker(\Phi)=\set{\pm\bm I_2}$, and $\Phi$ is surjective.
+\end{itemize}
+Thus $\SU(2)$ is a \ul{double cover} of $\SO(3)$: each rotation in $\SO(3)$
+corresponds to exactly two matrices in $\SU(2)$ that differ only by a sign.
+\end{Thm}
+
+\begin{Thm}{Lie Algebra Isomorphism $\so(3)\cong\su(2)$}
+Define $\phi:\so(3)\to\su(2)$ by $\phi(\bm L_i)=\bm T_i$.
+$\phi$ is clearly a linear isomorphism. Moreover,
+$
+\phi\Br{\SqBr{\bm L_i,\bm L_j}}
+=\phi\Br{\varepsilon_{ijk}\bm L_k}
+=\varepsilon_{ijk}\phi\Br{\bm L_k}
+=\varepsilon_{ijk}\bm T_k
+=\SqBr{\bm T_i,\bm T_j}
+=\SqBr{\phi(\bm L_i),\phi(\bm L_j)}
+$.
+\end{Thm}
+
+\begin{Def}{Lie Algebra Representations $\pi:\g\to\gl(V)$}
+Given a Lie $\F$-algebra $\g$ and an $\F$-vector space $V$,
+a \ul{representation of $\g$ on $V$} is a Lie algebra homomorphism
+$\pi:\g\to\gl(V)$ that preserves the bracket:\\
+~\hfill $\forall X,Y\in\g:\quad
+\pi\Br{\SqBr{X,Y}_\g}=\SqBr{\pi(X),\pi(Y)}_\circ$.\hfill~\\
+The representation is \ul{irreducible} iff the only subspaces
+$W\subseteq V$ with $\FUNC{\pi(X)}{W}\subseteq W$ for \emph{all} $X\in\g$
+are the trivial ones: $\set{\bm0}$ and $V$ itself.
+\end{Def}
+
+\begin{Def}{Lie Group Representations $\Pi:G\to\GL(V)$}
+Given a Lie group $G$ and an $\F$-vector space $V$,
+an \ul{ordinary representation of $G$ on $V$} is a smooth group homomorphism
+$\Pi:G\to\GL(V)$.
+The representation is \ul{irreducible} iff the only subspaces
+$W\subseteq V$ with $\FUNC{\Pi(g)}{W}\subseteq W$ for all $g\in G$
+are the trivial ones.
+A \ul{projective representation} is a smooth map
+$\rho:G\to\GL(V)$ with a smooth function
+$\omega:G\times G\to\F^\times$ such that
+$\rho(g)\rho(h)=\omega(g,h)\rho(gh)$ and $\rho(e)=I_V$.
+\end{Def}
+
+\begin{Def}{Complexification of a Real Lie Algebra}
+  Let $\g$ be a Lie $\R$-algebra.
+Its \ul{complexification},
+denoted by ``$\g_\C$'',
+is defined as:
+~\hfill$
+\g_\C=\g\otimes_\R\C=\set{X+iY\st X,Y\in\g},
+$\hfill~
+which is a Lie $\C$-algebra with the bracket.
+\end{Def}
+
+\begin{Def}{Complex Lie Algebra Representation}
+Let $\g$ be a Lie $\R$-algebra.
+A \ul{complex representation} of $\g$
+is a representation $\pi:\g\to\gl(V)$ where $V$ is a $\C$-vector space.
+Equivalently, $\pi$ extends uniquely to a representation of the
+complexified algebra $\g_{\C}$.
+\end{Def}
+
+
+\begin{block}{Complexification and Ladder Operators}
+~\hfill$
+\su(2)_\C=\mathfrak{sl}(2,\C)
+=\set{\bm A\in\C^{2,2}\st\tr(\bm A)=0}$
+\hfill~\\
+Cartan‑Weyl basis:
+$(\bm H,\bm E,\bm F)=
+(2i\bm T_3,i\bm T_1-\bm T_2,i\bm T_1+\bm T_2)$\\
+~\hfill$
+=\Br{
+\mqty{1&0\\0&-1},
+\mqty{0&1\\0&0},
+\mqty{0&0\\1&0}
+}.$
+\hfill~\\
+$[\bm H,\bm E]=2\bm E$,\hfill
+$[\bm H,\bm F]=-2\bm F$,\hfill
+$[\bm E,\bm F]=\bm H$.
+\end{block}
+
+
+\column{0.33\textwidth}
+
+% ======================================================================
+% RIGHT COLUMN
+% ======================================================================
+
+\begin{Thm}{Irreducible Representations of $\su(2)$}
+Every finite‑dimensional irreducible complex representation of $\su(2)$
+is equivalent to exactly one of the following:
+for each $j\in\{0,\tfrac12,1,\tfrac32,\dots\}$, there exists an
+irreducible representation $\pi_j:\su(2)\to\gl(V_j)$ with $\dim(V_j) = 2j+1$
+and a weight basis $(\bm v_{j},\bm v_{j-1},\dots,\bm v_{-j})$ of $V_j$
+such that:
+\[
+\begin{aligned}
+\FUNC{\pi_j(\bm H)}{\bm v_m} &= 2m\bm v_m,\\
+\FUNC{\pi_j(\bm E)}{\bm v_m} &=
+  \sqrt{(j-m)(j+m+1)}~\bm v_{m+1},\\
+\FUNC{\pi_j(\bm F)}{\bm v_m} &=
+  \sqrt{(j+m)(j-m+1)}~\bm v_{m-1},
+\end{aligned}
+\]
+with the convention $\bm v_{-j-1}=\bm v_{j+1}=\bm 0_{V_j}$.
+\[
+\begin{array}{c|c|c}
+  j & \dim(V_j) & \text{Name} \\ \hline
+  0 & 1 & \text{scalar} \\
+  \tfrac12 & 2 & \text{spin‑}\tfrac12\text{ (spinor)} \\
+  1 & 3 & \text{vector (spin‑}1\text{)} \\
+  \tfrac32 & 4 & \text{spin‑}\tfrac32 \\
+  \vdots & \vdots & \vdots
+\end{array}
+\]
+\end{Thm}
+
+\begin{block}{Integration to the Group $\SU(2)$}
+$\SU(2)\cong\S^3$ is simply connected.  Hence every
+Lie algebra representation $\pi_j:\su(2)\to\gl(V_j)$
+\ul{integrates uniquely} to a Lie group representation\\
+~\hfill$
+\Pi_j:\SU(2)\longrightarrow\GL(V_j),\qquad
+\Pi_j\Br{e^{\bm X}} = e^{\pi_j(\bm X)}.
+$\hfill~
+\end{block}
+
+\begin{alertblock}{Why $\SU(2)$?}
+Physical states are rays, so symmetries may be represented only
+up to a phase.  Every projective representation of $\SO(3)$
+lifts to an ordinary representation of the double
+cover $\SU(2)$.
+Conversely, an irreducible ordinary
+representation $\Pi_j$ of $\SU(2)$ descends to an ordinary
+representation of $\SO(3)$ iff $\Pi_j(-\bm I_2)=I_{V_j}$; this
+holds exactly for integer $j$.
+\end{alertblock}
+
+\begin{block}{Descent to $\SO(3)$ – Integer vs. Half‑Integer Spin}
+For the double cover $\Phi:\SU(2)\to\SO(3)$ we have
+\[
+\Pi_j(-\bm I_2) = e^{2\pi\cdot\pi_j(\bm T_3)}
+= (-1)^{2j}\,I_{V_j}.
+\]
+Consequently:
+\begin{itemize}
+\item \textbf{Integer $j$:} $\Pi_j(-\bm I_2)=I$ $\implies$ $\Pi_j$
+      factors through $\Phi$, giving an ordinary representation of $\SO(3)$
+      (ordinary integer spin).
+\item \textbf{Half‑integer $j$:} $\Pi_j(-\bm I_2)=-I$ $\implies$
+      $\Pi_j$ does \textbf{not} descend; it yields a \textbf{projective}
+      representation of $\SO(3)$ – a spinor representation.
+\end{itemize}
+\end{block}
+
+\begin{Ex}{Physical Spin Operators}
+Define the Hermitian spin observables
+$
+S_k = i\hbar\pi_j(\bm T_k)
+$.
+They satisfy the angular‑momentum algebra
+$[S_i,S_j]=i\hbar\varepsilon_{ijk}S_k$.
+$S_z$ has eigenvalues $\hbar m$ ($m=-j,\dots,j$).
+For $j=\frac12$, with $\sigma=\Br{\bm v_{\frac12},\bm v_{-\frac12}}$,
+$\SqBr{S_k}_\sigma^\sigma
+= \frac{\hbar}{2}\sigma_k$ (Pauli matrices).
+\end{Ex}
+
+\begin{alertblock}{The Spinor Sign Change ($4\pi$ Periodicity)}
+A rotation by $2\pi$ lifts to $-\bm I_2\in\SU(2)$.
+In a half‑integer spin representation $\Pi_j(-\bm I_2)=-I$, so the
+state vector flips sign.  The original sign is restored only after a
+$4\pi$ rotation.  This is the hallmark of spinors in quantum
+mechanics.
+\end{alertblock}
+
+\begin{alertblock}{Foundations}
+All definitions and theorems are proven rigorously in the accompanying
+project document. Scan the QR code or click below for the full paper
+with proofs.\\[0.5em]
+\centering
+\qrcode[height=5cm,link,tight]{https://raw.githubusercontent.com/ganddoffcha/quantum-spin/main/gordon-chan-quantum-spin.pdf}\\[0.3em]
+{\footnotesize\textcolor{blue}{\href{https://raw.githubusercontent.com/ganddoffcha/quantum-spin/main/gordon-chan-quantum-spin.pdf}{Full paper with proofs (PDF)}}}
+\end{alertblock}
+
+\end{columns}
+
+\vfill
+\Large Supervisor: Assoc. Prof. François Gay-Balmaz
+\end{frame}
+
+\end{document}
