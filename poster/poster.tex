@@ -115,14 +115,25 @@ Odyssey Research Programme
 
 \usefonttheme{serif}
 \setbeamerfont{block title}{family=\sffamily}
-\setbeamerfont{block title alerted}{family=\sffamily\bfseries}
-\setbeamerfont{block title example}{family=\sffamily\bfseries}
+\setbeamerfont{block title alerted}{family=\sffamily}
+\setbeamerfont{block title example}{family=\sffamily}
 
 \begin{document}
 \begin{frame}
 
 \begin{abstract}
-Introductory quantum mechanics often introduces the concept of spin heuristically. In this project, we investigate the mathematical foundations of quantum mechanical spin. In particular, we explore the geometric and algebraic origins of spin, in the language of Lie groups, Lie algebras, and their unitary and irreducible representations. A central focus will be the topological and algebraic relationship between the rotation group $\SO(3)$ and its universal double cover, the special unitary group $\SU(2)$, which is homeomorphic to $\S^3$. By classifying the irreducible representations of $\SU(2)$, we present the formalism of how this abstract algebraic classification naturally gives rise to the physical phenomena of integer and half-integer spin. Ultimately, we hope to bridge topology and abstract algebra with the ideas in quantum physics.
+Introductory quantum mechanics courses often present the concept of spin
+heuristically. In this project, we investigate the mathematical foundations of
+quantum mechanical spin. In particular, we explore the geometric and algebraic
+origins of spin, in the language of Lie groups, Lie algebras, and their unitary
+and irreducible representations. A central focus is the topological and
+algebraic relationship between the rotation group $\SO(3)$ and its universal
+double cover, the special unitary group $\SU(2)$, which is diffeomorphic to
+$\S^3$. By classifying the irreducible representations of $\SU(2)$, we present
+the formalism of how this abstract algebraic classification naturally gives
+rise to the physical phenomenon of integer and half-integer spin.
+Ultimately, we hope to bridge topology and abstract algebra with the
+physical ideas in quantum physics.
 \end{abstract}
 
 \vfill
@@ -138,7 +149,7 @@ set $X$,\hfill
 $\T\subseteq\P(X):$
 \hfill
 \begin{enumerate}
-\item(Trivial Bounds)
+\item(Trivial Subsets)
 $\varnothing\in\T$ and $X\in\T$.
 \item(Arbitrary Unions)
 $\forall\set{U_\alpha}_{\alpha\in\I}\subseteq\T
@@ -176,7 +187,7 @@ $(U_\alpha,\phi_\alpha)~\text{is an $(M,\T)$-chart}\tand
 $\forall \alpha,\beta\in\I:\quad
 \phi_\beta\circ\phi_\alpha\inv~\text{is $C^\infty$}$.
 \item (Maximality)
-$\A$ is maximal w.r.t. Smoothness.
+$\A$ is maximal w.r.t. smoothness.
 \end{enumerate}
 \end{Def}
 
@@ -335,7 +346,7 @@ corresponds to exactly two matrices in $\SU(2)$ that differ only by a sign.
 
 \begin{Thm}{Lie Algebra Isomorphism $\so(3)\cong\su(2)$}
 Define $\phi:\so(3)\to\su(2)$ by $\phi(\bm L_i)=\bm T_i$.
-$\phi$ is clearly a linear isomorphism. Moreover,
+$\phi$ is a linear isomorphism. Moreover,
 $
 \phi\Br{\SqBr{\bm L_i,\bm L_j}}
 =\phi\Br{\varepsilon_{ijk}\bm L_k}
@@ -363,7 +374,8 @@ an \ul{ordinary representation of $G$ on $V$} is a smooth group homomorphism
 $\Pi:G\to\GL(V)$.
 The representation is \ul{irreducible} iff the only subspaces
 $W\subseteq V$ with $\FUNC{\Pi(g)}{W}\subseteq W$ for all $g\in G$
-are the trivial ones.
+are the trivial ones; it is \ul{unitary} iff
+$\Pi(g)\herm\Pi(g)=I_V$ for all $g\in G$.\\
 A \ul{projective representation} is a smooth map
 $\rho:G\to\GL(V)$ with a smooth function
 $\omega:G\times G\to\F^\times$ such that
@@ -374,11 +386,9 @@ $\rho(g)\rho(h)=\omega(g,h)\rho(gh)$ and $\rho(e)=I_V$.
   Let $\g$ be a Lie $\R$-algebra.
 Its \ul{complexification},
 denoted by ``$\g_\C$'',
-is defined as:
-~\hfill$
-\g_\C=\g\otimes_\R\C=\set{X+iY\st X,Y\in\g},
-$\hfill~
-which is a Lie $\C$-algebra with the bracket.
+is defined as
+$\g\otimes_\R\C=\set{X+iY\st X,Y\in\g}$,
+which is a Lie $\C$-algebra with the bracket extended $\C$-bilinearly.
 \end{Def}
 
 \begin{Def}{Complex Lie Algebra Representation}
@@ -467,7 +477,7 @@ representation of $\SO(3)$ iff $\Pi_j(-\bm I_2)=I_{V_j}$; this
 holds exactly for integer $j$.
 \end{alertblock}
 
-\begin{block}{Descent to $\SO(3)$ – Integer vs. Half‑Integer Spin}
+\begin{block}{Descent to $\SO(3)$: Integer vs. Half‑Integer Spin}
 For the double cover $\Phi:\SU(2)\to\SO(3)$ we have
 \[
 \Pi_j(-\bm I_2) = e^{2\pi\cdot\pi_j(\bm T_3)}
@@ -475,12 +485,13 @@ For the double cover $\Phi:\SU(2)\to\SO(3)$ we have
 \]
 Consequently:
 \begin{itemize}
-\item \textbf{Integer $j$:} $\Pi_j(-\bm I_2)=I$ $\implies$ $\Pi_j$
+\item \textbf{(Integer $j$)}
+$\Pi_j(-\bm I_2)=I$ $\implies$ $\Pi_j$
       factors through $\Phi$, giving an ordinary representation of $\SO(3)$
-      (ordinary integer spin).
-\item \textbf{Half‑integer $j$:} $\Pi_j(-\bm I_2)=-I$ $\implies$
-      $\Pi_j$ does \textbf{not} descend; it yields a \textbf{projective}
-      representation of $\SO(3)$ – a spinor representation.
+      (integer spin).
+\item \textbf{(Half‑integer $j$)} $\Pi_j(-\bm I_2)=-I$ $\implies$
+      $\Pi_j$ does \ul{not} descend; it yields a \ul{projective}
+      representation of $\SO(3)$ (spinor representation).
 \end{itemize}
 \end{block}
 
@@ -491,10 +502,10 @@ S_k = i\hbar\pi_j(\bm T_k)
 $.
 They satisfy the angular‑momentum algebra
 $[S_i,S_j]=i\hbar\varepsilon_{ijk}S_k$.
-$S_z$ has eigenvalues $\hbar m$ ($m=-j,\dots,j$).
-For $j=\frac12$, with $\sigma=\Br{\bm v_{\frac12},\bm v_{-\frac12}}$,
-$\SqBr{S_k}_\sigma^\sigma
-= \frac{\hbar}{2}\sigma_k$ (Pauli matrices).
+$S_z$ has eigenvalues $\hbar m$ ($m=j,\dots,-j$).
+For $j=\frac12$, with $\beta=\Br{\bm v_{\frac12},\bm v_{-\frac12}}$,
+$\SqBr{S_k}_\beta^\beta
+= \frac{\hbar}{2}\bm\sigma_k$ (Pauli matrices).
 \end{Ex}
 
 \begin{alertblock}{The Spinor Sign Change ($4\pi$ Periodicity)}
@@ -507,7 +518,7 @@ mechanics.
 
 \begin{alertblock}{Foundations}
 All definitions and theorems are proven rigorously in the accompanying
-project document. Scan the QR code or click below for the full paper
+project document. Scan the QR code or click below to read the full paper
 with proofs.\\[0.5em]
 \centering
 \qrcode[height=5cm,link,tight]{https://raw.githubusercontent.com/ganddoffcha/quantum-spin/main/gordon-chan-quantum-spin.pdf}\\[0.3em]
@@ -517,7 +528,7 @@ with proofs.\\[0.5em]
 \end{columns}
 
 \vfill
-\Large Supervisor: Assoc. Prof. François Gay-Balmaz
+\Large \textsf{Supervisor:} \textbf{Assoc. Prof. François Gay-Balmaz}
 \end{frame}
 
 \end{document}
