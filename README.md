@@ -14,7 +14,7 @@ Introductory quantum mechanics often introduces the concept of spin heuristicall
 
 | File | Description |
 |------|-------------|
-| [`paper.pdf`](paper.pdf) | Full paper with complete proofs (30 pages) |
+| [`gordon-chan-quantum-spin.pdf`](gordon-chan-quantum-spin.pdf) | Full paper with complete proofs (30 pages) |
 | [`poster.pdf`](poster.pdf) | A1 poster summary |
 
 ## Build
