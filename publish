@@ -1,0 +1,13 @@
+#!/bin/sh
+# publish — commit and push the quantum-spin public repo
+set -eu
+cd "/home/gc/Documents/quantum-spin-public"
+git pull --rebase
+if git diff --quiet && git diff --cached --quiet; then
+    echo "Nothing to publish."
+    exit 0
+fi
+git add -A
+git commit -m "Update paper and poster PDFs"
+git push
+echo "Published → github.com/ganddoffcha/quantum-spin"
