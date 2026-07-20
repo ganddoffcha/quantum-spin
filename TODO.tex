@@ -1,0 +1,172 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb,bm}
+
+\definecolor{done}{HTML}{1a7f37}
+\definecolor{pending}{HTML}{cf222e}
+\definecolor{sectioncolor}{HTML}{181c62}
+
+\newcommand{\done}{\textcolor{done}{\Large $\square$}}
+\newcommand{\todo}{\textcolor{pending}{\Large $\square$}}
+\newcommand{\secname}[1]{\vspace{1em}\noindent\textcolor{sectioncolor}{\Large\bfseries #1}}
+
+% --- Local math macros (standalone doc, no leopard.sty) ---
+\newcommand{\so}{\mathfrak{so}}
+\newcommand{\su}{\mathfrak{su}}
+\newcommand{\SO}{\mathsf{SO}}
+\newcommand{\SU}{\mathsf{SU}}
+\newcommand{\GL}{\mathsf{GL}}
+\newcommand{\SP}{\mathsf{Sp}}
+\newcommand{\SL}{\mathsf{SL}}
+\newcommand{\g}{\mathfrak{g}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Sph}{\mathbb{S}}
+\newcommand{\transp}{^{\mathsf{T}}}
+\newcommand{\herm}{^{\dagger}}
+\newcommand{\inv}{^{-1}}
+\newcommand{\tand}{\text{ and }}
+\newcommand{\st}{\mid}
+\newcommand{\Br}[1]{\left(#1\right)}
+\newcommand{\SqBr}[1]{\left[#1\right]}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\GLset}{\mathrm{GL}}
+\newcommand{\SOset}{\mathrm{SO}}
+\newcommand{\SUset}{\mathrm{SU}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\I}{\mathcal{I}}
+\newcommand{\Pset}{\mathcal{P}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\dist}{\mathrm{dist}}
+\newcommand{\df}{\stackrel{\mathrm{df}}{=}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\es}{\varnothing}
+\newcommand{\pwplus}{\dot{+}}
+\newcommand{\pwminus}{\dot{-}}
+\newcommand{\pwcdot}{\dot{\cdot}}
+\newcommand{\pwzero}{\dot{0}}
+\newcommand{\FUNC}[2]{[#1](#2)}
+\newcommand{\eval}[1]{\left.#1\right|}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\im}{\mathrm{im}}
+\newcommand{\Rep}{\mathrm{Rep}}
+\newcommand{\Lie}{\mathrm{Lie}}
+\newcommand{\GLV}{\mathrm{GL}}
+\newcommand{\gl}{\mathfrak{gl}}
+\newcommand{\X}{\mathfrak{X}}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\Dom}{dom}
+\DeclareMathOperator{\Range}{range}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.3em}
+
+\begin{document}
+
+\begin{center}
+{\Huge\bfseries Paper Completion Checklist}\\[0.5em]
+{\Large Representations of Lie Groups: A Mathematical Dissection of Quantum Spin}\\[0.5em]
+{\normalsize 9-day sprint --- \today}
+\end{center}
+
+\vspace{1em}
+\hrule
+\vspace{1em}
+
+\secname{Day 1 --- \texorpdfstring{$\so(3)$}{so(3)} \& \texorpdfstring{$\su(2)$}{su(2)} Lie Algebras}
+
+\todo\quad Define $\so(3)=T_{\bm I_3}\SO(3)=\{\bm R\in\R^{3,3}\st\bm R\transp=-\bm R\}$\\
+\todo\quad Define basis $\bm L_1,\bm L_2,\bm L_3$ with explicit matrices\\
+\todo\quad Prove $[\bm L_i,\bm L_j]=\varepsilon_{ijk}\bm L_k$ and $\dim\so(3)=3$\\
+\todo\quad Define $\su(2)=T_{\bm I_2}\SU(2)=\{\bm U\in\C^{2,2}\st\bm U\herm=-\bm U,\;\tr(\bm U)=0\}$\\
+\todo\quad Define basis $\bm T_i=\frac{1}{2i}\sigma_i$ with explicit Pauli matrices\\
+\todo\quad Prove $[\bm T_i,\bm T_j]=\varepsilon_{ijk}\bm T_k$ and $\dim\su(2)=3$\\
+
+\secname{Day 2 --- Double Cover \& Lie Algebra Isomorphism}
+
+\todo\quad Define $\Phi:\SU(2)\to\SO(3)$ by $\Phi(\bm U)(\bm X)=\bm U\bm X\bm U\herm$\\
+\todo\quad Prove $\Phi(\bm U)\in\SO(3)$ (preserves inner product and determinant)\\
+\todo\quad Prove $\Phi$ is a smooth group homomorphism\\
+\todo\quad Prove $\Phi$ is surjective with $\ker\Phi=\{\pm\bm I_2\}$ (2-to-1)\\
+\todo\quad Conclude $\SU(2)$ is the universal double cover of $\SO(3)$\\
+\todo\quad Define $\phi:\so(3)\to\su(2)$ by $\phi(\bm L_i)=\bm T_i$\\
+\todo\quad Prove $\phi$ is a Lie algebra isomorphism (linear + preserves bracket)\\
+
+\secname{Day 3 --- Complexification \& Ladder Operators}
+
+\todo\quad Define complexification: $\g_\C=\g\otimes_\R\C$ for a real Lie algebra $\g$\\
+\todo\quad Define complex representation of a real Lie algebra (extends to $\g_\C$)\\
+\todo\quad Prove $\su(2)_\C\cong\mathfrak{sl}(2,\C)=\{\bm A\in\C^{2,2}\st\tr(\bm A)=0\}$\\
+\todo\quad Define Cartan--Weyl basis: $\bm H=2i\bm T_3$, $\bm E=i\bm T_1-\bm T_2$, $\bm F=i\bm T_1+\bm T_2$\\
+\todo\quad Write explicit matrix forms of $\bm H,\bm E,\bm F$\\
+\todo\quad Prove commutation relations: $[\bm H,\bm E]=2\bm E$, $[\bm H,\bm F]=-2\bm F$, $[\bm E,\bm F]=\bm H$\\
+
+\secname{Days 4--5 --- Classification of Irreducible Representations (the big one)}
+
+\todo\quad State the theorem: for each $j\in\{0,\frac12,1,\frac32,\dots\}$, $\exists!$ irrep $\pi_j:\su(2)\to\gl(V_j)$ with $\dim V_j=2j+1$\\
+\todo\quad Define weight spaces and prove $\pi_j(\bm H)$ diagonalizes on $V_j$\\
+\todo\quad Ladder Lemma: $\pi_j(\bm E)$ raises weight by $+2$, $\pi_j(\bm F)$ lowers by $-2$\\
+\todo\quad Highest weight argument: pick $\bm v\neq\bm0$ with $\pi_j(\bm E)\bm v=\bm0$, let $\lambda$ be its $\bm H$-eigenvalue\\
+\todo\quad Construct basis $\bm v_k=\pi_j(\bm F)^k\bm v$ and prove $\pi_j(\bm E)\bm v_k=k(\lambda-k+1)\bm v_{k-1}$\\
+\todo\quad Prove $\lambda=2j\in\N_0$ and the chain terminates at $\bm v_{2j+1}=\bm0$\\
+\todo\quad Conclude $\dim V_j=2j+1$ and weights are $\{-2j,-2j+2,\dots,2j-2,2j\}$\\
+\todo\quad Normalize to get the standard ladder formulas with square-root factors\\
+\todo\quad Prove uniqueness: any irrep of dimension $2j+1$ is equivalent to $\pi_j$\\
+\todo\quad Classification table: $j=0$ scalar, $\frac12$ spinor, $1$ vector, $\frac32$, \dots\\
+
+\secname{Day 6 --- Integration to \texorpdfstring{$\SU(2)$}{SU(2)}}
+
+\todo\quad Prove $\SU(2)\cong\S^3$ (homeomorphic to the 3-sphere)\\
+\todo\quad Conclude $\SU(2)$ is simply connected\\
+\todo\quad Theorem: every Lie algebra rep $\pi:\su(2)\to\gl(V)$ integrates uniquely to a Lie group rep $\Pi:\SU(2)\to\GL(V)$ via $\Pi(e^{\bm X})=e^{\pi(\bm X)}$\\
+\todo\quad Apply to $\pi_j$ to get $\Pi_j:\SU(2)\to\GL(V_j)$\\
+
+\secname{Day 7 --- Projective Representations \& Descent}
+
+\todo\quad Define projective representation: $\rho(g)\rho(h)=\omega(g,h)\rho(gh)$\\
+\todo\quad Bargmann's theorem / physical motivation: in QM, symmetries need only be represented up to phase\\
+\todo\quad Prove: every projective representation of $\SO(3)$ lifts to an ordinary representation of $\SU(2)$\\
+\todo\quad Prove descent criterion: $\Pi_j(-\bm I_2)=e^{2\pi\cdot\pi_j(\bm T_3)}=(-1)^{2j}I_{V_j}$\\
+\todo\quad Conclude: integer $j$ descends to ordinary $\SO(3)$ rep; half-integer $j$ gives projective $\SO(3)$ rep (spinor)\\
+
+\secname{Day 8 --- Physical Spin Operators}
+
+\todo\quad Define Hermitian spin observables: $S_k=i\hbar\,\pi_j(\bm T_k)$\\
+\todo\quad Prove angular momentum algebra: $[S_i,S_j]=i\hbar\varepsilon_{ijk}S_k$\\
+\todo\quad Prove $S^2=\hbar^2j(j+1)I$ and $S_z$ has eigenvalues $\hbar m$ ($m=-j,\dots,j$)\\
+\todo\quad Example: $j=\frac12$ --- Pauli matrices $S_k=\frac{\hbar}{2}\sigma_k$ with explicit matrix forms\\
+\todo\quad Spinor sign change: rotation by $2\pi$ maps $|\psi\rangle\mapsto-|\psi\rangle$; restored after $4\pi$\\
+
+\secname{Day 9 --- Polish \& Submit}
+
+\todo\quad Proof-read all new content for mathematical correctness\\
+\todo\quad Ensure consistent notation with earlier sections\\
+\todo\quad Add cross-references (\textbackslash ref) throughout new sections\\
+\todo\quad Run full compile with latexmk --- zero errors, zero warnings\\
+\todo\quad Update abstract if needed to reflect completed content\\
+\todo\quad Final \texttt{./publish} to push to GitHub\\
+
+\vspace{1em}
+\hrule
+\vspace{0.5em}
+
+{\large\bfseries Feasibility: Yes, 9 days is realistic.}
+
+\begin{itemize}[nosep]
+  \item Days 1--3 are straightforward (definitions + short proofs) --- \textbf{easy}.
+  \item Days 4--5 (classification theorem) is the hardest --- \textbf{2 focused sessions}.
+  \item Days 6--8 are moderate (integration, descent, spin operators) --- \textbf{standard Lie theory}.
+  \item Day 9 is polish --- \textbf{light work}.
+  \item Total: \textbf{$\sim$17 new items}, most short. Your writing speed from the original 1,916-line build suggests this is well within range.
+\end{itemize}
+
+\vspace{0.5em}
+\hrule
+
+\end{document}
