@@ -6,7 +6,6 @@ REPO="/home/gc/Documents/quantum-spin-public"
 TEXINPUTS=".:/home/gc/Documents/texnow//:"
 
 cd "$REPO"
-git pull --rebase
 
 # Compile paper (pdflatex)
 echo "=== Compiling paper ==="
@@ -20,11 +19,12 @@ TEXINPUTS="$TEXINPUTS" latexmk -g -lualatex poster.tex
 
 # Commit and push
 cd "$REPO"
-git add gordon-chan-quantum-spin.pdf poster.pdf paper/ poster/
+git add -A
 if git diff --cached --quiet; then
     echo "Nothing to publish."
 else
     git commit -m "Update paper and poster"
+    git pull --rebase
     git push
     echo "=== Published → github.com/ganddoffcha/quantum-spin ==="
 fi
