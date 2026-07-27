@@ -18,6 +18,7 @@ A Mathematical Dissection of Quantum Spin}
 \newcommand{\pwtimes}{\mathbin{\dot{\times}}}
 \newcommand{\pwzero}{\mathbin{\dot{0}}}
 \newcommand{\pwone}{\mathbin{\dot{1}}}
+\newcommand{\ii}{\mathrm{i}}
 
 \author{Gordon Chan}
 \begin{document}
@@ -905,7 +906,7 @@ A map $F:M\to N$ is said to be
 \ul{smooth w.r.t. $\A_M$ and $\A_N$} iff:
 \begin{gather*}
 \forall p\in M,
-\forall(V,\psi)\in\set{(V,\psi)\in\A_N\st F(p)\in V},
+\forall(V,\psi)\in\set{(V,\psi)\in\A_N\st F(p)\in V},\\
 \exists(U,\phi)\in\set{(U,\phi)\in\A_M\st p\in U\tand F(U)\ss V}:\\
 \psi\circ F\circ\phi\inv:\phi(U)\to\psi(V)~\text{is $C^\infty$}.
 \end{gather*}
@@ -1163,7 +1164,7 @@ s_j^B\Br{b_1,\dots,b_{k_j}}=t_j^B\Br{b_1,\dots,b_{k_j}}$.
 \end{enumerate}
 \end{corollary}
 \begin{Def}
-A \ul{group} is a quadruplet $(G,\mu,\iota,e)$, where
+A \ul{group} is a pair $(G,\set{\mu,\iota,e})$, where
 \begin{itemize}
 \item $G$ is a set,
 \item $\mu:G\times G\to G$ is a binary operation on $G$,
@@ -1182,9 +1183,19 @@ $\forall x\in G:\quad\mu(\iota(x),x)=e=\mu(x,\iota(x))$.
 \end{Def}
 
 \begin{Def}
-An \ul{abelian group} is a quadruplet $(G,\mu,\iota,e)$, where
+Let $(G,\set{\mu_G,\iota_G,e_G})$ and $(H,\set{\mu_H,\iota_H,e_H})$ be groups.
+A map $\phi:G\to H$ is said to be a \ul{group homomorphism} iff
+$\forall x,y\in G:\;\phi(\mu_G(x,y))=\mu_H(\phi(x),\phi(y))$.
+The \ul{kernel of $\phi$}, denoted by ``$\ker(\phi)$'', is defined as:
+\[
+\ker(\phi)\df\set{g\in G\st\phi(g)=e_H}.
+\]
+\end{Def}
+
+\begin{Def}
+An \ul{abelian group} is a pair $(G,\set{\mu,\iota,e})$, where
 \begin{itemize}
-\item $(G,\mu,\iota,e)$ is a group,
+\item $(G,\set{\mu,\iota,e})$ is a group,
 \end{itemize}
 that satisfies the following property:
 \begin{enumerate}
@@ -1194,12 +1205,11 @@ $\forall x,y\in G:\quad\mu(x,y)=\mu(y,x)$.
 \end{Def}
 
 \begin{Def}
-A \ul{field} is a septuplet $\Br{\F,+_\F,-_\F,0_\F,\times_\F,\inv,1_\F}$, where
+A \ul{field} is a pair $\Br{\F,\set{+_\F,-_\F,0_\F,\times_\F,\inv,1_\F}}$, where
 \begin{itemize}
-\item $(\F,+_\F,-_\F,0_\F)$ is an abelian group,
+\item $\Br{\F,\set{+_\F,-_\F,0_\F}}$ is an abelian group,
 \item $\times_\F:\F\times\F\to\F$ is the field multiplication, and
-\item $\Br{\F^\times,\eval{\times_\F}_{\F^\times},
-\inv,1_\F}$ is an abelian group,
+\item $\Br{\F^\times,\set{\eval{\times_\F}_{\F^\times},\inv,1_\F}}$ is an abelian group,
 \end{itemize}
 that satisfy the following property:
 \begin{enumerate}
@@ -1213,9 +1223,9 @@ a\times_\F(b+_\F c)=(a\times_\F b)+_\F(a\times_\F c).
 
 \begin{Def}
 An $\F$-vector space
-is a quintuplet $\Br{V,+_V,-_V,\bm0_V,\cdot_V}$, where
+is a pair $\Br{V,\set{+_V,-_V,\bm0_V,\cdot_V}}$, where
 \begin{itemize}
-\item $\Br{V,+_V,-_V,\bm0_V}$ is an abelian group, and
+\item $\Br{V,\set{+_V,-_V,\bm0_V}}$ is an abelian group, and
 \item $\cdot_V:\F\times V\to V$ is the scalar multiplication,
 \end{itemize}
 that satisfy the following four properties:
@@ -1247,9 +1257,9 @@ c\cdot_V(d\cdot_V\bm u)=(c\times_\F d)\cdot_V\bm u.
 
 \begin{Thm}[Subspace Test]\label{thm:subspace-test}
 Let
-$\Br{V,+,-,\bm0,\cdot}$ be an $\F$-vector space.
+$\Br{V,\set{+,-,\bm0,\cdot}}$ be an $\F$-vector space.
 Let $W\subseteq V$.
-Then $\Br{W,+,-,\bm0,\cdot}$
+Then $\Br{W,\set{+,-,\bm0,\cdot}}$
 is an $\F$-vector space iff the following two statements hold:
 \begin{enumerate}
 \item (Non-Emptiness) $\bm0\in W$.
@@ -1261,7 +1271,7 @@ is an $\F$-vector space iff the following two statements hold:
 
 \begin{Thm}[Maps between a Set and a Vector Space Form a Vector Space]
 \label{def:pointwise-ops}
-Let $(V,+,-,\bm0,\cdot)$ be an $\F$-vector space.
+Let $(V,\set{+,-,\bm0,\cdot})$ be an $\F$-vector space.
 Let $X$ be a set.
 Define the operations
 \begin{itemize}
@@ -1289,12 +1299,12 @@ $\forall f\in V^X,\forall\lambda\in\F,\forall x\in X\quad
 \FUNC{\lambda\pwcdot f}{x}\df\lambda\cdot f(x)
 $.
 \end{enumerate}
-Then $\Br{V^X,\pwplus,\pwminus,\bm0_{X\to V},\pwcdot}$ is an $\F$-vector space.
+Then $\Br{V^X,\set{\pwplus,\pwminus,\bm0_{X\to V},\pwcdot}}$ is an $\F$-vector space.
 \end{Thm}
 
 \begin{Def}
 Let
-$\Br{V,+_V,-_V,\bm0_V,\cdot_V}$ and $\Br{W,+_W,-_W,\bm0_W,\cdot_W}$
+$\Br{V,\set{+_V,-_V,\bm0_V,\cdot_V}}$ and $\Br{W,\set{+_W,-_W,\bm0_W,\cdot_W}}$
 be $\F$-vector spaces.
 A map $T:V\to W$ is said to be a
 \ul{linear transformation from $V$ to $W$} iff it satisfies the
@@ -1316,7 +1326,17 @@ In the case where $V=W$, we simply denote $\L(V,W)=\L(V,V)$ by $\L(V)$.
 \end{Def}
 
 \begin{Def}
-Let $\Br{V,+_V,-_V,\bm0_V,\cdot_V}$ and $\Br{W,+_W,-_W,\bm0_W,\cdot_W}$
+Let $\Br{V,\set{+_V,-_V,\bm0_V,\cdot_V}}$ and $\Br{W,\set{+_W,-_W,\bm0_W,\cdot_W}}$
+be $\F$-vector spaces.
+Let $T\in\L(V,W)$.
+The \ul{null space of $T$}, denoted by ``$\Null{T}$'', is defined as the following:
+\[\Null{T}\df\set{\bm v\in V\st T(\bm v)=\bm0_W}.\]
+The \ul{range of $T$}, denoted by ``$\Range{T}$'', is defined as the following:
+\[\Range{T}\df\set{T(\bm v)\st\bm v\in V}.\]
+\end{Def}
+
+\begin{Def}
+Let $\Br{V,\set{+_V,-_V,\bm0_V,\cdot_V}}$ and $\Br{W,\set{+_W,-_W,\bm0_W,\cdot_W}}$
 be $\F$-vector spaces.
 A map $T\in\L(V,W)$ is said to be a
 \ul{linear isomorphism} iff it is bijective.
@@ -1324,8 +1344,8 @@ A map $T\in\L(V,W)$ is said to be a
 \end{Def}
 
 \begin{Def}
-$\Br{V,+_V,-_V,\bm0_V,\cdot_V}$ is said to be
-\ul{isomorphic} to $\Br{W,+_W,-_W,\bm0_W,\cdot_W}$,
+$\Br{V,\set{+_V,-_V,\bm0_V,\cdot_V}}$ is said to be
+\ul{isomorphic} to $\Br{W,\set{+_W,-_W,\bm0_W,\cdot_W}}$,
 denoted by ``$V\cong W$'', iff
 there exists a linear isomorphism between them.
 \end{Def}
@@ -1333,16 +1353,16 @@ there exists a linear isomorphism between them.
 \begin{Thm}[linear transformations between vector spaces form a vector space]
 \label{thm:LVW-vec-space}
 Let
-$\Br{V,+_V,-_V,\bm0_V,\cdot_V}$\\ and $\Br{W,+_W,-_W,\bm0_W,\cdot_W}$
+$\Br{V,\set{+_V,-_V,\bm0_V,\cdot_V}}$\\ and $\Br{W,\set{+_W,-_W,\bm0_W,\cdot_W}}$
 be $\F$-vector spaces.
-Then $\Br{\L(V,W),\pwplus,\pwminus,\bm0_{V\to W},\pwcdot}$, is an $\F$-vector space.
+Then $\Br{\L(V,W),\set{\pwplus,\pwminus,\bm0_{V\to W},\pwcdot}}$, is an $\F$-vector space.
 \end{Thm}
 
 \begin{Def}
-An \ul{$\F$-algebra} is a sextuplet
-$\Br{A,+,-,\bm0,\cdot,\times}$, where
+An \ul{$\F$-algebra} is a pair
+$\Br{A,\set{+,-,\bm0,\cdot,\times}}$, where
 \begin{itemize}
-\item $(A,+,-,\bm0,\cdot)$ is an
+\item $(A,\set{+,-,\bm0,\cdot})$ is an
 $\F$-vector space, and
 \item $\times:A\times A\to A$ is the algebra multiplication,
 \end{itemize}
@@ -1358,7 +1378,7 @@ $\forall a,b,c\in A,\forall\lambda\in\F:$
 \end{Def}
 
 \begin{Def}
-An $\F$-algebra $(A,+,-,\bm0,\cdot,\times)$ is said to be:
+An $\F$-algebra $(A,\set{+,-,\bm0,\cdot,\times})$ is said to be:
 \begin{enumerate}
 \item \ul{associative} iff
 $\forall a,b,c\in A:\quad (a\times b)\times c=a\times(b\times c)$.
@@ -1368,16 +1388,16 @@ $\forall a,b\in A:\quad a\times b=b\times a$.
 \end{Def}
 
 \begin{Def}
-An $\F$-algebra $(A,+,-,\bm0,\cdot,\times)$ is said to be \ul{unital} iff
+An $\F$-algebra $(A,\set{+,-,\bm0,\cdot,\times})$ is said to be \ul{unital} iff
 there exists an element $1\in A$ such that
 $\forall a\in A:\;1\times a=a=a\times 1$.
-In this case the tuple expands to a septuplet $(A,+,-,\bm0,\cdot,\times,1)$.
+In this case the tuple expands to a pair $(A,\set{+,-,\bm0,\cdot,\times,1})$.
 \end{Def}
 
 \begin{Thm}[Subalgebra Test]\label{thm:subalgebra-test}
-Let $\Br{A,+,-,\bm0,\cdot,\times}$ be an $\F$-algebra.
+Let $\Br{A,\set{+,-,\bm0,\cdot,\times}}$ be an $\F$-algebra.
 Let $B\subseteq A$.
-Then $\Br{B,+,-,\bm0,\cdot,\times}$ is an $\F$-algebra iff the following three statements hold:
+Then $\Br{B,\set{+,-,\bm0,\cdot,\times}}$ is an $\F$-algebra iff the following three statements hold:
 \begin{enumerate}
 \item (Non-Emptiness) $\bm0\in B$.
 \item (Closure under Vector Addition and Scalar Multiplication)
@@ -1400,31 +1420,31 @@ if $B\subseteq A$ satisfies the subalgebra test:
 
 \begin{Thm}[Maps between a Set and an Algebra Form an Algebra]
 \label{thm:AX-algebra}
-Let $(A,+,-,\bm0,\cdot,\times,1)$ be an associative unital $\F$-algebra.
+Let $(A,\set{+,-,\bm0,\cdot,\times,1})$ be an associative unital $\F$-algebra.
 Let $X$ be a set.
 Define the pointwise algebra multiplication $\pwtimes:A^X\times A^X\to A^X$
 and unit $\pwone\in A^X$ by:
 \[\forall f,g\in A^X,\forall x\in X:\quad
 \FUNC{f\pwtimes g}{x}\df f(x)\times g(x)\tand
 \pwone(x)\df 1.\]
-Then $\Br{A^X,\pwplus,\pwminus,0_{X\to A},\pwcdot,\pwtimes,\pwone}$ is an associative unital $\F$-algebra.
+Then $\Br{A^X,\set{\pwplus,\pwminus,0_{X\to A},\pwcdot,\pwtimes,\pwone}}$ is an associative unital $\F$-algebra.
 \end{Thm}
 
 \begin{Prop}[Associative Unital Algebra on $\L(V)$]
 \label{prop:LV-assoc-unital-alg}
 Let
-$\Br{V,+,-,\bm0,\cdot}$
+$\Br{V,\set{+,-,\bm0,\cdot}}$
 be a $\F$-vector space.
 Then
-$\Br{\L(V),\pwplus,\pwminus,\bm0_{V\to V},\pwcdot,\circ,I_V}$
+$\Br{\L(V),\set{\pwplus,\pwminus,\bm0_{V\to V},\pwcdot,\circ,I_V}}$
 is an associative unital algebra.
 \end{Prop}
 
 \begin{Def}
 A \ul{Lie $\F$-algebra}
-is a sextuplet $\Br{\mathfrak{g},+,-,\bm0,\cdot,[\bullet,\bullet]}$, where
+is a pair $\Br{\mathfrak{g},\set{+,-,\bm0,\cdot,[\bullet,\bullet]}}$, where
 \begin{itemize}
-\item $\Br{\mathfrak{g},+,-,\bm0,\cdot,[\bullet,\bullet]}$
+\item $\Br{\mathfrak{g},\set{+,-,\bm0,\cdot,[\bullet,\bullet]}}$
 is an $\F$-algebra,
 \end{itemize}
 that satisfy the following two properties:
@@ -1438,9 +1458,9 @@ $\forall X,Y,Z\in\mathfrak{g}:\quad
 \end{Def}
 
 \begin{Thm}[Lie Subalgebra Test]\label{thm:Lie-subalg-test}
-Let $\Br{\mathfrak{g},+,-,\bm0,\cdot,[\bullet,\bullet]}$ be a Lie $\F$-algebra.
+Let $\Br{\mathfrak{g},\set{+,-,\bm0,\cdot,[\bullet,\bullet]}}$ be a Lie $\F$-algebra.
 Let $\mathfrak{h}\subseteq\mathfrak{g}$.
-Then $\Br{\mathfrak{h},+,-,\bm0,\cdot,[\bullet,\bullet]}$ is a Lie $\F$-algebra iff the following three statements hold:
+Then $\Br{\mathfrak{h},\set{+,-,\bm0,\cdot,[\bullet,\bullet]}}$ is a Lie $\F$-algebra iff the following three statements hold:
 \begin{enumerate}
 \item (Non-Emptiness) $\bm0\in\mathfrak{h}$.
 \item (Closure under Vector Addition and Scalar Multiplication)
@@ -1452,13 +1472,13 @@ $\forall X,Y\in\mathfrak{h}:\quad [X,Y]\in\mathfrak{h}$.
 
 \begin{Thm}[Lie Algebra Associated to an Associative Algebra]
 \label{thm:assoc-to-lie}
-Let $(A,+,-,\bm0,\cdot,\times)$ be an associative $\F$-algebra.
+Let $(A,\set{+,-,\bm0,\cdot,\times})$ be an associative $\F$-algebra.
 Define the \ul{commutator} $[\bullet,\bullet]_\times:A\times A\to A$ by
 \[\forall a,b\in A:\quad [a,b]_\times\df a\times b-b\times a.\]
-Then $\Br{A,+,-,\bm0,\cdot,[\bullet,\bullet]_\times}$ is a Lie $\F$-algebra.
+Then $\Br{A,\set{+,-,\bm0,\cdot,[\bullet,\bullet]_\times}}$ is a Lie $\F$-algebra.
 \end{Thm}
 \begin{proof}
-$(A,+,-,\bm0,\cdot)$ is a vector space (since $A$ is an associative algebra).
+$(A,\set{+,-,\bm0,\cdot})$ is a vector space (since $A$ is an associative algebra).
 Also, $[\bullet,\bullet]_\times:A\times A\to A$ has the correct type.
 We just have to check the three properties:
 \begin{enumerate}
@@ -1509,9 +1529,9 @@ Summing the three equations, we obtain:
 
 
 \begin{corollary}[Lie Subalgebra Criterion for Associative Algebras]\label{cor:Lie-subalg-associative}
-Let $(A,+,-,\bm0,\cdot,\times)$ be an associative $\F$-algebra.
+Let $(A,\set{+,-,\bm0,\cdot,\times})$ be an associative $\F$-algebra.
 Let $B\subseteq A$.
-Then $\Br{B,+,-,\bm0,\cdot,[\bullet,\bullet]_\times}$ is a Lie $\F$-algebra iff the following three statements hold:
+Then $\Br{B,\set{+,-,\bm0,\cdot,[\bullet,\bullet]_\times}}$ is a Lie $\F$-algebra iff the following three statements hold:
 \begin{enumerate}
 \item (Non-Emptiness) $\bm0\in B$.
 \item (Closure under Vector Addition and Scalar Multiplication)
@@ -1522,12 +1542,12 @@ $\forall a,b\in B:\quad [a,b]_\times\in B$.
 \end{corollary}
 
 \begin{Def}
-Let $\Br{\g,+,-,\bm0,\cdot,[\bullet,\bullet]_\g}$ and
-$\Br{\h,+,-,\bm0,\cdot,[\bullet,\bullet]_\h}$ be Lie $\F$-algebras.
+Let $\Br{\g,\set{+,-,\bm0,\cdot,[\bullet,\bullet]_\g}}$ and
+$\Br{\h,\set{+,-,\bm0,\cdot,[\bullet,\bullet]_\h}}$ be Lie $\F$-algebras.
 A map $\phi:\g\to\h$ is said to be a
 \ul{Lie algebra homomorphism between
-$\Br{\g,+,-,\bm0,\cdot,[\bullet,\bullet]_\g}$
-and $\Br{\h,+,-,\bm0,\cdot,[\bullet,\bullet]_\h}$} iff it satisfies
+$\Br{\g,\set{+,-,\bm0,\cdot,[\bullet,\bullet]_\g}}$
+and $\Br{\h,\set{+,-,\bm0,\cdot,[\bullet,\bullet]_\h}}$} iff it satisfies
 the following two properties:
 \begin{enumerate}
 \item (Linearity) $\phi$ is a linear map.
@@ -1544,8 +1564,8 @@ a Lie algebra homomorphism.)
 \end{Def}
 
 \begin{Def}
-$\Br{\g,+,-,\bm0,\cdot,[\bullet,\bullet]_\g}$ is said to be
-\ul{isomorphic} to $\Br{\h,+,-,\bm0,\cdot,[\bullet,\bullet]_\h}$,
+$\Br{\g,\set{+,-,\bm0,\cdot,[\bullet,\bullet]_\g}}$ is said to be
+\ul{isomorphic} to $\Br{\h,\set{+,-,\bm0,\cdot,[\bullet,\bullet]_\h}}$,
 denoted by ``$\g\cong\h$'', iff
 there exists a Lie algebra isomorphism between them.
 \end{Def}
@@ -1554,8 +1574,7 @@ there exists a Lie algebra isomorphism between them.
 Let $V$ be an $\F$-vector space. The
 \ul{general linear Lie algebra of $V$},
 denoted by ``$\gl(V)$'', is defined as
-\[\gl(V)\df\Br{\L(V),\pwplus,\pwminus,\bm0_{V\to V},\pwcdot,
-\SqBr{\bullet,\bullet}_\circ}.\]
+\[\gl(V)\df\Br{\L(V),\set{\pwplus,\pwminus,\bm0_{V\to V},\pwcdot,\SqBr{\bullet,\bullet}_\circ}}.\]
 \end{Def}
 
 \section{Differential Calculus on Smooth Manifolds}\label{sec:diff-calc}
@@ -1645,7 +1664,7 @@ on germs (via representatives) as follows:
   \forall q\in M:\;1_{M\to\R}(q)\df1.\]
 \end{enumerate}
 These operations are well-defined $\tand$
-$\Br{C_p^\infty(M,\T,\A),+,-,\SqBr{\Br{M,0_{M\to\R}}}_p,\cdot,\times,\SqBr{\Br{M,1_{M\to\R}}}_p}$
+$\Br{C_p^\infty(M,\T,\A),\set{+,-,\SqBr{\Br{M,0_{M\to\R}}}_p,\cdot,\times,\SqBr{\Br{M,1_{M\to\R}}}_p}}$
 is a commutative associative unital $\R$-algebra.
 \end{Thm}
 
@@ -1680,7 +1699,7 @@ v~\text{is a derivation at $p$}}.
 
 \begin{Thm}[Tangent Space is a Vector Space]\label{thm:tangent-vec-space}
 Let $(M,\T,\A)$ be a smooth manifold. Let $p\in M$.
-Then $\Br{T_p(M,\T,\A),\pwplus,\pwminus,0_{T_p(M)},\pwcdot}$ is an $\R$-vector space.
+Then $\Br{T_p(M,\T,\A),\set{\pwplus,\pwminus,0_{T_p(M)},\pwcdot}}$ is an $\R$-vector space.
 \end{Thm}
 \begin{proof}
 \[
@@ -1693,7 +1712,7 @@ Every derivation is linear, so $T_p(M,\T,\A)$ is closed under $\pwplus$
 and $\pwcdot$, and the zero map is a derivation.
 By the Subspace Test (Theorem \ref{thm:subspace-test}),
 \[
-\Br{T_p(M,\T,\A),\pwplus,\pwminus,0_{T_p(M)},\pwcdot}
+\Br{T_p(M,\T,\A),\set{\pwplus,\pwminus,0_{T_p(M)},\pwcdot}}
 \]
 is an $\R$-vector space.
 \end{proof}
@@ -1846,10 +1865,10 @@ C^{\infty}(M,\T,\A) \df
 Let $(M,\T,\A)$ be a smooth manifold.
 The set $C^\infty(M,\T,\A)$ carries the pointwise operations
 (Definition \ref{def:pointwise-ops} with $X=M$ and $A=\R$).
-Then $\Br{C^\infty(M,\T,\A),+,-,0_{M\to\R},\cdot,\times,1_{M\to\R}}$
+Then $\Br{C^\infty(M,\T,\A),\set{+,-,0_{M\to\R},\cdot,\times,1_{M\to\R}}}$
 is a commutative associative unital $\R$-algebra.
 Consequently,
-$\Br{\L\Br{C^\infty(M,\T,\A)},\pwplus,\pwminus,\bm0,\pwcdot,\circ,I}$
+$\Br{\L\Br{C^\infty(M,\T,\A)},\set{\pwplus,\pwminus,\bm0,\pwcdot,\circ,I}}$
 is an associative unital $\R$-algebra.
 \end{Thm}
 
@@ -1875,7 +1894,7 @@ X~\text{is a smooth vector field}}.
 \begin{lemma}[$\X(M)$ is a Vector Space]\label{lem:vector-fields-vec-space}
 Let $(M,\T,\A)$ be a smooth manifold.
 Then $\X(M,\T,\A)\subseteq\L\Br{C^\infty(M,\T,\A)}$ and
-$\Br{\X(M,\T,\A),\pwplus,\pwminus,\bm0,\pwcdot}$
+$\Br{\X(M,\T,\A),\set{\pwplus,\pwminus,\bm0,\pwcdot}}$
 is an $\R$-vector space.
 \end{lemma}
 
@@ -2058,7 +2077,7 @@ $[X,Y]_\circ\df X\circ Y-Y\circ X$, i.e.,
 \[\forall f\in C^\infty(M,\T,\A):\quad
 \Func{[X,Y]_\circ}{f}=X(Y(f))-Y(X(f)).\]
 Then $[X,Y]_\circ\in\X(M,\T,\A)$ and
-$\Br{\X(M,\T,\A),+,-,0_{\X(M)},\cdot,[\bullet,\bullet]_\circ}$
+$\Br{\X(M,\T,\A),\set{+,-,0_{\X(M)},\cdot,[\bullet,\bullet]_\circ}}$
 is a Lie $\R$-algebra.
 \end{Thm}
 \begin{proof}
@@ -2097,13 +2116,13 @@ Let $f,g\in C^\infty(M,\T,\A)$.
 Thus $[X,Y]_\circ\in\X(M,\T,\A)$.
 
 Now,
-$\Br{\L\Br{C^\infty(M,\T,\A)},\pwplus,\pwminus,0,\pwcdot,\circ}$
+$\Br{\L\Br{C^\infty(M,\T,\A)},\set{\pwplus,\pwminus,0,\pwcdot,\circ}}$
 is an associative algebra,
 $\X(M,\T,\A)\subseteq\L\Br{C^\infty(M,\T,\A)}$,
-$\Br{\X(M,\T,\A),\pwplus,\pwminus,0,\pwcdot}$ is a vector space,
+$\Br{\X(M,\T,\A),\set{\pwplus,\pwminus,0,\pwcdot}}$ is a vector space,
 $\tand$ $\forall X,Y\in\X(M,\T,\A):\;[X,Y]_\circ\in\X(M,\T,\A)$.
 By \ref{cor:Lie-subalg-associative},
-$\Br{\X(M,\T,\A),\pwplus,\pwminus,0,\pwcdot,[\bullet,\bullet]_\circ}$
+$\Br{\X(M,\T,\A),\set{\pwplus,\pwminus,0,\pwcdot,[\bullet,\bullet]_\circ}}$
 is a Lie $\R$-algebra.
 \end{proof}
 
@@ -2112,13 +2131,11 @@ is a Lie $\R$-algebra.
 Replacing ``smooth manifold'' with ``topological space'' and ``smooth'' with ``continuous'' in the definition below yields the notion of a \ul{topological group}.
 \end{remark}
 
-
-
 \begin{Def}
-A \ul{Lie group} is a septuplet $(G,\T,\A,\mu,\iota,e)$, where
+A \ul{Lie group} is a 4-tuple $(G,\T,\A,\set{\mu,\iota,e})$, where
 \begin{itemize}
 \item $(G,\T,\A)$ is a smooth manifold, and
-\item $(G,\mu,\iota,e)$ is a group,
+\item $(G,\set{\mu,\iota,e})$ is a group,
 \end{itemize}
 that satisfy the following two properties:
 \begin{enumerate}
@@ -2133,7 +2150,7 @@ We would adopt the common notation $
 \end{Def}
 
 \begin{lemma}[Left Inclusion is $C^\infty$]\label{lem:left-inclusion-Cinfty}
-Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+Let $(G,\T,\A,\set{\mu,\iota,e})$ be a Lie group.
 The left inclusion map $i_g:G\to G\times G$
 defined by
 \[\forall h\in G:\quad i_g(h)=(g,h)\]
@@ -2152,7 +2169,7 @@ Moreover,
 \end{proof}
 
 \begin{Def}
-Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+Let $(G,\T,\A,\set{\mu,\iota,e})$ be a Lie group.
 Let $g\in G$.
 The \ul{left translation at $g$}, denoted by ``$L_g$'',
 is the map $L_g:G\to G$ defined as the following:
@@ -2160,7 +2177,7 @@ is the map $L_g:G\to G$ defined as the following:
 \end{Def}
 
 \begin{Thm}[Left Translation is a Diffeomorphism]\label{thm:left-translation-diffeo}
-Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+Let $(G,\T,\A,\set{\mu,\iota,e})$ be a Lie group.
 Let $g\in G$.
 Then $L_g:G\to G$ is a diffeomorphism between $(G,\T,\A)$ and itself.
 \end{Thm}
@@ -2199,7 +2216,7 @@ The same argument as (2), with $g$ replaced by $g\inv$.
 \end{proof}
 
 \begin{Def}
-Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+Let $(G,\T,\A,\set{\mu,\iota,e})$ be a Lie group.
 Let $X\in\X(G,\T,\A)$.
 The smooth vector field $X:C^\infty(G,\T,\A)\to C^\infty(G,\T,\A)$
 is said to be \ul{$\mu$-left-invariant} iff it satisfy the following property:
@@ -2209,7 +2226,7 @@ X\Br{f\circ L_g}=X(f)\circ L_g.
 \end{Def}
 
 \begin{lemma}[Equivalent Characterization of Left-Invariance]\label{lem:left-inv-char}
-Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+Let $(G,\T,\A,\set{\mu,\iota,e})$ be a Lie group.
 Let $X\in\X(G,\T,\A)$.
 The smooth vector field $X:C^\infty(G,\T,\A)\to C^\infty(G,\T,\A)$
 is $\mu$-left-invariant iff
@@ -2268,11 +2285,11 @@ So, $X\Br{f\circ L_g}=X(f)\circ L_g$, as desired.
 \end{proof}
 
 \begin{Def}
-Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+Let $(G,\T,\A,\set{\mu,\iota,e})$ be a Lie group.
 The \ul{set of left-invariant vector fields on $G$},
-denoted by ``$\X_L(G,\T,\A,\mu,\iota,e)$'', is defined as:
+denoted by ``$\X_L(G,\T,\A,\set{\mu,\iota,e})$'', is defined as:
 \[
-\X_L(G,\T,\A,\mu,\iota,e)
+\X_L(G,\T,\A,\set{\mu,\iota,e})
 \df\set{X\in\X(G,\T,\A)\st X~\text{is $\mu$-left-invariant}}.
 \]
 \end{Def}
@@ -2280,14 +2297,14 @@ denoted by ``$\X_L(G,\T,\A,\mu,\iota,e)$'', is defined as:
 
 \begin{Thm}[Left-Invariant Fields form a Lie Algebra]
 \label{thm:left-inv-lie-algebra}
-Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
-Then $\Br{\X_L(G,\T,\A,\mu,\iota,e),\pwplus,\pwminus,0_{\X(G)},\pwcdot,
+Let $(G,\T,\A,\set{\mu,\iota,e})$ be a Lie group.
+Then $\Br{\X_L(G,\T,\A,\set{\mu,\iota,e}),\pwplus,\pwminus,0_{\X(G)},\pwcdot,
 [\bullet,\bullet]_\circ}$
 is a Lie $\R$-algebra.
 \end{Thm}
 \begin{proof}
 We apply the Lie Subalgebra Test (Theorem~\ref{thm:Lie-subalg-test})
-to $\X_L(G,\T,\A,\mu,\iota,e)\subseteq\X(G,\T,\A)$, where
+to $\X_L(G,\T,\A,\set{\mu,\iota,e})\subseteq\X(G,\T,\A)$, where
 $\X(G,\T,\A)$ is a Lie $\R$-algebra with the commutator bracket
 (Theorem~\ref{thm:vector-fields-lie-algebra}).
 We verify the three conditions.
@@ -2299,10 +2316,10 @@ because for any $g\in G$ and $f\in C^\infty(G,\T,\A)$,
 \[
 0_{\X(G)}(f\circ L_g)=0_{\X(G)}=0_{G\to\R}=0_{G\to\R}\circ L_g=0_{\X(G)}(f)\circ L_g.
 \]
-Hence $0_{\X(G)}\in\X_L(G,\T,\A,\mu,\iota,e)$.
+Hence $0_{\X(G)}\in\X_L(G,\T,\A,\set{\mu,\iota,e})$.
 
 \item (Closure under Vector Addition and Scalar Multiplication)
-Let $X,Y\in\X_L(G,\T,\A,\mu,\iota,e)$ and $\lambda\in\R$.
+Let $X,Y\in\X_L(G,\T,\A,\set{\mu,\iota,e})$ and $\lambda\in\R$.
 For any $g\in G$ and $f\in C^\infty(G,\T,\A)$,
 \[
 \begin{aligned}
@@ -2318,7 +2335,7 @@ For any $g\in G$ and $f\in C^\infty(G,\T,\A)$,
 Thus $X\pwplus\lambda\pwcdot Y$ is $\mu$-left-invariant.
 
 \item (Closure under the Lie Bracket)
-Let $X,Y\in\X_L(G,\T,\A,\mu,\iota,e)$.
+Let $X,Y\in\X_L(G,\T,\A,\set{\mu,\iota,e})$.
 For any $g\in G$ and $f\in C^\infty(G,\T,\A)$,
 \[
 \begin{aligned}
@@ -2332,22 +2349,22 @@ For any $g\in G$ and $f\in C^\infty(G,\T,\A)$,
 \end{aligned}
 \]
 Thus $[X,Y]_\circ$ is $\mu$-left-invariant, i.e.,
-$[X,Y]_\circ\in\X_L(G,\T,\A,\mu,\iota,e)$.
+$[X,Y]_\circ\in\X_L(G,\T,\A,\set{\mu,\iota,e})$.
 \end{enumerate}
 
 All three conditions of Theorem~\ref{thm:Lie-subalg-test} are satisfied,
 so
-$\Br{\X_L(G,\T,\A,\mu,\iota,e),\pwplus,\pwminus,0_{\X(G)},\pwcdot,
+$\Br{\X_L(G,\T,\A,\set{\mu,\iota,e}),\pwplus,\pwminus,0_{\X(G)},\pwcdot,
 [\bullet,\bullet]_\circ}$
 is a Lie $\R$-algebra.
 \end{proof}
 
 \begin{Thm}[Evaluation at the Identity is a Linear Isomorphism]
 \label{thm:ev-e-isomorphism}
-Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+Let $(G,\T,\A,\set{\mu,\iota,e})$ be a Lie group.
 The map
 \[
-\operatorname{ev}_e:\X_L(G,\T,\A,\mu,\iota,e)\to T_e(G,\T,\A),\qquad
+\operatorname{ev}_e:\X_L(G,\T,\A,\set{\mu,\iota,e})\to T_e(G,\T,\A),\qquad
 \operatorname{ev}_e(X)\df \eval{X}_{e},
 \]
 is a linear isomorphism.
@@ -2358,10 +2375,10 @@ is a linear isomorphism.
 The evaluation map $\operatorname{ev}_p$ on the full space $\X(M,\T,\A)$
 is linear (a consequence of the pointwise operations on
 $\L\Br{C^\infty(M,\T,\A)}$).  Restricting to the subspace
-$\X_L(G,\T,\A,\mu,\iota,e)$ preserves linearity.
+$\X_L(G,\T,\A,\set{\mu,\iota,e})$ preserves linearity.
 
 \item (Injectivity)
-Let $X\in\X_L(G,\T,\A,\mu,\iota,e)$ and suppose
+Let $X\in\X_L(G,\T,\A,\set{\mu,\iota,e})$ and suppose
 $\operatorname{ev}_e(X)=\eval{X}_{e}=0$.
 Let $g\in G$ and let $\SqBr{(U,f)}_{g}\in C_{g}^\infty(G)$ be an
 arbitrary germ at $g$.
@@ -2449,7 +2466,7 @@ X^v_{gh}\Br{\SqBr{(U,f)}_{gh}}
 &=X^v_h\Br{\SqBr{\Br{L_g\inv(U),f\circ L_g}}_{h}},
 \end{aligned}\]
 which, by Lemma~\ref{lem:left-inv-char}, means $X^v$ is
-$\mu$-left-invariant.  Hence $X^v\in\X_L(G,\T,\A,\mu,\iota,e)$.
+$\mu$-left-invariant.  Hence $X^v\in\X_L(G,\T,\A,\set{\mu,\iota,e})$.
 
 \item (Evaluation at the identity)
 For any germ $\SqBr{(U,f)}_{e}$ at $e$,
@@ -2466,15 +2483,15 @@ Thus $\operatorname{ev}_e(X^v)=v$, establishing surjectivity.
 \end{proof}
 
 \begin{Thm}[Lie Algebra of a Lie Group]
-Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group.
+Let $(G,\T,\A,\set{\mu,\iota,e})$ be a Lie group.
 Let $\g=T_e(G,\T,\A)$.
 For every $v\in\g$,
-let $X^v\in\X_L(G,\T,\A,\mu,\iota,e)$
+let $X^v\in\X_L(G,\T,\A,\set{\mu,\iota,e})$
 denote the \ul{unique} left-invariant smooth vector field satisfying
 $\eval{X^v}_{e}=v$.
 (Existence and uniqueness follows from
 \[
-\ev_e:\X_L(G,\T,\A,\mu,\iota,e)\xrightarrow{\cong} T_e(G,\T,\A)
+\ev_e:\X_L(G,\T,\A,\set{\mu,\iota,e})\xrightarrow{\cong} T_e(G,\T,\A)
 \]
 being an isomorphism.)
 Define a map $\SqBr{\bullet,\bullet}_\g:\g\times\g\to\g$ by
@@ -2482,9 +2499,9 @@ Define a map $\SqBr{\bullet,\bullet}_\g:\g\times\g\to\g$ by
 
 Then
 \[
-\Br{\g,\pwplus,\pwminus,\bm0_{T_e(G)},\pwcdot,\SqBr{\bullet,\bullet}_\g}
+\Br{\g,\set{\pwplus,\pwminus,\bm0_{T_e(G)},\pwcdot,\SqBr{\bullet,\bullet}_\g}}
 \]
-is a Lie $\R$-algebra, and $\ev_e:\X_L(G,\T,\A,\mu,\iota,e)\to\g$
+is a Lie $\R$-algebra, and $\ev_e:\X_L(G,\T,\A,\set{\mu,\iota,e})\to\g$
 is an isomorphism of Lie algebras.
 \end{Thm}
 \begin{proof}
@@ -2502,40 +2519,6 @@ onto $\g$, making $\Br{\g,\SqBr{\bullet,\bullet}_\g}$ a Lie $\R$-algebra
 and the map $\ev_e:\X_L(G)\to\g$ a Lie isomorphism.
 \end{proof}
 
-\section{Representation Theory}
-\begin{Def}
-Let $\Br{\g,+,-,\bm0,\cdot,\SqBr{\bullet,\bullet}_\g}$ be a Lie $\F$-algebra.
-Let $V$ be an $\F$-vector space.
-Recall that $\Br{\gl(V),\pwplus,\pwcdot,\SqBr{\bullet,\bullet}_\circ}$
-is a Lie $\F$-algebra.
-A \ul{representation of $\g$ on $V$} is a map $\pi:\g\to\gl(V)$
-that satisfies the following two properties:
-\begin{enumerate}
-\item($\F$-Linearity)
-$\forall X,Y\in\g,\forall\lambda\in\F:\quad
-\pi(X+\lambda\cdot Y)=\pi(X)\pwplus\lambda\pwcdot\pi(Y)
-$.
-\item(Preservation of the Bracket)
-\[\forall X,Y\in\g:\quad
-\pi\Br{\SqBr{X,Y}_\g}=\SqBr{\pi(X),\pi(Y)}_\circ
-=\pi(X)\circ\pi(Y)\pwminus\pi(Y)\circ\pi(X)
-.\]
-\end{enumerate}
-In other words, it is a Lie homomorphism from $\g$ to $\gl(V)$.
-The vector space $V$ is called the \ul{representation space}.
-\end{Def}
-
-\begin{Def}
-Let $\g$ be an Lie $\F$-algebra and $V$ be an $\F$-vector space.
-A representation $\pi:\g\to\gl(V)$ is said to be \ul{irreducible} iff:
-\[
-W\le V\tand\forall X\in\g:\FUNC{\pi(X)}{W}\subseteq W
-\qquad\implies\qquad W\in\set{\set{\bm0_{V}},V}.
-\]
-In other words, for any $X\in\g$,
-the only invariant subspaces of $V$ under $\pi(X)$ are the trivial ones.
-\end{Def}
-
 \begin{Def}
 Let $\g$ be an Lie $\F$-algebra.
 Let $\pi_1:\g\to\gl(V_1)$ and $\pi_2:\g\to\gl(V_2)$ be representations.
@@ -2544,127 +2527,1031 @@ there exists an linear isomorphism $T:V_1\to V_2$ such that:
 \[\forall X\in\g:\quad T\circ\pi_1(X)=\pi_2(X)\circ T.\]
 \end{Def}
 
-\section{Physics}
-
-\begin{Def}
-The \ul{General $\F$-Linear set of degree $n$},
-denoted by ``$\GLset(n;\F)$'', is defined as:
-\[
-\GLset(n;\F)\df\set{\bm A\in\F^{n,n}\st\det(\bm A)\ne 0}.
-\]
-\end{Def}
-
-\begin{Def}
-The \ul{standard smooth structure on $\R^{3,3}$},
-denoted by ``$\A_{\R^{3,3}}$'',
-is defined as the unique maximal smooth atlas on $\R^{3,3}$ that contains
-the $\Br{\R^{3,3},\T_{\dist_9}}$-chart $\Br{\R^{3,3},\id_{\R^{3,3}}}$.
-\end{Def}
-
-\begin{Def}
-The \ul{General $\R$-Linear group of degree $3$},
-denoted by ``$\GL(3;\R)$'', is defined as the following:
-\[
-\GL(3;\R)\df\Br{\GLset(3;\R),\eval{\T_{\dist_9}}_{\GLset(3;\R)},
-\eval{\A_{\R^{3,3}}}_{\GLset(3;\R)},\bullet\bullet,\bullet\inv,\bm I_3}.
-\]
-\end{Def}
-
-\begin{Def}
-The \ul{standard smooth structure on $\C^{2,2}$},
-denoted by ``$\A_{\C^{2,2}}$'',
-is the unique smooth structure on $\C^{2,2}$ that contains
-the $\Br{\C^{2,2},\T_{\dist_8}}$-chart $\Br{\C^{2,2},\id_{\C^{2,2}}}$,
-where $\C^{2,2}$ is identified with $\R^8$ via the natural map
-$(a_{ij}) \mapsto (\Re(a_{11}),\Im(a_{11}),\dots,\Re(a_{22}),\Im(a_{22}))$.
-\end{Def}
-
-\begin{Def}
-The \ul{General $\C$-Linear group of degree $2$},
-denoted by ``$\GL(2;\C)$'', is defined as the following:
-\[
-\GL(2;\C)\df\Br{\GLset(2;\C),\eval{\T_{\dist_8}}_{\GLset(2;\C)},
-\eval{\A_{\C^{2,2}}}_{\GLset(2;\C)},\bullet\bullet,\bullet\inv,\bm I_2}.
-\]
-\end{Def}
+\section{Matrix Lie Groups and Lie Algebras}
 
 \begin{Thm}[Closed Subgroup Theorem -- \'{E}.~Cartan]
 \label{cst}
-Let $(G,\T,\A,\mu,\iota,e)$ be a Lie group and let $H\subseteq G$
+Let $(G,\T,\A,\set{\mu,\iota,e})$ be a Lie group and let $H\subseteq G$
 be a subgroup with $G\setminus H\in\T$.
 Then there exists a unique smooth structure $\A_H$
 satisfying the following two properties:
 \begin{enumerate}
 \item $\iota_H\colon H\hookrightarrow G$ is a smooth embedding.
-\item $\Br{H,\eval{\T}_H,\A_H,\eval{\mu}_{H\times H},\eval{\iota}_H,e}$
+\item $\Br{H,\eval{\T}_H,\A_H,\set{\eval{\mu}_{H\times H},\eval{\iota}_H,e}}$
 is a Lie group.
 \end{enumerate}
 \end{Thm}
 (The proof is very long.)
 
+
 \begin{Def}
-The \ul{Special Orthorgonal set of degree $n$},
-denoted by ``$\SOset(n)$'', is defined as:
+The \ul{General $\F$-Linear set of degree $n$},
+denoted by ``$\GLset(n;\F)$'', is defined as:
+\[
+\GLset(n;\F)\df\set{\bm A\in\F^{n,n}\st\det\Br{\bm A}\ne 0}.
+\]
+\end{Def}
+
+\begin{Def}
+The \ul{standard smooth structure on $\R^{n,n}$},
+denoted by ``$\A_{\R^{n,n}}$'',
+is defined as the unique maximal smooth atlas on $\R^{n,n}$ that contains
+the $\Br{\R^{n,n},\T_{\R^{n^2}}}$-chart $\Br{\R^{n,n},\id_{\R^{n,n}}}$.
+\end{Def}
+
+\begin{Def}
+The \ul{General $\R$-Linear Lie group of degree $n$},
+denoted by ``$\GL(n;\R)$'', is defined as the following:
+\[
+\GL(n;\R)\df\Br{\GLset(n;\R),\eval{\T_{\R^{n^2}}}_{\GLset(n;\R)},
+\eval{\A_{\R^{n,n}}}_{\GLset(n;\R)},\set{
+\bullet\bullet,\bullet\inv,\bm I_n}}.
+\]
+\end{Def}
+
+\begin{Def}
+The \ul{Special Orthorgonal Lie group of degree n}, denoted by ``$\SO(n)$'',
+is defined as the following:
+\[
+\SO(n)\df\Br{\SOset(n),\eval{\T_{\R^{n^2}}}_{\SOset(n)},\A_{\SO(n)},
+\set{\bullet\bullet,\bullet\transp,\bm I_n}},
+\]
+where
 \[
 \SOset(n)\df\set{\bm R\in\R^{n,n}\st\bm R\transp\bm R=\bm I_n
-\tand\det(\bm R)=1}.
+\tand\det\Br{\bm R}=1},
+\]
+and $\A_{\SO(n)}$ is the unique smooth structure as per \ref{cst}
+when considering $\SO(n)$ as a closed subgroup of $\GL(n;\R)$.
+\end{Def}
+
+\begin{Def}
+The \ul{standard smooth structure on $\C^{n,n}$},
+denoted by ``$\A_{\C^{n,n}}$'',
+is the unique smooth structure on $\C^{n,n}$ that contains
+the $\Br{\C^{n,n},\T_{\R^{2n^2}}}$-chart $\Br{\C^{n,n},\id_{\C^{n,n}}}$,
+where $\C^{n,n}$ is identified with $\R^{2n^2}$ via the natural map
+$(a_{ij}) \mapsto (\Re(a_{11}),\Im(a_{11}),\dots,\Re(a_{nn}),\Im(a_{nn}))$.
+\end{Def}
+
+\begin{Def}
+The \ul{General $\C$-Linear Lie group of degree $n$},
+denoted by ``$\GL(n;\C)$'', is defined as the following:
+\[
+\GL(n;\C)\df\Br{\GLset(n;\C),\eval{\T_{\R^{2n^2}}}_{\GLset(n;\C)},
+\eval{\A_{\C^{n,n}}}_{\GLset(n;\C)},\set{
+\bullet\bullet,\bullet\inv,\bm I_n}}.
 \]
 \end{Def}
 
 \begin{Def}
-The \ul{Special Orthorgonal group of degree 3}, denoted by ``$\SO(3)$'',
+The \ul{Special Unitary Lie group of degree n}, denoted by ``$\SU(n)$'',
 is defined as the following:
 \[
-\SO(3)\df\Br{\SOset(3),\eval{\T_{\dist_9}}_{\SOset(3)},\A_{\SO(3)},
-\bullet\bullet,\bullet\transp,\bm I_3},
+\SU(n)\df\Br{\SUset(n),\eval{\T_{\R^{2n^2}}}_{\SUset(n)},\A_{\SU(n)},
+\set{\bullet\bullet,\bullet\herm,\bm I_n}},
 \]
-where $\A_{\SO(3)}$ is the unique smooth structure as per \ref{cst}
-when considering $\SO(3)$ as a closed subgroup of $\GL(3;\R)$.
-\end{Def}
-
-\begin{Def}
-The \ul{Rigid Rotation Group}, is defined as the group ``$\SO(3)$''.
-\end{Def}
-
-\begin{Def}
-The \ul{Special Unitary set of degree $n$},
-denoted by ``$\SUset(n)$'', is defined as:
+where
 \[
 \SUset(n)\df\set{\bm U\in\C^{n,n}\st\bm U\herm\bm U=\bm I_n
-\tand\det(\bm U)=1}.
+\tand\det\Br{\bm U}=1}.
+\]
+and $\A_{\SU(n)}$ is the unique smooth structure as per \ref{cst}
+when considering $\SU(n)$ as a closed subgroup of $\GL(n;\C)$.
+\end{Def}
+
+\begin{Def}
+The \ul{General $\R$-Linear Lie algebra of degree $n$},
+denoted by ``$\gl(n;\R)$'', is defined as the following:
+\[
+\gl(n;\R)\df\Br{\R^{n,n},\set{+,-,\bm0_n,\cdot_\R,\SqBr{\bullet,\bullet}}}.
 \]
 \end{Def}
 
 \begin{Def}
-The \ul{Special Unitary group of degree 2}, denoted by ``$\SU(2)$'',
-is defined as the following:
+The \ul{Special Orthogonal Lie algebra of degree $n$},
+denoted by ``$\so(n)$'', is defined as the following:
 \[
-\SU(2)\df\Br{\SUset(2),\eval{\T_{\dist_8}}_{\SUset(2)},\A_{\SU(2)},
-\bullet\bullet,\bullet\herm,\bm I_2},
+\so(n)\df\Br{\soset(n),\set{+,-,\bm0_n,\cdot_\R,\SqBr{\bullet,\bullet}}},
 \]
-where $\A_{\SU(2)}$ is the unique smooth structure as per \ref{cst}
-when considering $\SU(2)$ as a closed subgroup of $\GL(2;\C)$.
+where
+\[
+\soset(n)\df\set{\bm R\in\R^{n,n}\st\bm R\transp+\bm R=\bm0_n}.
+\]
 \end{Def}
 
-\begin{lemma}[Hadamard]
-Let $U\in\T_{\dist_n}$.
-Let $f:U\to\R^n$ be smooth w.r.t. $A_{\dist_n}$
+\begin{Def}
+The \ul{General $\C$-Linear Lie algebra of degree $n$},
+denoted by ``$\gl(n;\C)$'', is defined as the following:
+\[
+\gl(n;\C)\df\Br{\C^{n,n},\set{+,-,\bm0_n,\cdot_\C,\SqBr{\bullet,\bullet}}}.
+\]
+\end{Def}
+
+\begin{Def}
+The \ul{Special Unitary Lie algebra of degree $n$},
+denoted by ``$\su(n)$'', is defined as the following:
+\[
+\su(n)\df\Br{\suset(n),\set{+,-,\bm0_n,\cdot_\C,\SqBr{\bullet,\bullet}_\circ}},
+\]
+where
+\[
+\suset(n)\df\set{\bm U\in\C^{n,n}\st\bm U\herm+\bm U=\bm0_n\tand\tr(\bm U)=0}.
+\]
+\end{Def}
+
+
+\begin{lemma}[Hadamard]\label{lem:hadamard}
+  Let $U\in\T_{\R^n}$ be a convex set.
+  Let $p\in U$. Let $f:U\to\R$ be smooth w.r.t. $\A_{\R^n}$.
+  Then there exist smooth functions $g_1,\dots,g_n:U\to\R$ such that
+  \[
+  f(x) = f(p) + \sum_{i=1}^n\Br{x^i-p^i}g_i(x),
+  \qquad
+  g_i(p) = \frac{\partial f}{\partial x^i}(p).
+  \]
 \end{lemma}
 
-\begin{Thm}
-\[
-T_{I_3}\GL_{I_3}(3;\R)\cong\Br{\R^9,\T}
-\]
-\end{Thm}
-\[\begin{aligned}
-T_{I_3}\GL(3,\R)
-&=\set{v:C_{I_3}^\infty\GL(3,\R)\to\R\st v~\text{is a derivation at $I_3$}}
-\end{aligned}\]
-For each $i,j\in\set{1,2,3}$, let the map $x_{ij}:\GLset(3,\R)\to\R$
-be defined by:
-\[\forall\bm A=(a_{ij})\in\GLset(3;\R):\quad x_{ij}(\bm A)\df a_{ij}.\]
+\begin{lemma}[Linear Identification of the Tangent Space at the Identity]\label{lem:gl-identification}
+  Let $G=\GL(n;\R)$ and $e=\bm I_n$.
+  Define $\Phi:T_e G\to\R^{n,n}$ by
+  \[
+    \forall v\in T_e G:\quad
+    \Phi(v)\df\Br{v(x_{ij})}_{i,j=1}^n,
+  \]
+  where $x_{ij}:\GLset(n;\R)\to\R$ are the standard coordinate functions.
+  Then $\Phi$ is a linear isomorphism $T_e G\cong\R^{n,n}$.
+\end{lemma}
+\begin{proof}
+  Because $\GLset(n;\R)$ is open in $\R^{n,n}\cong\R^{n^2}$,
+  the identity map restricts to a global chart
+  $\Br{\GLset(n;\R),\id_{\GLset(n;\R)}}$ in the smooth structure of $G$.
+  Hence every derivation at $e$ is determined by its action on the $x_{ij}$.
 
-testing
+  \begin{enumerate}
+  \item (Linearity) Each $v\mapsto v(x_{ij})$ is linear, so $\Phi$ is linear.
+
+  \item (Injectivity) Suppose $\Phi(v)=0$, i.e.\ $v(x_{ij})=0$ for all $i,j$.
+  For any $f\in C^\infty(G)$, restrict to a convex neighbourhood of $e$.
+  By Hadamard's Lemma (Lemma~\ref{lem:hadamard}), there exist smooth $g_{ij}$ such that
+  \[
+    f(\bm A) = f(\bm I_n) + \sum_{i,j} \Br{a_{ij}-\delta_{ij}}\,g_{ij}(\bm A).
+  \]
+  Applying $v$, the constant term yields $0$.  For each summand:
+  \[
+    v\Br{\Br{x_{ij}-\delta_{ij}}g_{ij}}
+    = \Br{x_{ij}(e)-\delta_{ij}}\,v(g_{ij}) + g_{ij}(e)\,v\Br{x_{ij}-\delta_{ij}}
+    = 0,
+  \]
+  since $x_{ij}(e)=\delta_{ij}$ and $v(x_{ij})=0$.  Thus $v(f)=0$ for all $f$, so $v=0$.
+
+  \item (Surjectivity) For $\bm\xi\in\R^{n,n}$, define
+  $v_{\bm\xi}:C^\infty(G)\to\R$ by
+  \[
+    \forall f\in C^\infty(G):\quad
+    v_{\bm\xi}(f)\df\eval{\frac{\dd}{\dd t} f(\bm I_n + t\bm\xi)}_{t=0}.
+  \]
+  For small $t$, $\det\Br{\bm I_n+t\bm\xi}\neq 0$, so $\bm I_n+t\bm\xi\in G$.
+  Then $v_{\bm\xi}(x_{ij})=\xi_{ij}$, so $\Phi(v_{\bm\xi})=\bm\xi$.
+  Thus $\Phi$ is surjective.
+  \end{enumerate}
+  Therefore $\Phi:T_e G\to\R^{n,n}$ is a linear isomorphism.
+\end{proof}
+
+\begin{lemma}[Left-Invariant Vector Fields on Matrix Lie Groups]\label{lem:matrix-left-invariant}
+  Let $G=\GL(n;\R)$ and $e=\bm I_n$.  Let $\Phi$ be the isomorphism from
+  Lemma~\ref{lem:gl-identification}.  For any $\bm A\in\R^{n,n}$, define
+  $X^{\bm A}:C^\infty(G)\to C^\infty(G)$ by
+  \[
+    \forall g\in G,\forall f\in C^\infty(G):\quad
+    \FUNC{X^{\bm A}(f)}{g}\df
+    \eval{\frac{\dd}{\dd t} f\Br{g\Br{\bm I_n + t\bm A}}}_{t=0}.
+  \]
+  Then $X^{\bm A}\in\X_L(G)$ and $\ev_e(X^{\bm A})$ is the unique
+  tangent vector satisfying $\Phi(\ev_e(X^{\bm A}))=\bm A$, i.e.\
+  $X^{\bm A}$ is the unique left‑invariant field corresponding to
+  $\Phi^{-1}(\bm A)$.
+\end{lemma}
+\begin{proof}
+  The map $t\mapsto g(\bm I_n+t\bm A)$ is a smooth curve in $G$ for
+  small $t$, so the derivative exists and defines a smooth function
+  $X^{\bm A}f$.  Left‑invariance: for any $h\in G$,
+  \[
+    \begin{aligned}
+    \FUNC{X^{\bm A}(f\circ L_h)}{g}
+    &= \eval{\frac{\dd}{\dd t} f\Br{h g \Br{\bm I_n + t\bm A}}}_{t=0} \\
+    &= \FUNC{X^{\bm A}(f)}{h g}
+    = \FUNC{(X^{\bm A}f)\circ L_h}{g},
+    \end{aligned}
+  \]
+  so $X^{\bm A}\in\X_L(G)$.  Evaluating at the identity on the coordinate functions:
+  \[
+    \FUNC{\ev_e(X^{\bm A})}{x_{ij}}
+    = \eval{\frac{\dd}{\dd t} (\delta_{ij} + t A_{ij})}_{t=0}
+    = A_{ij},
+  \]
+  hence $\Phi(\ev_e(X^{\bm A})) = \bm A$.
+\end{proof}
+
+\begin{lemma}[Commutator of Left-Invariant Fields on Matrix Lie Groups]\label{lem:matrix-commutator}
+  Let $G=\GL(n;\R)$.  For $\bm A,\bm B\in\R^{n,n}$,
+  let $X^{\bm A},X^{\bm B}$ be the left‑invariant vector fields from
+  Lemma~\ref{lem:matrix-left-invariant}.  Then
+  \[
+    \SqBr{X^{\bm A}, X^{\bm B}} = X^{\SqBr{\bm A,\bm B}},
+    \qquad
+    \SqBr{\bm A,\bm B}\df\bm A\bm B - \bm B\bm A.
+  \]
+\end{lemma}
+\begin{proof}
+  \begin{enumerate}
+  \item (Second derivative decomposition)
+  For $f\in C^\infty(G)$ and $g\in G$,
+  \[
+    \FUNC{X^{\bm A}(X^{\bm B}f)}{g}
+    =\eval{\frac{\partial^2}{\partial t\,\partial s}
+      f\Br{g(\bm I_n + t\bm A)(\bm I_n + s\bm B)}}_{(t,s)=(0,0)}.
+  \]
+  Expand the matrix product:
+  \[
+    (\bm I_n + t\bm A)(\bm I_n + s\bm B)
+    =\bm I_n + t\bm A + s\bm B + ts\bm A\bm B.
+  \]
+  Hence
+  \[
+    \FUNC{X^{\bm A}(X^{\bm B}f)}{g}
+    =\eval{\frac{\partial^2}{\partial t\,\partial s}
+      f\Br{g\Br{\bm I_n + t\bm A + s\bm B + ts\bm A\bm B}}}_{(t,s)=(0,0)}.
+  \]
+
+  \item (Chain rule expansion)
+  Let $\bm H(t,s)\df\bm I_n + t\bm A + s\bm B + ts\bm A\bm B$.
+  By the chain rule for partial derivatives,
+  \[
+    \frac{\partial^2}{\partial t\,\partial s}
+    f(g\bm H(t,s))
+    =\sum_{p,q,r,\ell=1}^n
+    \frac{\partial^2 f}{\partial x_{pq}\,\partial x_{r\ell}}(g\bm H)
+    \cdot\frac{\partial}{\partial t}(g\bm H)_{pq}
+    \cdot\frac{\partial}{\partial s}(g\bm H)_{r\ell}
+    +\sum_{p,q=1}^n
+    \frac{\partial f}{\partial x_{pq}}(g\bm H)
+    \cdot\frac{\partial^2}{\partial t\,\partial s}(g\bm H)_{pq}.
+  \]
+  Evaluate at $(t,s)=(0,0)$.  Since $\bm H(0,0)=\bm I_n$,
+  \[
+    \begin{aligned}
+    \frac{\partial}{\partial t}(g\bm H)_{pq}\Big|_{(t,s)=(0,0)} &= (g\bm A)_{pq}, \\
+    \frac{\partial}{\partial s}(g\bm H)_{r\ell}\Big|_{(t,s)=(0,0)} &= (g\bm B)_{r\ell}, \\
+    \frac{\partial^2}{\partial t\,\partial s}(g\bm H)_{pq}\Big|_{(t,s)=(0,0)} &= (g\bm A\bm B)_{pq}.
+    \end{aligned}
+  \]
+
+  \item (Symmetrize and subtract)
+  The mixed second derivative $\frac{\partial^2}{\partial t\,\partial s}$ is symmetric in $t,s$,
+  so the first sum (the quadratic form) is symmetric in $\bm A,\bm B$.
+  Therefore
+  \[
+    \begin{aligned}
+    \FUNC{X^{\bm A}(X^{\bm B}f)}{g}
+    &=
+    \underbrace{\sum_{p,q,r,\ell}
+    \frac{\partial^2 f}{\partial x_{pq}\,\partial x_{r\ell}}(g) \cdot
+    (g\bm A)_{pq} \cdot (g\bm B)_{r\ell}}_{\text{symmetric in }\bm A,\bm B}
+    +\sum_{p,q}
+    \frac{\partial f}{\partial x_{pq}}(g) \cdot
+    (g\bm A\bm B)_{pq}.
+    \end{aligned}
+  \]
+  Similarly,
+  \[
+    \FUNC{X^{\bm B}(X^{\bm A}f)}{g}
+    =
+    \underbrace{\sum_{p,q,r,\ell}
+    \frac{\partial^2 f}{\partial x_{pq}\,\partial x_{r\ell}}(g) \cdot
+    (g\bm B)_{pq} \cdot (g\bm A)_{r\ell}}_{\text{same symmetric part}}
+    +\sum_{p,q}
+    \frac{\partial f}{\partial x_{pq}}(g) \cdot
+    (g\bm B\bm A)_{pq}.
+  \]
+
+  \item (Commutator)
+  Subtracting cancels the symmetric quadratic form, leaving
+  \[
+    \begin{aligned}
+    \FUNC{\SqBr{X^{\bm A}, X^{\bm B}}(f)}{g}
+    &=\FUNC{X^{\bm A}(X^{\bm B}f)}{g}
+      -\FUNC{X^{\bm B}(X^{\bm A}f)}{g} \\
+    &=\sum_{p,q}
+    \frac{\partial f}{\partial x_{pq}}(g)
+    \cdot g(\bm A\bm B-\bm B\bm A)_{pq}.
+    \end{aligned}
+  \]
+
+  \item (Rewrite as a single directional derivative)
+  For any matrix $\bm C\in\R^{n,n}$,
+  \[
+    \FUNC{X^{\bm C}(f)}{g}
+    =\eval{\frac{\dd}{\dd \tau}
+      f\Br{g\Br{\bm I_n+\tau\bm C}}}_{\tau=0}
+    =\sum_{p,q}
+    \frac{\partial f}{\partial x_{pq}}(g)
+    \cdot(g\bm C)_{pq}.
+  \]
+  Setting $\bm C=\bm A\bm B-\bm B\bm A=\SqBr{\bm A,\bm B}$, we obtain
+  \[
+    \FUNC{\SqBr{X^{\bm A}, X^{\bm B}}(f)}{g}
+    =\FUNC{X^{\SqBr{\bm A,\bm B}}(f)}{g},
+    \qquad\forall f\in C^\infty(G),\;\forall g\in G.
+  \]
+  Hence $\SqBr{X^{\bm A}, X^{\bm B}} = X^{\SqBr{\bm A,\bm B}}$.
+  \end{enumerate}
+\end{proof}
+
+
+\begin{Thm}\label{thm:Lie-GLnR}
+$\Lie\Br{\GL(n;\R)}\cong\gl(n;\R)$.
+\end{Thm}
+\begin{proof}
+  Let $G=\GL(n;\R)$, $e=\bm I_n$.  By Lemma~\ref{lem:gl-identification},
+  $\Phi:T_e G\to\R^{n,n}$ is a linear isomorphism.
+  By Lemma~\ref{lem:matrix-left-invariant}, for each $\bm A\in\R^{n,n}$
+  the field $X^{\bm A}$ is the unique left‑invariant field with
+  $\Phi(\ev_e(X^{\bm A}))=\bm A$, i.e.\ $X^{\bm A}=X^{\Phi^{-1}(\bm A)}$.
+  By Lemma~\ref{lem:matrix-commutator},
+  $\SqBr{X^{\bm A}, X^{\bm B}} = X^{\SqBr{\bm A,\bm B}}$.
+
+  By the ``Lie Algebra of a Lie Group'' theorem, the bracket on
+  $\Lie(G)=T_e G$ is $\SqBr{v,w}_{\Lie}\df\ev_e\Br{\SqBr{X^v,X^w}}$.
+  For $v=\Phi^{-1}(\bm A)$, $w=\Phi^{-1}(\bm B)$ we have
+  $X^v=X^{\bm A}$, $X^w=X^{\bm B}$, hence
+  \[
+    \Phi\Br{\SqBr{v,w}_{\Lie}}
+    = \Phi\Br{\ev_e(X^{\SqBr{\bm A,\bm B}})}
+    = \SqBr{\bm A,\bm B}
+    = \SqBr{\Phi(v),\Phi(w)}.
+  \]
+  Therefore $\Phi$ is a bijective Lie algebra homomorphism
+  $\Lie\Br{\GL(n;\R)}\cong\gl(n;\R)$.
+\end{proof}
+
+\begin{Thm}\label{thm:Lie-GLnC}
+$\Lie\Br{\GL(n;\C)}\cong\gl(n;\C)$.
+\end{Thm}
+\begin{proof}
+  Identify $\C^{n,n}$ with $\R^{2n^2}$ via the natural real coordinate map.
+  The same construction as in the real case, with coordinate functions
+  $u_{ij}=\Re(x_{ij})$, $v_{ij}=\Im(x_{ij})$, yields a linear isomorphism
+  $\Phi:T_{\bm I_n}\GL(n;\C)\to\C^{n,n}$ via
+  $\Phi(v)\df\Br{v(u_{ij})+\ii\,v(v_{ij})}_{i,j}$
+  (the injectivity argument uses Hadamard's Lemma in $2n^2$ real variables).
+
+  For $\bm A\in\C^{n,n}$, define $X^{\bm A}$ by the same formula
+  $X^{\bm A}(f)(g)=\eval{\frac{\dd}{\dd t}f(g(\bm I_n+t\bm A))}_{t=0}$.
+  The left‑invariance proof is identical (Lemma~\ref{lem:matrix-left-invariant}),
+  and the commutator computation is purely algebraic, independent of the field
+  (Lemma~\ref{lem:matrix-commutator}):
+  $\SqBr{X^{\bm A},X^{\bm B}}=X^{\SqBr{\bm A,\bm B}}$.
+
+  Transporting the bracket from left‑invariant fields to $T_{\bm I_n}\GL(n;\C)$
+  through $\Phi$ as above yields $\Lie\Br{\GL(n;\C)}\cong\gl(n;\C)$.
+\end{proof}
+
+\begin{Thm}\label{thm:Lie-SOn}
+$\Lie\Br{\SO(n)} \cong \so(n)$.
+\end{Thm}
+\begin{proof}
+  By Lemma~\ref{lem:gl-identification}, identify $T_{\bm I_n}\GL(n;\R)$
+  with $\R^{n,n}$ via $\Phi(v)=\Br{v(x_{ij})}_{i,j}$.
+
+  Define $F:\GL(n;\R)\to\operatorname{Sym}(n)$ by
+  $F(\bm A)\df\bm A\transp\bm A$.  Its differential at the identity is
+  \[
+    \dd F_{\bm I_n}(\bm X)
+    =\eval{\frac{\dd}{\dd t}(\bm I_n+t\bm X)\transp(\bm I_n+t\bm X)}_{t=0}
+    =\bm X\transp+\bm X.
+  \]
+
+  The group $\SO(n)=F^{-1}(\set{\bm I_n})\cap\det{}^{-1}(\set{1})$.
+  Differentiating $\bm A\transp\bm A=\bm I_n$ at $\bm A=\bm I_n$ gives
+  $\bm X\transp+\bm X=\bm0_n$, i.e.\ $\bm X\in\Null{\dd F_{\bm I_n}}$.
+  Differentiating $\det(\bm A)=1$ gives $\tr(\bm X)=0$, but this is
+  redundant for skew‑symmetric matrices (diagonal entries vanish).
+  Conversely, any $\bm X$ with $\bm X\transp+\bm X=\bm0_n$ exponentiates
+  to a curve in $\SO(n)$.  Hence
+  \[
+    T_{\bm I_n}\SO(n)=\Null{\dd F_{\bm I_n}}
+    =\set{\bm X\in\R^{n,n}\st\bm X\transp+\bm X=\bm0_n}
+    =\soset(n).
+  \]
+
+  By Theorem~\ref{thm:Lie-GLnR}, the Lie bracket on
+  $\Lie\Br{\GL(n;\R)}\cong\gl(n;\R)$ is the matrix commutator.
+  The bracket on the Lie subalgebra $\Lie\Br{\SO(n)}$ is the restriction.
+  Since $\soset(n)$ is closed under the matrix commutator (the commutator
+  of skew‑symmetric matrices is skew‑symmetric), the identification
+  $T_{\bm I_n}\SO(n)\cong\soset(n)$ is a Lie algebra isomorphism.
+\end{proof}
+
+
+\begin{Thm}\label{thm:Lie-SUn}
+$\Lie\Br{\SU(n)} \cong \su(n)$.
+\end{Thm}
+\begin{proof}
+  As in Theorem~\ref{thm:Lie-GLnC}, identify
+  $T_{\bm I_n}\GL(n;\C)$ with $\C^{n,n}$ via the coordinate functions.
+
+  Define $G(\bm A)\df\bm A\herm\bm A$ and $h(\bm A)\df\det\Br{\bm A}$ on
+  $\GL(n;\C)$.  Their differentials at the identity are
+  \[
+    \dd G_{\bm I_n}(\bm X)=\bm X\herm+\bm X,\qquad
+    \dd h_{\bm I_n}(\bm X)=\tr(\bm X).
+  \]
+
+  The group $\SU(n)=G^{-1}(\set{\bm I_n})\cap h^{-1}(\set{1})$.
+  Differentiating the defining equations gives
+  $\bm X\herm+\bm X=\bm0_n$ and $\tr(\bm X)=0$.  Conversely, any
+  $\bm X\in\C^{n,n}$ satisfying both conditions exponentiates to a
+  curve in $\SU(n)$.  Hence
+  \[
+    T_{\bm I_n}\SU(n)=\Null{\dd G_{\bm I_n}}\cap\Null{\dd h_{\bm I_n}}
+    =\set{\bm X\in\C^{n,n}\st\bm X\herm=-\bm X,\;\tr(\bm X)=0}
+    =\suset(n).
+  \]
+
+  By Theorem~\ref{thm:Lie-GLnC}, the Lie bracket on
+  $\Lie\Br{\GL(n;\C)}\cong\gl(n;\C)$ is the matrix commutator.
+  The bracket on $\Lie\Br{\SU(n)}$ is the restriction.  Since the
+  commutator of traceless skew‑Hermitian matrices is again traceless
+  and skew‑Hermitian, $\suset(n)$ is closed under the bracket.
+  Thus the identification is a Lie algebra isomorphism.
+\end{proof}
+
+
+\begin{Def}
+The \ul{Special $\C$-Linear Lie group of degree $n$},
+denoted by ``$\SL(n;\C)$'', is defined as the following:
+\[
+\SL(n;\C)\df\Br{\SLset(n;\C),\eval{\T_{\R^{2n^2}}}_{\SLset(n;\C)},
+\A_{\SL(n;\C)},\set{\bullet\bullet,\bullet\inv,\bm I_n}},
+\]
+where
+\[
+\SLset(n;\C)\df\set{\bm A\in\C^{n,n}\st\det\Br{\bm A}=1},
+\]
+and $\A_{\SL(n;\C)}$ is the unique smooth structure as per Theorem~\ref{cst}
+when considering $\SL(n;\C)$ as a closed subgroup of $\GL(n;\C)$.
+\end{Def}
+
+\begin{Def}
+The \ul{Special $\C$-Linear Lie algebra of degree $n$},
+denoted by ``$\sl(n;\C)$'', is defined as the following:
+\[
+\sl(n;\C)\df\Br{\slset(n;\C),\set{+,-,\bm0_n,\cdot_\C,\SqBr{\bullet,\bullet}}},
+\]
+where
+\[
+\slset(n;\C)\df\set{\bm X\in\C^{n,n}\st\tr\Br{\bm X}=0}.
+\]
+\end{Def}
+
+\begin{Def}
+The \ul{Special $\C$-Linear Lie algebra of degree $2$},
+denoted by ``$\sl(2;\C)$'', is the Lie $\C$-algebra
+\[
+\sl(2;\C)\df\Br{\slset(2;\C),\set{+,-,\bm0_2,\cdot_\C,\SqBr{\bullet,\bullet}}}.
+\]
+\end{Def}
+
+
+\begin{Def}[Adjoint Representation of a Matrix Lie Group]\label{def:adjoint-group}
+Let $G\subseteq\GL(n;\F)$ be a matrix Lie group with Lie algebra
+$\g\subseteq\F^{n,n}$.
+The \ul{adjoint representation of $G$} is the map
+$\operatorname{Ad}:G\to\GL(\g)$ defined by:
+\[
+\forall g\in G,\forall X\in\g:\quad
+\FUNC{\operatorname{Ad}(g)}{X}\df g X g\inv.
+\]
+\end{Def}
+
+\begin{Def}[Adjoint Representation of a Lie Algebra]\label{def:adjoint-algebra}
+Let $\Br{\g,\set{+,-,\bm0,\cdot,\SqBr{\bullet,\bullet}}}$ be a Lie $\F$-algebra.
+The \ul{adjoint representation of $\g$} is the map
+$\operatorname{ad}:\g\to\gl(\g)$ defined by:
+\[
+\forall X,Y\in\g:\quad
+\FUNC{\operatorname{ad}(X)}{Y}\df\SqBr{X,Y}.
+\]
+\end{Def}
+
+
+\section{Representation Theory}
+\begin{Def}
+Let $\Br{\g,\set{+,-,\bm0,\cdot,\SqBr{\bullet,\bullet}_\g}}$ be a Lie $\F$-algebra.
+Let $V$ be an $\F$-vector space.
+Recall that $\Br{\gl(V),\set{\pwplus,\pwminus,\pwzero,\pwcdot,\SqBr{\bullet,\bullet}_\circ}}$
+is a Lie $\F$-algebra.
+A \ul{representation of $\g$ on $V$} is a map $\pi:\g\to\gl(V)$
+that satisfies the following two properties:
+\begin{enumerate}
+\item($\F$-Linearity)
+$\forall X,Y\in\g,\forall\lambda\in\F:\quad
+\pi(X+\lambda\cdot Y)=\pi(X)\pwplus\lambda\pwcdot\pi(Y)$.
+\item(Preservation of the Bracket)
+$\forall X,Y\in\g:\quad
+\pi\Br{\SqBr{X,Y}_\g}=\SqBr{\pi(X),\pi(Y)}_\circ
+=\pi(X)\circ\pi(Y)\pwminus\pi(Y)\circ\pi(X)$.
+\end{enumerate}
+In other words, it is a Lie algebra homomorphism from $\g$ to $\gl(V)$.
+The vector space $V$ is called the \ul{representation space}.
+The representation is said to be:
+\begin{itemize}
+\item \ul{irreducible} iff:
+\[
+W\le V\tand\forall X\in\g:\FUNC{\pi(X)}{W}\subseteq W
+\qquad\implies\qquad W\in\set{\set{\bm0_{V}},V}.
+\]
+\item \ul{unitary} (when $\F=\C$ and $V$ is an inner product space) iff
+$\forall X\in\g:\quad\pi(X)\herm=-\pi(X)$.
+\end{itemize}
+\end{Def}
+
+
+\begin{Def}
+Let $\Br{G,\T_G,\A_G,\set{\mu,\iota,e}}$ be a Lie group and
+$\Br{V,\set{+,-,\bm0_V,\cdot}}$ be an $\F$-vector space.
+Recall that $\Br{\GL(V),\T_{\GL(V)},\A_{\GL(V)},\set{\circ,\bullet\inv,I_V}}$ is a Lie group.
+A \ul{representation of $G$ on $V$} is a map
+$\Pi:G\to\GL(V)$ that satisfies the following properties:
+\begin{enumerate}
+\item (Smoothness)
+$\Pi$ is smooth w.r.t.\ the smooth structures of $G$ and $\GL(V)$.
+\item (Preservation of Multiplication)
+$\forall g,h\in G:\quad\Pi(gh)=\Pi(g)\circ\Pi(h)$.
+\item (Preservation of Identity)
+$\Pi(e)=I_V$.
+\end{enumerate}
+In other words, it is a Lie group homomorphism from $G$ to $\GL(V)$.
+The representation is said to be:
+\begin{itemize}
+\item \ul{irreducible} iff:
+\[
+W\le V\tand\forall g\in G:\FUNC{\Pi(g)}{W}\subseteq W
+\qquad\implies\qquad W\in\set{\set{\bm0_{V}},V}.
+\]
+\item \ul{unitary} (when $\F=\C$ and $V$ is an inner product space) iff
+$\forall g\in G:\quad\Pi(g)\herm\Pi(g)=I_V$.
+\end{itemize}
+\end{Def}
+
+
+\begin{Def}[Derived Representation]\label{def:derived-rep}
+Let $G\subseteq\GL(n;\F)$ be a matrix Lie group with
+$\Lie\Br{G}\cong\g\subseteq\F^{n,n}$.
+Let $\Pi:G\to\GL(V)$ be a representation of $G$ on an $\F$-vector space $V$.
+The \ul{derived representation} of $\Pi$ is the Lie algebra representation
+$\dd\Pi:\g\to\gl(V)$ defined by:
+\[
+\forall X\in\g,\forall v\in V:\quad
+\FUNC{\dd\Pi(X)}{v}\df
+\eval{\frac{\dd}{\dd t}\FUNC{\Pi(\bm I_n + tX)}{v}}_{t=0}.
+\]
+(For sufficiently small $t$, $\bm I_n+tX\in G$ because $\g$ is the tangent space
+at the identity.)
+\end{Def}
+
+
+\begin{Def}
+A \ul{projective representation} of a Lie group $G$ on an $\F$-vector space $V$
+is a smooth map $\rho:G\to\GL(V)$ together with a smooth function
+$\omega:G\times G\to\F^\times$ such that:
+\begin{enumerate}
+\item (Projective Multiplication)
+$\forall g,h\in G:\quad\rho(g)\circ\rho(h)=\omega(g,h)\,\rho(gh)$.
+\item (Normalization at the Identity)
+$\rho(e)=I_V$.
+\end{enumerate}
+The function $\omega$ is called the \ul{Schur multiplier}
+of the projective representation.
+\end{Def}
+
+\begin{Def}
+Let $\Br{\g,\set{+,-,\bm0,\cdot,\SqBr{\bullet,\bullet}_\g}}$ be a Lie $\R$-algebra.
+Its \ul{complexification}, denoted by ``$\g_\C$'', is defined as:
+\[
+\g_\C\df\g\otimes_\R\C
+=\set{X+\ii Y\st X,Y\in\g},
+\]
+which is a Lie $\C$-algebra under the bracket extended $\C$-bilinearly:
+\[
+\forall X_1,X_2,Y_1,Y_2\in\g:\quad
+\SqBr{X_1+\ii Y_1,\,X_2+\ii Y_2}_{\g_\C}
+\df\SqBr{X_1,X_2}_\g-\SqBr{Y_1,Y_2}_\g
++\ii\Br{\SqBr{X_1,Y_2}_\g+\SqBr{Y_1,X_2}_\g}.
+\]
+\end{Def}
+
+\begin{Def}
+Let $\Br{\g,\set{+,-,\bm0,\cdot,\SqBr{\bullet,\bullet}_\g}}$ be a Lie $\R$-algebra.
+A \ul{complex representation of $\g$} is a representation
+$\pi:\g\to\gl(V)$ where $V$ is a $\C$-vector space.
+Equivalently, $\pi$ extends uniquely to a representation
+$\pi_\C:\g_\C\to\gl(V)$ of the complexified algebra via:
+\[
+\forall X,Y\in\g:\quad
+\pi_\C(X+\ii Y)\df\pi(X)+\ii\,\pi(Y).
+\]
+\end{Def}
+
+
+\begin{Prop}[Equivalence of Complex and Complexified Representations]\label{prop:complex-rep-equivalence}
+Let $\Br{\g,\set{+,-,\bm0,\cdot,\SqBr{\bullet,\bullet}_\g}}$ be a Lie $\R$-algebra
+and $V$ a $\C$-vector space.
+There is a bijective correspondence between:
+\begin{enumerate}
+\item complex representations $\pi:\g\to\gl(V)$ (i.e.\ $\R$-linear maps
+preserving the bracket with $V$ a $\C$-vector space), and
+\item $\C$-linear Lie algebra representations $\Pi:\g_\C\to\gl(V)$
+of the complexified algebra.
+\end{enumerate}
+The correspondence is given by extension and restriction:
+\begin{itemize}
+\item (Extension $\Rightarrow$) Given $\pi$, define
+$\pi_\C:\g_\C\to\gl(V)$ by
+\[
+\forall X,Y\in\g:\quad
+\pi_\C(X+\ii Y)\df\pi(X)+\ii\,\pi(Y).
+\]
+\item (Restriction $\Leftarrow$) Given $\Pi$, define
+$\pi\df\eval{\Pi}_{\g}$, i.e.\
+$\forall X\in\g:\quad\pi(X)\df\Pi(X+\ii\,0)$.
+\end{itemize}
+These two maps are mutual inverses.
+\end{Prop}
+\begin{proof}
+\begin{enumerate}
+\item (Well-definedness of $\pi_\C$)
+For $X+\ii Y\in\g_\C$, the formula
+$\pi_\C(X+\ii Y)=\pi(X)+\ii\,\pi(Y)$ defines a unique element of
+$\gl(V)$ because $\pi(X),\pi(Y)\in\gl(V)$ and $\gl(V)$ is a $\C$-vector space.
+Since every element of $\g_\C$ has a unique representation $X+\ii Y$
+($\g_\C\df\g\otimes_\R\C$), $\pi_\C$ is well-defined.
+
+\item ($\C$-linearity of $\pi_\C$)
+For $X+\ii Y\in\g_\C$ and $a+\ii b\in\C$,
+\[
+\begin{aligned}
+\pi_\C\Br{(a+\ii b)(X+\ii Y)}
+&=\pi_\C\Br{(aX-bY)+\ii(bX+aY)} \\
+&=\pi(aX-bY)+\ii\,\pi(bX+aY) \\
+&=\Br{a\pi(X)-b\pi(Y)}+\ii\Br{b\pi(X)+a\pi(Y)} \\
+&=(a+\ii b)\Br{\pi(X)+\ii\,\pi(Y)} \\
+&=(a+\ii b)\,\pi_\C(X+\ii Y).
+\end{aligned}
+\]
+
+\item (Bracket preservation by $\pi_\C$)
+For $X_1+\ii Y_1,X_2+\ii Y_2\in\g_\C$,
+\[
+\begin{aligned}
+\pi_\C\Br{\SqBr{X_1+\ii Y_1,\,X_2+\ii Y_2}_{\g_\C}}
+&=\pi_\C\Br{\SqBr{X_1,X_2}_\g-\SqBr{Y_1,Y_2}_\g
++\ii\Br{\SqBr{X_1,Y_2}_\g+\SqBr{Y_1,X_2}_\g}} \\
+&=\pi\Br{\SqBr{X_1,X_2}_\g}-\pi\Br{\SqBr{Y_1,Y_2}_\g}
++\ii\Br{\pi\Br{\SqBr{X_1,Y_2}_\g}+\pi\Br{\SqBr{Y_1,X_2}_\g}}.
+\end{aligned}
+\]
+Since $\pi$ preserves the bracket on $\g$,
+$\pi\Br{\SqBr{A,B}_\g}=\SqBr{\pi(A),\pi(B)}_\circ$ for all $A,B\in\g$.
+Thus
+\[
+\begin{aligned}
+\pi_\C\Br{\SqBr{X_1+\ii Y_1,\,X_2+\ii Y_2}_{\g_\C}}
+&=\SqBr{\pi(X_1),\pi(X_2)}_\circ-\SqBr{\pi(Y_1),\pi(Y_2)}_\circ \\
+&\quad+\ii\Br{\SqBr{\pi(X_1),\pi(Y_2)}_\circ+\SqBr{\pi(Y_1),\pi(X_2)}_\circ}.
+\end{aligned}
+\]
+On the other hand,
+\[
+\begin{aligned}
+\SqBr{\pi_\C(X_1+\ii Y_1),\,\pi_\C(X_2+\ii Y_2)}_\circ
+&=\SqBr{\pi(X_1)+\ii\pi(Y_1),\,\pi(X_2)+\ii\pi(Y_2)}_\circ \\
+&=\SqBr{\pi(X_1),\pi(X_2)}_\circ
++\ii\SqBr{\pi(X_1),\pi(Y_2)}_\circ \\
+&\quad+\ii\SqBr{\pi(Y_1),\pi(X_2)}_\circ
++\ii^2\SqBr{\pi(Y_1),\pi(Y_2)}_\circ \\
+&=\SqBr{\pi(X_1),\pi(X_2)}_\circ-\SqBr{\pi(Y_1),\pi(Y_2)}_\circ \\
+&\quad+\ii\Br{\SqBr{\pi(X_1),\pi(Y_2)}_\circ+\SqBr{\pi(Y_1),\pi(X_2)}_\circ}.
+\end{aligned}
+\]
+Both expressions coincide, so
+$\pi_\C\Br{\SqBr{z_1,z_2}_{\g_\C}}=\SqBr{\pi_\C(z_1),\pi_\C(z_2)}_\circ$.
+
+\item (Mutual inverses)
+If we start with $\pi$, extend to $\pi_\C$, then restrict back to $\g$:
+for any $X\in\g$,
+$\eval{\pi_\C}_{\g}(X)=\pi_\C(X+\ii\,0)=\pi(X)+\ii\,\pi(0)=\pi(X)$.
+Conversely, if we start with $\Pi:\g_\C\to\gl(V)$ (which is $\C$-linear),
+restrict to $\pi=\eval{\Pi}_{\g}$, then extend:
+\[
+\pi_\C(X+\ii Y)=\pi(X)+\ii\,\pi(Y)=\Pi(X)+\ii\,\Pi(Y)=\Pi(X)+\Pi(\ii Y)=\Pi(X+\ii Y),
+\]
+using $\C$-linearity of $\Pi$ to absorb the $\ii$.
+
+\item (Conclusion)
+Every complex representation $\pi$ of $\g$ extends uniquely to
+a $\C$-linear representation $\pi_\C$ of $\g_\C$, and conversely every
+$\C$-linear representation of $\g_\C$ restricts to a complex representation
+of $\g$.  The two constructions are inverse to each other.
+\end{enumerate}
+\end{proof}
+
+
+\begin{Def}[Weight Space]\label{def:weight-space}
+Let $\Br{\g,\set{+,-,\bm0,\cdot,\SqBr{\bullet,\bullet}}}$ be a Lie $\C$-algebra.
+Let $\pi:\g\to\gl(V)$ be a representation on a $\C$-vector space $V$.
+Let $\mathfrak{h}\subseteq\g$ be an abelian Lie subalgebra
+(i.e.\ $\SqBr{H_1,H_2}=\bm0_\g$ for all $H_1,H_2\in\mathfrak{h}$).
+For a linear functional $\lambda:\mathfrak{h}\to\C$, the
+\ul{weight space of $V$ with weight $\lambda$} is:
+\[
+V_\lambda\df\set{v\in V\st\forall H\in\mathfrak{h}:\quad
+\FUNC{\pi(H)}{v}=\lambda(H)v}.
+\]
+If $V_\lambda\neq\set{\bm0_V}$, then $\lambda$ is called a \ul{weight}
+and any nonzero $v\in V_\lambda$ is called a \ul{weight vector} of weight $\lambda$.
+\end{Def}
+
+
+\section{Physics}
+
+\begin{Def}
+The \ul{Rigid Rotation Group} is the Lie group $\SO(3)$.
+\end{Def}
+
+\begin{Thm}\label{thm:SO3-properties}
+The Lie group $\SO(3)$ satisfies the following three properties:
+\begin{enumerate}
+\item $\SO(3)$ is a Lie group.
+\item $\Lie\Br{\SO(3)}\cong\so(3)$.
+\item An ordered basis $(\bm L_1,\bm L_2,\bm L_3)$ for $\so(3)$ satisfying
+$\SqBr{\bm L_i,\bm L_j}=\eps_{ijk}\bm L_k$ is:
+\[
+\bm L_1\df\mqty{0&0&0\\ 0&0&-1\\ 0&1&0},\qquad
+\bm L_2\df\mqty{0&0&1\\ 0&0&0\\ -1&0&0},\qquad
+\bm L_3\df\mqty{0&-1&0\\ 1&0&0\\ 0&0&0}.
+\]
+\end{enumerate}
+\end{Thm}
+\begin{proof}
+\begin{enumerate}
+\item $\SO(3)$ is a closed Lie subgroup of $\GL(3;\R)$
+(Theorem~\ref{cst}), hence a Lie group.
+
+\item $\Lie\Br{\SO(3)}\cong\so(3)$ by Theorem~\ref{thm:Lie-SOn}.
+
+
+\item The condition $\bm R\transp=-\bm R$ forces the diagonal entries to vanish
+($R_{ii}=-R_{ii}\implies R_{ii}=0$) and the off-diagonal entries to satisfy
+$R_{ji}=-R_{ij}$.  Hence every $\bm R\in\so(3)$ can be written as
+\[
+\bm R=\mqty{0&a&b\\ -a&0&c\\ -b&-c&0}
+\qquad(a,b,c\in\R).
+\]
+Comparing with the definition of $\bm L_1,\bm L_2,\bm L_3$,
+\[
+\bm R=a\bm L_3-b\bm L_2+c\bm L_1,
+\]
+so $(\bm L_1,\bm L_2,\bm L_3)$ spans $\so(3)$.
+If $a\bm L_1+b\bm L_2+c\bm L_3=\bm0_3$, reading the $(1,2)$,
+$(1,3)$, and $(2,3)$ entries gives $a=b=c=0$, so they are linearly independent.
+Direct computation verifies the commutation relations:
+\[
+\SqBr{\bm L_1,\bm L_2}=\bm L_3,\qquad
+\SqBr{\bm L_2,\bm L_3}=\bm L_1,\qquad
+\SqBr{\bm L_3,\bm L_1}=\bm L_2.
+\]
+\end{enumerate}
+
+\end{proof}
+
+\begin{Thm}\label{thm:SU2-properties}
+The Lie group $\SU(2)$ satisfies the following three properties:
+\begin{enumerate}
+\item $\SU(2)$ is a Lie group.
+\item $\Lie\Br{\SU(2)}\cong\su(2)$.
+\item An ordered basis $(\bm T_1,\bm T_2,\bm T_3)$ for $\su(2)$ satisfying
+$\SqBr{\bm T_i,\bm T_j}=\eps_{ijk}\bm T_k$ is:
+\[
+\bm T_1\df\frac{1}{2}\mqty{0&-\ii\\ -\ii&0},\qquad
+\bm T_2\df\frac{1}{2}\mqty{0&-1\\ 1&0},\qquad
+\bm T_3\df\frac{1}{2}\mqty{-\ii&0\\ 0&\ii}.
+\]
+\end{enumerate}
+\end{Thm}
+\begin{proof}
+\begin{enumerate}
+\item $\SU(2)$ is a closed Lie subgroup of $\GL(2;\C)$
+(Theorem~\ref{cst}), hence a Lie group.
+
+\item $\Lie\Br{\SU(2)}\cong\su(2)$ by Theorem~\ref{thm:Lie-SUn}.
+
+
+\item The conditions $\bm U\herm=-\bm U$ and $\tr(\bm U)=0$ mean
+$\bm U=\mqty{\ii a&b+\ii c\\ -b+\ii c&-\ii a}$
+for some $a,b,c\in\R$ (the diagonal entries are purely imaginary and sum to zero;
+the off-diagonals are complex conjugates with a sign flip).
+Comparing with the definition of $\bm T_1,\bm T_2,\bm T_3$,
+\[
+\bm U=2\Br{a\bm T_3+b\bm T_2-c\bm T_1},
+\]
+so $(\bm T_1,\bm T_2,\bm T_3)$ spans $\su(2)$.
+If $a\bm T_1+b\bm T_2+c\bm T_3=\bm0_2$, reading the $(1,1)$ and $(1,2)$
+entries gives $a=b=c=0$, so they are linearly independent.
+Direct computation verifies the commutation relations:
+\[
+\SqBr{\bm T_1,\bm T_2}=\bm T_3,\qquad
+\SqBr{\bm T_2,\bm T_3}=\bm T_1,\qquad
+\SqBr{\bm T_3,\bm T_1}=\bm T_2.
+\]
+\end{enumerate}
+\end{proof}
+
+
+\begin{Def}[Covering Map, $n$-Fold Cover, Double Cover]\label{def:covering-map}
+Let $\tilde G$ and $G$ be Lie groups.
+\begin{enumerate}
+\item A \ul{covering map} is a smooth surjective homomorphism
+$p:\tilde G\to G$ satisfying:
+\begin{enumerate}
+\item[(i)] (Local Diffeomorphism)
+$\forall\tilde g\in\tilde G:\quad
+\dd p_{\tilde g}:T_{\tilde g}\tilde G\to T_{p(\tilde g)}G$ is a linear isomorphism.
+\item[(ii)] (Discrete Fibers)
+$\forall g\in G:\quad p^{-1}(\set{g})$ is a discrete subset of $\tilde G$.
+\end{enumerate}
+
+\item An \ul{$n$-fold cover} (or \ul{$n$-sheeted cover}) is a covering map
+$p:\tilde G\to G$ where every fiber has the same cardinality:
+\[
+\forall g\in G:\quad\abs{p^{-1}(\set{g})}=n.
+\]
+
+\item A \ul{double cover} is a $2$-fold cover.
+Equivalently, $\ker\Br{p}=\set{\tilde e,\tilde a}$ for some
+$\tilde a\in\tilde G\setminus\set{\tilde e}$ with $\tilde a^2=\tilde e$.
+\end{enumerate}
+\end{Def}
+
+
+\begin{Thm}[Double Cover $\SU(2)\to\SO(3)$]\label{thm:su2-double-cover}
+For each $\bm U\in\SU(2)$, define a linear map
+$\Phi(\bm U):\su(2)\to\su(2)$ by
+\[
+\forall\bm X\in\su(2):\quad
+\FUNC{\Phi(\bm U)}{\bm X}\df\bm U\bm X\bm U\herm.
+\]
+Coordinatize $\su(2)$ by the basis $\beta=(\bm T_1,\bm T_2,\bm T_3)$,
+and let $\SqBr{\Phi(\bm U)}_\beta^\beta\in\R^{3,3}$ denote the matrix of
+$\Phi(\bm U)$ w.r.t.\ $\beta$.
+By identifying each operator $\Phi(\bm U)$ with its coordinate matrix
+$\SqBr{\Phi(\bm U)}_\beta^\beta$, we regard $\Phi$ as a map
+$\Phi:\SU(2)\to\SO(3)$.  Then:
+\begin{enumerate}
+\item $\SqBr{\Phi(\bm U)}_\beta^\beta\in\SO(3)$ for every $\bm U\in\SU(2)$.
+\item $\Phi:\SU(2)\to\SO(3)$ is a smooth group homomorphism:
+$\Phi(\bm U\bm V)=\Phi(\bm U)\circ\Phi(\bm V)$ and
+$\Phi(\bm I_2)=I_{\su(2)}$.
+\item $\ker\Br{\Phi}=\set{\pm\bm I_2}$.
+\item $\Phi$ is surjective.
+\end{enumerate}
+Thus $\SU(2)$ is a double cover of $\SO(3)$: each rotation in $\SO(3)$
+corresponds to exactly two matrices in $\SU(2)$ differing only by a sign.
+\end{Thm}
+\begin{proof}
+\begin{enumerate}
+\item (Image in $\SO(3)$)
+For $\bm U\in\SU(2)$, $\bm U\herm=\bm U\inv$.
+For any $\bm X\in\su(2)$, $\bm X\herm=-\bm X$ and $\tr\Br{\bm X}=0$.
+\[
+\FUNC{\Phi(\bm U)}{\bm X}\herm
+=\Br{\bm U\bm X\bm U\herm}\herm
+=\bm U\bm X\herm\bm U\herm
+=\bm U(-\bm X)\bm U\herm
+=-\FUNC{\Phi(\bm U)}{\bm X},
+\]
+\[
+\tr\Br{\FUNC{\Phi(\bm U)}{\bm X}}
+=\tr\Br{\bm U\bm X\bm U\herm}
+=\tr\Br{\bm X\bm U\herm\bm U}
+=\tr\Br{\bm X}=0.
+\]
+Hence $\FUNC{\Phi(\bm U)}{\bm X}\in\su(2)$, so
+$\Phi(\bm U):\su(2)\to\su(2)$ is well-defined.
+
+For $\bm X,\bm Y\in\su(2)$,
+\[
+\tr\Br{\FUNC{\Phi(\bm U)}{\bm X}\herm\FUNC{\Phi(\bm U)}{\bm Y}}
+=\tr\Br{\bm U\bm X\herm\bm U\herm\bm U\bm Y\bm U\herm}
+=\tr\Br{\bm U\bm X\herm\bm Y\bm U\herm}
+=\tr\Br{\bm X\herm\bm Y}.
+\]
+Thus $\Phi(\bm U)$ preserves the trace form on $\su(2)$.  Under the basis
+$\beta$, $\su(2)$ with this form is isometric to $\R^3$ with the standard
+dot product, so $\SqBr{\Phi(\bm U)}_\beta^\beta$ is orthogonal.  Moreover,
+$\det\Br{\SqBr{\Phi(\bm U)}_\beta^\beta}=1$:
+the map $\bm U\mapsto\det\Br{\SqBr{\Phi(\bm U)}_\beta^\beta}$ is a continuous
+homomorphism $\SU(2)\to\set{\pm1}$.  The explicit parametrization above shows
+$\SU(2)\cong S^3$ is path-connected; the continuous image of a path-connected
+space in the discrete set $\set{\pm1}$ is a single point.  Evaluating at
+$\bm U=\bm I_2$ gives $\det\Br{\SqBr{\Phi(\bm I_2)}_\beta^\beta}=\det\Br{\bm I_3}=1$,
+so the image is $\set{1}$.
+Hence $\SqBr{\Phi(\bm U)}_\beta^\beta\in\SO(3)$.
+
+\item (Homomorphism)
+$\Phi(\bm I_2)(\bm X)=\bm I_2\bm X\bm I_2\herm=\bm X$, so
+$\Phi(\bm I_2)=I_{\su(2)}$.
+For $\bm U,\bm V\in\SU(2)$,
+\[
+\FUNC{\Phi(\bm U\bm V)}{\bm X}
+=\Br{\bm U\bm V}\bm X\Br{\bm U\bm V}\herm
+=\bm U\Br{\bm V\bm X\bm V\herm}\bm U\herm
+=\FUNC{\Phi(\bm U)}{\FUNC{\Phi(\bm V)}{\bm X}}
+=\FUNC{(\Phi(\bm U)\circ\Phi(\bm V))}{\bm X},
+\]
+so $\Phi(\bm U\bm V)=\Phi(\bm U)\circ\Phi(\bm V)$.  Smoothness follows
+because the formula is polynomial in the entries of $\bm U$.
+
+\item (Kernel)
+If $\bm U\in\ker\Br{\Phi}$, then $\Phi(\bm U)=I_{\su(2)}$, i.e.\
+$\bm U\bm X\bm U\herm=\bm X$ for all $\bm X\in\su(2)$.
+This means $\bm U$ commutes with every matrix in $\su(2)$.
+Since $\bm T_1,\bm T_2,\bm T_3$ together with $\bm I_2$ form a basis of
+$\C^{2,2}$ over $\C$, and $\bm U$ commutes with each $\bm T_i$ (and
+trivially with $\bm I_2$), $\bm U$ commutes with all $2\times 2$ matrices.
+A matrix that commutes with every $2\times 2$ matrix must be a scalar
+multiple of the identity (e.g.\ test against the matrix units $E_{ij}$),
+so $\bm U=\lambda\bm I_2$ for some
+$\lambda\in\C$.  Since $\bm U\in\SU(2)$, $\det\Br{\bm U}=1$ and
+$\bm U\herm\bm U=\bm I_2$ give $|\lambda|=1$ and $\lambda^2=1$, so
+$\lambda=\pm1$.  Thus $\ker\Br{\Phi}=\set{\pm\bm I_2}$.
+
+\item (Surjectivity)
+$\Phi(\SU(2))\subseteq\SO(3)$ is a subgroup.  Since $\SU(2)\cong S^3$ is
+path-connected and $\Phi$ is continuous (smooth), $\Phi(\SU(2))$ is a
+path-connected subgroup of $\SO(3)$, hence lies in the identity component
+$\SO(3)^\circ=\SO(3)$.
+The differential $\dd\Phi_{\bm I_2}:T_{\bm I_2}\SU(2)\to T_{\bm I_3}\SO(3)$
+is precisely the Lie algebra isomorphism
+$\phi:\su(2)\to\so(3)$ from Theorem~\ref{thm:so3-su2-isomorphism}.
+Since $\dd\Phi_{\bm I_2}$ is an isomorphism, $\Phi$ is a local diffeomorphism
+at $\bm I_2$, so the image contains an open neighbourhood of $\bm I_3$ in
+$\SO(3)$.  An open neighbourhood of the identity generates the identity
+component.  Since every rotation in $\SO(3)$ can be joined to $\bm I_3$ by a
+continuous path (rotate gradually about its axis), $\SO(3)$ is path-connected;
+thus $\Phi(\SU(2))=\SO(3)$.
+\end{enumerate}
+\end{proof}
+
+\begin{Thm}[Lie Algebra Isomorphism $\so(3)\cong\su(2)$]\label{thm:so3-su2-isomorphism}
+Define $\phi:\so(3)\to\su(2)$ by extending
+\[
+\phi(\bm L_1)\df \bm T_1,\qquad\phi(\bm L_2)\df \bm T_2,\qquad\phi(\bm L_3)\df \bm T_3
+\]
+$\R$-linearly.  Then $\phi$ is a Lie algebra isomorphism.
+\end{Thm}
+\begin{proof}
+\begin{enumerate}
+\item (Linear isomorphism)
+$\phi$ maps the basis $(\bm L_1,\bm L_2,\bm L_3)$ of $\so(3)$ bijectively onto the
+basis $(\bm T_1,\bm T_2,\bm T_3)$ of $\su(2)$, hence is a linear isomorphism.
+
+\item (Bracket preservation)
+Using the commutation relations $\SqBr{\bm L_i,\bm L_j}=\eps_{ijk}\bm L_k$ and
+$\SqBr{\bm T_i,\bm T_j}=\eps_{ijk}\bm T_k$,
+\[
+\begin{aligned}
+\phi\Br{\SqBr{\bm L_i,\bm L_j}}
+&=\phi\Br{\eps_{ijk}\bm L_k}
+=\eps_{ijk}\,\phi(\bm L_k)
+=\eps_{ijk}\bm T_k \\
+&=\SqBr{\bm T_i,\bm T_j}
+=\SqBr{\phi(\bm L_i),\phi(\bm L_j)}.
+\end{aligned}
+\]
+By $\R$-bilinearity, this extends to all of $\so(3)$:
+for $\bm X=\sum_i x_i \bm L_i$, $\bm Y=\sum_j y_j \bm L_j\in\so(3)$,
+\[
+\phi\Br{\SqBr{\bm X,\bm Y}}
+=\phi\Br{\sum_{i,j}x_i y_j\SqBr{\bm L_i,\bm L_j}}
+=\sum_{i,j}x_i y_j\,\phi\Br{\SqBr{\bm L_i,\bm L_j}}
+=\sum_{i,j}x_i y_j\SqBr{\phi(\bm L_i),\phi(\bm L_j)}
+=\SqBr{\phi(\bm X),\phi(\bm Y)}.
+\]
+
+\end{enumerate}
+\end{proof}
 
 
 \end{document}
