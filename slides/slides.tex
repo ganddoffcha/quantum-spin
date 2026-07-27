@@ -3,12 +3,11 @@
 \usetheme{Madrid}
 \usecolortheme{default}
 
-% --- Load leopard.sty from parent directory ---
-% TEXINPUTS should include the paper directory or we copy leopard.sty
+% --- Load leopard.sty (all macros, number sets, operators, etc.) ---
 \usepackage{leopard}
 \renewcommand{\mathrm}[1]{\mathsf{#1}}
 
-% --- Project-specific overrides for slides ---
+% --- Project-specific overrides (matching paper + poster) ---
 \renewcommand{\phi}{\varphi}
 \newcommand{\Rep}{\mathrm{Rep}}
 \newcommand{\mqty}[1]{\begin{bmatrix*}[r]#1\end{bmatrix*}}
@@ -20,9 +19,39 @@
 \newcommand{\pwzero}{\mathbin{\dot{0}}}
 \newcommand{\pwone}{\mathbin{\dot{1}}}
 
+% --- Custom block colors (matching poster) ---
+\definecolor{defTitle}{HTML}{CBC04D}
+\definecolor{defBody} {HTML}{FFFBD5}
+\definecolor{thmTitle}{HTML}{262685}
+\definecolor{thmBody} {HTML}{E9E9F2}
+\definecolor{exTitle} {HTML}{005F00}
+\definecolor{exBody}  {HTML}{E5EFE5}
+
+% --- Custom block environments ---
+\newenvironment{Def}[1]
+  {\setbeamercolor{block title}{fg=white, bg=defTitle}
+   \setbeamercolor{block body} {fg=black, bg=defBody}
+   \begin{block}{#1}}
+  {\end{block}}
+
+\newenvironment{Thm}[1]
+  {\setbeamercolor{block title}{fg=white, bg=thmTitle}
+   \setbeamercolor{block body} {fg=black, bg=thmBody}
+   \begin{block}{#1}}
+  {\end{block}}
+
+\newenvironment{Ex}[1]
+  {\setbeamercolor{block title}{fg=white, bg=exTitle}
+   \setbeamercolor{block body} {fg=black, bg=exBody}
+   \begin{block}{#1}}
+  {\end{block}}
+
 % --- Beamer customization ---
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}[frame number]
+
+\usefonttheme{serif}
+\setbeamerfont{block title}{family=\sffamily}
 
 \title{Representations of Lie Groups\\A Mathematical Dissection of Quantum Spin}
 \subtitle{Part I: Mathematical Foundations}
@@ -43,17 +72,18 @@
 \section{Topological Spaces}
 
 \begin{frame}{Topological Spaces}
-\begin{block}{Definition}
-A \textbf{topological space} is a pair $(X,\T)$ where $X$ is a set and
+\begin{Def}{Topological Space}
+A \textbf{topological space} is a pair $(X,\T)$, where $X$ is a set and
 $\T\subseteq\P(X)$ satisfies:
 \begin{enumerate}
 \item (Trivial Bounds) $\varnothing\in\T$ and $X\in\T$.
 \item (Arbitrary Unions)
-$\forall\{U_\alpha\}_{\alpha\in\I}\subseteq\T:\bigcup_{\alpha\in\I}U_\alpha\in\T$.
+$\forall\set{U_\alpha}_{\alpha\in\I}\subseteq\T
+:\bigcup_{\alpha\in\I}U_\alpha\in\T$.
 \item (Finite Intersections)
 $\forall U,V\in\T:U\cap V\in\T$.
 \end{enumerate}
-\end{block}
+\end{Def}
 
 \pause
 \vspace{0.5em}
@@ -71,7 +101,7 @@ topologies (e.g.\ Euclidean topology on $\R^n$).
 \section{Topological Manifolds}
 
 \begin{frame}{Topological Manifolds}
-\begin{block}{Definition}
+\begin{Def}{Topological Manifold}
 A \textbf{topological manifold} is a topological space $(M,\T)$ satisfying:
 \begin{enumerate}
 \item (Hausdorff) Points can be separated by disjoint open sets.
@@ -79,7 +109,7 @@ A \textbf{topological manifold} is a topological space $(M,\T)$ satisfying:
 \item (Locally Euclidean) Every point has a neighborhood homeomorphic to
 $\R^n$ for some fixed $n=\dim(M)$.
 \end{enumerate}
-\end{block}
+\end{Def}
 
 \pause
 \vspace{0.5em}
@@ -97,17 +127,17 @@ that prevent pathological spaces. They ensure partitions of unity exist.
 \section{Smooth Manifolds}
 
 \begin{frame}{Smooth Manifolds}
-\begin{block}{Definition}
+\begin{Def}{Smooth Manifold}
 A \textbf{smooth manifold} is a triple $(M,\T,\A)$ where:
 \begin{enumerate}
 \item $(M,\T)$ is a topological manifold.
-\item $\A=\{(U_\alpha,\phi_\alpha)\}_{\alpha\in\I}$ is a
+\item $\A=\set{(U_\alpha,\phi_\alpha)}_{\alpha\in\I}$ is a
 \textbf{smooth atlas}: each $(U_\alpha,\phi_\alpha)$ is a chart,
 the charts cover $M$, and transition maps
 $\phi_\beta\circ\phi_\alpha^{-1}$ are $C^\infty$.
 \item $\A$ is \textbf{maximal} w.r.t.\ smooth compatibility.
 \end{enumerate}
-\end{block}
+\end{Def}
 
 \pause
 \vspace{0.5em}
@@ -117,18 +147,18 @@ map is infinitely differentiable.
 \end{frame}
 
 \begin{frame}{Smooth Maps and Diffeomorphisms}
-\begin{block}{Smooth Map}
+\begin{Def}{Smooth Map}
 A map $F:M\to N$ between smooth manifolds is \textbf{smooth} if its
 coordinate representation $\psi\circ F\circ\phi^{-1}$ is $C^\infty$
 for all compatible charts.
-\end{block}
+\end{Def}
 
 \pause
-\begin{block}{Diffeomorphism}
+\begin{Def}{Diffeomorphism}
 $F:M\to N$ is a \textbf{diffeomorphism} if it is smooth, bijective,
 and $F^{-1}$ is also smooth. Diffeomorphic manifolds are
 ``the same'' from the smooth perspective.
-\end{block}
+\end{Def}
 
 \pause
 \vspace{0.5em}
@@ -147,39 +177,40 @@ the Leibniz rule.
 \end{block}
 
 \pause
-\begin{block}{Definition}
+\begin{Def}{Tangent Space}
 Let $M$ be a smooth manifold, $p\in M$. The \textbf{stalk} $C_p^\infty M$
 is the set of germs of smooth functions at $p$. The \textbf{tangent space}
 at $p$ is
 \[
-T_pM = \{\,v : C_p^\infty M \to \R \mid
-v \text{ is a derivation at } p \,\}.
+T_pM\df\set{v : C_p^\infty M\to\R \st
+v~\text{is a derivation at}~p}.
 \]
-$T_pM$ is an $\R$-vector space with $\dim(T_pM) = \dim(M)$.
-\end{block}
+$T_pM$ is an $\R$-vector space with $\dim(T_pM)=\dim(M)$.
+\end{Def}
 
 \pause
 \vspace{0.5em}
 \textbf{Why derivations?} For $\R^n$, a tangent vector $v$ acts on
-functions by the directional derivative: $v(f) = \sum_i v^i\frac{\partial f}{\partial x^i}\big|_p$.
+functions by the directional derivative:
+$v(f)=\sum_i v^i\frac{\p f}{\p x^i}\big|_p$.
 This algebraic characterization generalizes to any manifold.
 \end{frame}
 
 \begin{frame}{The Differential}
-\begin{block}{Definition}
+\begin{Def}{Differential}
 Let $F:M\to N$ be smooth, $p\in M$. The \textbf{differential of $F$ at $p$}
-is the linear map $dF_p:T_pM\to T_{F(p)}N$ defined by
+is the linear map $\dd F_p:T_pM\to T_{F(p)}N$ defined by
 \[
-\forall v\in T_pM,\;\forall [f]_{F(p)}\in C_{F(p)}^\infty N:\quad
-(dF_p(v))([f]_{F(p)}) = v([f\circ F]_p).
+\forall v\in T_pM,\;\forall \SqBr{f}_{F(p)}\in C_{F(p)}^\infty N:\quad
+\FUNC{(\dd F_p(v))}{\SqBr{f}_{F(p)}}\df v\Br{\SqBr{f\circ F}_p}.
 \]
-\end{block}
+\end{Def}
 
 \pause
 \begin{block}{Chain Rule}
 For smooth maps $F:M\to N$ and $G:N\to P$,
 \[
-d(G\circ F)_p = dG_{F(p)}\circ dF_p.
+\dd(G\circ F)_p = \dd G_{F(p)}\circ \dd F_p.
 \]
 \end{block}
 
@@ -193,23 +224,23 @@ to a smooth map, generalizing the Jacobian matrix from multivariable calculus.
 \section{Algebraic Structures}
 
 \begin{frame}{Groups, Fields, and Vector Spaces}
-\begin{block}{Group}
+\begin{Def}{Group}
 A set $G$ with an associative binary operation $\mu$, an identity $e$,
 and inverses $\iota$.  A group is the algebraic abstraction of
 \textbf{symmetry}.
-\end{block}
+\end{Def}
 
 \pause
-\begin{block}{Field}
+\begin{Def}{Field}
 A set $\F$ (e.g.\ $\R,\C$) with addition, multiplication,
 and all the usual arithmetic axioms — a domain where linear algebra works.
-\end{block}
+\end{Def}
 
 \pause
-\begin{block}{Vector Space}
+\begin{Def}{Vector Space}
 An abelian group $(V,+)$ with scalar multiplication $\F\times V\to V$
 satisfying distributivity and compatibility axioms.
-\end{block}
+\end{Def}
 
 \pause
 \vspace{0.5em}
@@ -219,40 +250,41 @@ vector spaces with an extra bracket operation.
 \end{frame}
 
 \begin{frame}{Algebras and Lie Algebras}
-\begin{block}{$\F$-Algebra}
+\begin{Def}{$\F$-Algebra}
 A vector space $\A$ over $\F$ together with a bilinear multiplication
 $\A\times\A\to\A$.  (Examples: $\R^{n,n}$ with matrix multiplication,
 $C^\infty(M)$ with pointwise multiplication.)
-\end{block}
+\end{Def}
 
 \pause
-\begin{block}{Lie Algebra}
+\begin{Def}{Lie Algebra}
 An $\F$-vector space $\g$ with a bilinear bracket
-$[\bullet,\bullet]:\g\times\g\to\g$ satisfying:
+$\SqBr{\bullet,\bullet}:\g\times\g\to\g$ satisfying:
 \begin{enumerate}
-\item (Skew-symmetry) $[Y,X] = -[X,Y]$
-\item (Jacobi identity) $[X,[Y,Z]] + [Y,[Z,X]] + [Z,[X,Y]] = \bm{0}$
+\item (Skew-symmetry) $\SqBr{Y,X}=-\SqBr{X,Y}$
+\item (Jacobi identity)
+$\SqBr{X,\SqBr{Y,Z}}+\SqBr{Y,\SqBr{Z,X}}+\SqBr{Z,\SqBr{X,Y}}=\bm0$
 \end{enumerate}
-\end{block}
+\end{Def}
 
 \pause
 \vspace{0.5em}
 \textbf{Key example:} $(\R^{3},\times)$ — the cross product makes $\R^3$
-a Lie algebra!  $[v,w] = v\times w$ satisfies skew-symmetry and Jacobi.
+a Lie algebra!  $\SqBr{v,w}=v\times w$ satisfies skew-symmetry and Jacobi.
 \end{frame}
 
 % ======================================================================
 \section{Lie Groups}
 
 \begin{frame}{Lie Groups}
-\begin{block}{Definition}
+\begin{Def}{Lie Group}
 A \textbf{Lie group} is a smooth manifold $(G,\T,\A)$ that is also a group
-$(G,\{\mu,\iota,e\})$ such that:
+$\Br{G,\set{\mu,\iota,e}}$ such that:
 \begin{enumerate}
 \item $\mu:G\times G\to G$ (multiplication) is smooth.
 \item $\iota:G\to G$ (inversion) is smooth.
 \end{enumerate}
-\end{block}
+\end{Def}
 
 \pause
 \vspace{0.5em}
@@ -267,24 +299,24 @@ using both differential calculus and group theory.
 \item $(\R^n,+)$ — the translation group.
 \item $\GL(n,\R)$ — invertible $n\times n$ real matrices.
 \item $\SO(n)$ — rotations in $\R^n$.
-\item $\SU(n)$ — unitary transformations with determinant 1.
+\item $\SU(n)$ — unitary transformations with determinant $1$.
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Left Translation and Left-Invariant Vector Fields}
-\begin{block}{Left Translation}
-For $g\in G$, $L_g:G\to G$ is defined by $L_g(h)=gh$.
+\begin{Def}{Left Translation}
+For $g\in G$, $L_g:G\to G$ is defined by $L_g(h)\df gh$.
 $L_g$ is a diffeomorphism.
-\end{block}
+\end{Def}
 
 \pause
-\begin{block}{Left-Invariant Vector Field}
+\begin{Def}{Left-Invariant Vector Field}
 A smooth vector field $X$ on $G$ is \textbf{left-invariant} if
 \[
 \forall g\in G,\;\forall f\in C^\infty(G):\quad
-X(f\circ L_g) = X(f)\circ L_g.
+X(f\circ L_g)=X(f)\circ L_g.
 \]
-\end{block}
+\end{Def}
 
 \pause
 \vspace{0.5em}
@@ -294,16 +326,16 @@ at $e$ by $L_g$ gives the vector at any point $g$.
 \end{frame}
 
 \begin{frame}{The Lie Algebra of a Lie Group}
-\begin{block}{Theorem}
+\begin{Thm}{Tangent Space at Identity is a Lie Algebra}
 Let $G$ be a Lie group.  Define $\g = T_eG$ (tangent space at identity).
 For each $v\in\g$, there exists a \textbf{unique} left-invariant vector
-field $X^v$ with $X^v_e = v$.  Define the bracket on $\g$ by
+field $X^v$ with $\eval{X^v}_e=v$.  Define the bracket on $\g$ by
 \[
-[v,w]_\g = [X^v, X^w]_\circ\big|_e.
+\SqBr{v,w}_\g\df\eval{\SqBr{X^v,X^w}_\circ}_e.
 \]
-Then $(\g,[\bullet,\bullet]_\g)$ is a Lie $\R$-algebra with
-$\dim(\g) = \dim(G)$.
-\end{block}
+Then $\Br{\g,\SqBr{\bullet,\bullet}_\g}$ is a Lie $\R$-algebra with
+$\dim(\g)=\dim(G)$.
+\end{Thm}
 
 \pause
 \vspace{0.5em}
@@ -313,11 +345,11 @@ $\dim(\g) = \dim(G)$.
 \end{frame}
 
 \begin{frame}{The Closed Subgroup Theorem (É. Cartan)}
-\begin{block}{Theorem}
+\begin{Thm}{Closed Subgroup Theorem}
 Let $G$ be a Lie group and $H\subseteq G$ a closed subgroup.
 Then $H$ admits a unique smooth structure making it a Lie group
 such that the inclusion $H\hookrightarrow G$ is a smooth embedding.
-\end{block}
+\end{Thm}
 
 \pause
 \vspace{0.5em}
@@ -335,22 +367,22 @@ closed subgroups of $\GL(N,\F)$ and therefore Lie groups.
 \section{Matrix Lie Groups}
 
 \begin{frame}{The General Linear Group \texorpdfstring{$\GL(n,\F)$}{GL(n,F)}}
-\begin{block}{Definition}
+\begin{Ex}{The General Linear Group}
 \[
-\GL(n,\F) = \{\, \bm{A}\in\F^{n,n} \mid \det(\bm{A})\neq 0 \,\}
+\GL(n,\F)=\set{\bm A\in\F^{n,n}\st\det(\bm A)\ne0}.
 \]
-\end{block}
+\end{Ex}
 
 \pause
 \begin{itemize}
-\item $\GL(n,\F)$ is an open subset of $\F^{n,n} \cong \F^{n^2}$,
+\item $\GL(n,\F)$ is an open subset of $\F^{n,n}\cong\F^{n^2}$,
 so it is a smooth manifold of dimension $n^2$.
 
 \pause
-\item Its Lie algebra is $\gl(n,\F) = \F^{n,n}$ (all $n\times n$ matrices)
+\item Its Lie algebra is $\gl(n,\F)=\F^{n,n}$ (all $n\times n$ matrices)
 with the commutator bracket:
 \[
-[\bm{A},\bm{B}] = \bm{A}\bm{B} - \bm{B}\bm{A}.
+\SqBr{\bm A,\bm B}=\bm A\bm B-\bm B\bm A.
 \]
 
 \pause
@@ -363,65 +395,56 @@ Their Lie algebras are subspaces of $\gl(n,\F)$ closed under the commutator.
 \section{The Rotation Group \texorpdfstring{$\SO(3)$}{SO(3)}}
 
 \begin{frame}{The Special Orthogonal Group \texorpdfstring{$\SO(3)$}{SO(3)}}
-\begin{block}{Definition}
+\begin{Ex}{The Special Orthogonal Group (Rigid Rotations)}
 \[
-\SO(3) = \{\, \bm{R}\in\R^{3,3} \mid \bm{R}^{\mathsf{T}}\bm{R} = \bm{I}_3,\;
-\det(\bm{R}) = 1 \,\}.
+\begin{aligned}
+\SO(3)&=\set{\bm R\in\R^{3,3}\st\bm R\transp\bm R=\bm I_3,\;
+\det(\bm R)=1};\\[0.3em]
+\so(3)&=T_{\bm I_3}\SO(3)=\set{\bm R\in\R^{3,3}\st\bm R\transp=-\bm R}.
+\end{aligned}
 \]
-\end{block}
+$\dim(\so(3))=\dim(\SO(3))=3$, with basis
+$\SqBr{\bm L_i,\bm L_j}=\eps_{ijk}\bm L_k$:
+\[
+\bm L_1=\mqty{0&0&0\\0&0&-1\\0&1&0},\;
+\bm L_2=\mqty{0&0&1\\0&0&0\\-1&0&0},\;
+\bm L_3=\mqty{0&-1&0\\1&0&0\\0&0&0}.
+\]
+\end{Ex}
 
 \pause
-\begin{block}{Lie Algebra \texorpdfstring{$\so(3)$}{so(3)}}
-\[
-\so(3) = T_{\bm{I}_3}\SO(3) = \{\, \bm{R}\in\R^{3,3} \mid
-\bm{R}^{\mathsf{T}} = -\bm{R} \,\}.
-\]
-$\dim(\so(3)) = 3$.  A basis $(\bm{L}_1,\bm{L}_2,\bm{L}_3)$:
-\[
-\bm{L}_1 = \mqty{0&0&0\\0&0&-1\\0&1&0},\;
-\bm{L}_2 = \mqty{0&0&1\\0&0&0\\-1&0&0},\;
-\bm{L}_3 = \mqty{0&-1&0\\1&0&0\\0&0&0}.
-\]
-\end{block}
-
-\pause
-\begin{block}{Commutation Relations}
-$[\bm{L}_i,\bm{L}_j] = \varepsilon_{ijk}\bm{L}_k$ —
+\vspace{0.3em}
+\textbf{Note:} $\SqBr{\bm L_i,\bm L_j}=\eps_{ijk}\bm L_k$ —
 the same structure as the cross product on $\R^3$!
-\end{block}
 \end{frame}
 
 % ======================================================================
 \section{The Special Unitary Group \texorpdfstring{$\SU(2)$}{SU(2)}}
 
 \begin{frame}{The Special Unitary Group \texorpdfstring{$\SU(2)$}{SU(2)}}
-\begin{block}{Definition}
+\begin{Ex}{The Special Unitary Group}
 \[
-\SU(2) = \{\, \bm{U}\in\C^{2,2} \mid \bm{U}^{\dagger}\bm{U} = \bm{I}_2,\;
-\det(\bm{U}) = 1 \,\}.
+\begin{aligned}
+\SU(2)&=\set{\bm U\in\C^{2,2}\st\bm U\herm\bm U=\bm I_2,\;
+\det(\bm U)=1};\\[0.3em]
+\su(2)&=T_{\bm I_2}\SU(2)
+=\set{\bm U\in\C^{2,2}\st\bm U\herm=-\bm U,\;\tr(\bm U)=0}.
+\end{aligned}
 \]
-\end{block}
+$\dim(\su(2))=\dim(\SU(2))=3$, with basis
+$\SqBr{\bm T_i,\bm T_j}=\eps_{ijk}\bm T_k$:
+\[
+\bm T_1=\frac12\mqty{0&-\ii\\-\ii&0},\;
+\bm T_2=\frac12\mqty{0&-1\\1&0},\;
+\bm T_3=\frac12\mqty{-\ii&0\\0&\ii}.
+\]
+\end{Ex}
 
 \pause
-\begin{block}{Lie Algebra \texorpdfstring{$\su(2)$}{su(2)}}
-\[
-\su(2) = T_{\bm{I}_2}\SU(2) = \{\, \bm{U}\in\C^{2,2} \mid
-\bm{U}^{\dagger} = -\bm{U},\; \tr(\bm{U}) = 0 \,\}.
-\]
-$\dim(\su(2)) = 3$.  A basis $(\bm{T}_1,\bm{T}_2,\bm{T}_3)$:
-\[
-\bm{T}_1 = \frac12\mqty{0&-i\\-i&0},\;
-\bm{T}_2 = \frac12\mqty{0&-1\\1&0},\;
-\bm{T}_3 = \frac12\mqty{-i&0\\0&i}.
-\]
-\end{block}
-
-\pause
-\begin{block}{Commutation Relations}
-$[\bm{T}_i,\bm{T}_j] = \varepsilon_{ijk}\bm{T}_k$ —
+\vspace{0.3em}
+\textbf{Note:} $\SqBr{\bm T_i,\bm T_j}=\eps_{ijk}\bm T_k$ —
 \textbf{identical} to $\so(3)$!  This is the first hint of the
 isomorphism $\so(3)\cong\su(2)$.
-\end{block}
 \end{frame}
 
 % ======================================================================
@@ -429,25 +452,25 @@ isomorphism $\so(3)\cong\su(2)$.
 
 \begin{frame}{The Double Cover \texorpdfstring{$\Phi:\SU(2)\to\SO(3)$}{Φ: SU(2)→SO(3)}}
 \begin{block}{Construction}
-For $\bm{U}\in\SU(2)$, define $\Phi(\bm{U}):\su(2)\to\su(2)$ by
+For $\bm U\in\SU(2)$, define $\Phi(\bm U):\su(2)\to\su(2)$ by
 \[
-\Phi(\bm{U})(\bm{X}) = \bm{U}\bm{X}\bm{U}^{\dagger}.
+\FUNC{\Phi(\bm U)}{\bm X}\df\bm U\bm X\bm U\herm.
 \]
-Using the basis $\beta=(\bm{T}_1,\bm{T}_2,\bm{T}_3)$, identify
-$\su(2)\cong\R^3$.  Then the matrix $[\Phi(\bm{U})]_\beta^\beta$
+Using the basis $\beta=(\bm T_1,\bm T_2,\bm T_3)$, identify
+$\su(2)\cong\R^3$.  Then the matrix $\SqBr{\Phi(\bm U)}_\beta^\beta$
 lies in $\SO(3)$.
 \end{block}
 
 \pause
-\begin{block}{Theorem}
+\begin{Thm}{Double Cover \texorpdfstring{$\SU(2)\to\SO(3)$}{SU(2)→SO(3)}}
 $\Phi:\SU(2)\to\SO(3)$ is:
 \begin{enumerate}
-\item A smooth group homomorphism.
+\item A smooth group homomorphism: $\Phi(\bm U\bm V)=\Phi(\bm U)\circ\Phi(\bm V)$.
 \item Surjective.
-\item Has kernel $\ker(\Phi) = \{\pm\bm{I}_2\}$ (two elements).
+\item Has kernel $\ker(\Phi)=\set{\pm\bm I_2}$ (two elements).
 \end{enumerate}
 Thus $\SU(2)$ is a \textbf{double cover} of $\SO(3)$.
-\end{block}
+\end{Thm}
 \end{frame}
 
 \begin{frame}{The Double Cover: Geometric Picture}
@@ -457,8 +480,8 @@ Thus $\SU(2)$ is a \textbf{double cover} of $\SO(3)$.
   \draw[fill=blue!15] (0,0) circle (1.2);
   \node at (0,1.5) {$\SU(2)\cong S^3$};
   \node at (0,0.1) {\small (simply connected)};
-  \draw[fill=black] (0,0.3) circle (0.04) node[right] {$+\bm{I}_2$};
-  \draw[fill=black] (0,-0.3) circle (0.04) node[right] {$-\bm{I}_2$};
+  \draw[fill=black] (0,0.3) circle (0.04) node[right] {$+\bm I_2$};
+  \draw[fill=black] (0,-0.3) circle (0.04) node[right] {$-\bm I_2$};
 
   % Arrow
   \draw[->,thick] (1.5,0) -- (3.5,0) node[midway,above] {$\Phi$};
@@ -467,15 +490,15 @@ Thus $\SU(2)$ is a \textbf{double cover} of $\SO(3)$.
   \draw[fill=red!15] (5,0) circle (1.2);
   \node at (5,1.5) {$\SO(3)\cong \R P^3$};
   \node at (5,0.1) {\small (not simply connected)};
-  \draw[fill=black] (5,0) circle (0.04) node[right] {$\bm{I}_3$};
+  \draw[fill=black] (5,0) circle (0.04) node[right] {$\bm I_3$};
 \end{tikzpicture}
 \end{center}
 
 \pause
 \vspace{0.5em}
-\textbf{Why two-to-one?}  Both $\bm{U}$ and $-\bm{U}$ give the same rotation.
-A rotation by angle $\theta$ about axis $\hat{\bm{n}}$ lifts to
-$\pm\cos(\theta/2)\bm{I}_2 \mp i\sin(\theta/2)(\hat{\bm{n}}\cdot\bm{\sigma})$.
+\textbf{Why two-to-one?}  Both $\bm U$ and $-\bm U$ give the same rotation.
+A rotation by angle $\theta$ about axis $\hat{\bm n}$ lifts to
+$\pm\cos(\theta/2)\bm I_2\mp\ii\sin(\theta/2)(\hat{\bm n}\cdot\bm\sigma)$.
 Increasing $\theta$ by $2\pi$ flips the sign!
 \end{frame}
 
@@ -483,19 +506,23 @@ Increasing $\theta$ by $2\pi$ flips the sign!
 \section{Lie Algebra Isomorphism \texorpdfstring{$\so(3)\cong\su(2)$}{so(3)≅su(2)}}
 
 \begin{frame}{Lie Algebra Isomorphism \texorpdfstring{$\so(3)\cong\su(2)$}{so(3)≅su(2)}}
-\begin{block}{Theorem}
-Define $\phi:\so(3)\to\su(2)$ by $\phi(\bm{L}_i) = \bm{T}_i$
+\begin{Thm}{Lie Algebra Isomorphism \texorpdfstring{$\so(3)\cong\su(2)$}{so(3)≅su(2)}}
+Define $\phi:\so(3)\to\su(2)$ by $\phi(\bm L_i)\df\bm T_i$
 (and extend $\R$-linearly).  Then $\phi$ is a Lie algebra isomorphism.
-\end{block}
+\end{Thm}
 
 \pause
 \begin{block}{Proof (essence)}
 \begin{itemize}
 \item $\phi$ maps a basis to a basis $\implies$ linear isomorphism.
-\item Both satisfy $[\bm{L}_i,\bm{L}_j]=\varepsilon_{ijk}\bm{L}_k$
-and $[\bm{T}_i,\bm{T}_j]=\varepsilon_{ijk}\bm{T}_k$.
-\item Therefore $\phi([\bm{L}_i,\bm{L}_j]) = \phi(\varepsilon_{ijk}\bm{L}_k)
-= \varepsilon_{ijk}\bm{T}_k = [\bm{T}_i,\bm{T}_j] = [\phi(\bm{L}_i),\phi(\bm{L}_j)]$.
+\item Both satisfy $\SqBr{\bm L_i,\bm L_j}=\eps_{ijk}\bm L_k$
+and $\SqBr{\bm T_i,\bm T_j}=\eps_{ijk}\bm T_k$.
+\item Therefore
+$\phi\Br{\SqBr{\bm L_i,\bm L_j}}
+=\phi\Br{\eps_{ijk}\bm L_k}
+=\eps_{ijk}\bm T_k
+=\SqBr{\bm T_i,\bm T_j}
+=\SqBr{\phi(\bm L_i),\phi(\bm L_j)}$.
 \end{itemize}
 \end{block}
 
@@ -544,10 +571,10 @@ Their Lie algebras are \textbf{isomorphic}: $\so(3)\cong\su(2)$.
 \begin{block}{Representation Theory (next meeting)}
 \begin{itemize}
 \item Representations of Lie algebras and Lie groups.
-\item Complexification $\su(2)_\C \cong \mathfrak{sl}(2,\C)$
-and the Cartan--Weyl basis $(\bm{H},\bm{E},\bm{F})$.
+\item Complexification $\su(2)_\C\cong\mathfrak{sl}(2,\C)$
+and the Cartan--Weyl basis $(\bm H,\bm E,\bm F)$.
 \item Classification of irreducible representations of $\su(2)$:
-for each $j\in\{0,\tfrac12,1,\tfrac32,\dots\}$,
+for each $j\in\set{0,\tfrac12,1,\tfrac32,\dots}$,
 a unique irrep of dimension $2j+1$.
 \item Integration: every $\su(2)$-representation exponentiates
 to an $\SU(2)$-representation.
