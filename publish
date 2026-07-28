@@ -1,5 +1,5 @@
 #!/bin/sh
-# publish — compile paper + poster + slides, copy PDFs to repo root, commit, and push
+# publish — compile paper + poster + slides, copy paper PDF to repo root, commit, and push
 set -eu
 
 REPO="/home/gc/Documents/quantum-spin-public"
