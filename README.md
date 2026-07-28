@@ -38,7 +38,7 @@ The repository is self-contained — `leopard.sty` is bundled in each source dir
 
 ```bash
 # Paper (pdflatex)
-cd paper && latexmk -pdf 'Representations_of_Lie_Groups_A_Mathematical_Dissection_of_Quantum.tex'
+cd paper && latexmk -pdf paper.tex
 
 # Poster (lualatex — required for fontspec + custom fonts)
 cd poster && latexmk -lualatex poster.tex

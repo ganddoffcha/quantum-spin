@@ -1,22 +1,22 @@
 #!/bin/sh
-# publish — compile paper + poster, commit, and push to github.com/ganddoffcha/quantum-spin
+# publish — compile paper + poster + slides, commit, and push to github.com/ganddoffcha/quantum-spin
 set -eu
 
 REPO="/home/gc/Documents/quantum-spin-public"
 
 cd "$REPO"
 
-# Compile paper (pdflatex) — leopard.sty is in paper/ alongside the .tex
+# Compile paper (pdflatex)
 echo "=== Compiling paper ==="
 cd "$REPO/paper"
-latexmk -g -pdf "Representations_of_Lie_Groups_A_Mathematical_Dissection_of_Quantum.tex"
+latexmk -g -pdf paper.tex
 
-# Compile poster (lualatex) — leopard.sty is in poster/ alongside the .tex
+# Compile poster (lualatex)
 echo "=== Compiling poster ==="
 cd "$REPO/poster"
 latexmk -g -lualatex poster.tex
 
-# Compile slides (pdflatex) — leopard.sty is in slides/ alongside the .tex
+# Compile slides (pdflatex)
 echo "=== Compiling slides ==="
 cd "$REPO/slides"
 latexmk -g -pdf slides.tex
