@@ -1,2 +1,3 @@
 # Paper: pdflatex (default)
 # PDF → out/paper.pdf — publish script copies to ../gordon-chan-quantum-spin.pdf
+$out_dir = 'out';

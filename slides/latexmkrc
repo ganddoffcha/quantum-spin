@@ -1,2 +1,3 @@
 # Slides: pdflatex (no fontspec needed)
+$out_dir = 'out';
 # PDF → out/slides.pdf (not copied to repo root)
