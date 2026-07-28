@@ -3,19 +3,23 @@
 set -eu
 
 REPO="/home/gc/Documents/quantum-spin-public"
-TEXINPUTS=".:/home/gc/Documents/texnow//:"
 
 cd "$REPO"
 
-# Compile paper (pdflatex)
+# Compile paper (pdflatex) — leopard.sty is in paper/ alongside the .tex
 echo "=== Compiling paper ==="
 cd "$REPO/paper"
-TEXINPUTS="$TEXINPUTS" latexmk -g -pdf "Representations_of_Lie_Groups_A_Mathematical_Dissection_of_Quantum.tex"
+latexmk -g -pdf "Representations_of_Lie_Groups_A_Mathematical_Dissection_of_Quantum.tex"
 
-# Compile poster (lualatex)
+# Compile poster (lualatex) — leopard.sty is in poster/ alongside the .tex
 echo "=== Compiling poster ==="
 cd "$REPO/poster"
-TEXINPUTS="$TEXINPUTS" latexmk -g -lualatex poster.tex
+latexmk -g -lualatex poster.tex
+
+# Compile slides (pdflatex) — leopard.sty is in slides/ alongside the .tex
+echo "=== Compiling slides ==="
+cd "$REPO/slides"
+latexmk -g -pdf slides.tex
 
 # Commit and push
 cd "$REPO"
@@ -23,7 +27,7 @@ git add -A
 if git diff --cached --quiet; then
     echo "Nothing to publish."
 else
-    git commit -m "Update paper and poster"
+    git commit -m "Update paper, poster, and slides"
     git pull --rebase
     git push
     echo "=== Published → github.com/ganddoffcha/quantum-spin ==="

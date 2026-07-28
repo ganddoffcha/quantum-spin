@@ -15,25 +15,51 @@ Introductory quantum mechanics often introduces the concept of spin heuristicall
 
 | File | Description |
 |------|-------------|
-| [`gordon-chan-quantum-spin.pdf`](gordon-chan-quantum-spin.pdf) | Full paper (pdflatex) |
-| [`poster.pdf`](poster.pdf) | A1 poster (lualatex) |
-| [`paper/`](paper/) | Paper LaTeX source |
-| [`poster/`](poster/) | Poster LaTeX source |
+| [`gordon-chan-quantum-spin.pdf`](gordon-chan-quantum-spin.pdf) | Full paper (pdflatex, ~30 pages) |
+| [`poster.pdf`](poster.pdf) | A1 conference poster (lualatex) |
+| [`slides.pdf`](slides.pdf) | Presentation slides (pdflatex) |
+| [`paper/`](paper/) | Paper LaTeX source + [`leopard.sty`](paper/leopard.sty) |
+| [`poster/`](poster/) | Poster LaTeX source + [`leopard.sty`](poster/leopard.sty) |
+| [`slides/`](slides/) | Slides LaTeX source + [`leopard.sty`](slides/leopard.sty) |
 
 ## Build
 
+### Prerequisites
+
+A TeX distribution with `pdflatex`, `lualatex`, and `latexmk`:
+
+- **TeX Live** (Linux): `sudo apt install texlive-full` or `texlive` + `latexmk`
+- **MiKTeX** (Windows): [miktex.org](https://miktex.org)
+- **MacTeX** (macOS): [tug.org/mactex](https://tug.org/mactex)
+
+The repository is self-contained — `leopard.sty` is bundled in each source directory. No external dependencies.
+
+### Compile everything
+
 ```bash
 # Paper (pdflatex)
-cd paper && TEXINPUTS=.:/path/to/texnow//: latexmk -pdf Representations_of_Lie_Groups_*.tex
+cd paper && latexmk -pdf 'Representations_of_Lie_Groups_A_Mathematical_Dissection_of_Quantum.tex'
 
-# Poster (lualatex)
-cd poster && TEXINPUTS=.:/path/to/texnow//: latexmk -lualatex poster.tex
+# Poster (lualatex — required for fontspec + custom fonts)
+cd poster && latexmk -lualatex poster.tex
 
-# Or publish everything in one command
+# Slides (pdflatex)
+cd slides && latexmk -pdf slides.tex
+```
+
+Each `latexmk` run produces the PDF in an `out/` subdirectory and copies it to the repo root. Run twice if cross-references or table of contents need updating.
+
+### One-command publish (author only)
+
+```bash
 ./publish
 ```
 
-Uses [`leopard.sty`](https://github.com/ganddoffcha/documents/tree/main/texnow) v3 — a custom LaTeX style file with 60+ math macros.
+Compiles paper, poster, and slides; commits PDFs; pushes to GitHub.
+
+## Style file
+
+[`leopard.sty`](paper/leopard.sty) v3 — a custom LaTeX style file with 60+ math macros, theorem environments, and typographic presets. Bundled in each source directory; no separate install needed.
 
 ## License
 

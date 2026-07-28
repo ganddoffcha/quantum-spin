@@ -1,0 +1,337 @@
+% ==============================================================================
+%  leopard.sty — Gordon Chan's unified LaTeX style for texnow quick-start sessions
+% ==============================================================================
+%  This is the CANONICAL copy at ~/Documents/texnow/leopard.sty.
+%  The texnow script copies it into new projects.  To update all future
+%  projects, edit THIS file and run:  texnow --sync
+%
+%  v3 — 2026-07-13: merged improvements from rep-theory leopard.sty:
+%    - Fixed dangerous \land/\lor → \tand/\tor (don't override logical operators!)
+%    - Added \set, \eval, \norm, \abs (auto-scaling delimiters)
+%    - Upgraded \FUNC with optional subscript via \NewDocumentCommand
+%    - Fixed \df → \stackrel{\mathrm{df}}{=} (proper roman "df")
+%    - Added QoL shortcuts: \ss, \es, \sm
+%    - Added structural macros: \S, \L, \U, \A
+%    - Added \xeq extensible equality arrow
+%    - Removed physics package (heavy; only \vb was used → replaced with \bm)
+%    - \vec now uses \bm (bold math) instead of physics \vb
+%    - \curl/\div defined via \DeclareMathOperator (not \renewcommand clash)
+%    - Added \grad operator
+%
+%  v2 — original texnow version (pre-2026-07-13)
+% ==============================================================================
+
+% =========================================
+% 1. PAGE LAYOUT AND LANGUAGE
+% =========================================
+\usepackage[british]{babel}
+\usepackage{parskip}            % Adds space between paragraphs, removes indentation
+\PassOptionsToPackage{nopatch=footnote}{microtype}
+\usepackage{microtype}          % Improves typography (kerning/spacing)
+\@ifclassloaded{beamer}{}{\usepackage[margin=1in,a4paper]{geometry}}
+
+\frenchspacing                  % Standard for math/papers: single space after periods
+
+% --- Overfull/underfull box prevention ---
+\raggedbottom                   % Allow natural page heights (prevents underfull vboxes)
+\hfuzz=2pt                      % Suppress overfull hbox warnings below 2pt
+\setlength{\emergencystretch}{0.5em}  % Extra inter-word stretch for line-breaking
+
+% =========================================
+% 2. MATHEMATICS PACKAGES
+% =========================================
+\usepackage{siunitx}            % SI units formatting
+
+% --- THE NUCLEAR OPTION FOR SIUNITX WARNINGS ---
+% Accesses the deep LaTeX3 engine to globally mute siunitx warnings
+\ExplSyntaxOn
+\msg_redirect_module:nnn { siunitx } { warning } { none }
+\ExplSyntaxOff
+
+\usepackage{mathtools}          % Enhances amsmath (loads amsmath automatically)
+\usepackage{amssymb}            % Mathematical symbols
+\usepackage{amsthm}             % Theorem environments
+\usepackage{bm}                 % Bold math symbols (\bm for bold vectors)
+\usepackage{mathrsfs}           % Ralph Smith's Formal Script Font (\mathscr)
+\usepackage{bbm}                % Blackboard bold for numbers (\mathbbm{1} for indicator)
+\usepackage{mleftright}         % Fixes spacing issues with \left and \right delimiters
+
+\allowdisplaybreaks             % Allows page breaks inside multi-line math environments
+
+\everymath{\displaystyle}       % Forces display math style inline
+
+% =========================================
+% 3. GRAPHICS, TABLES, TIKZ AND UTILITIES
+% =========================================
+\usepackage{xcolor}             % Color support
+\usepackage{svg}                % SVG image support
+\usepackage{booktabs}           % Professional tables
+\usepackage{soul}               % Text highlighting (\hl)
+
+% --- TikZ and Commutative Diagrams ---
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{decorations.pathmorphing, arrows.meta, positioning}
+
+% --- Table Spacing Adjustments ---
+\usepackage[math]{cellspace}
+\setlength{\cellspacetoplimit}{2pt}
+\setlength{\cellspacebottomlimit}{2pt}
+
+% =========================================
+% 4. LIST CONFIGURATION & AUTO-MARGINS
+% =========================================
+\makeatletter
+\@ifclassloaded{beamer}{}{%
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=*}
+\setlist[enumerate]{leftmargin=*}
+}
+\makeatother
+
+% --- Automatic Margin Lists ---
+\newcounter{autolist}
+
+\makeatletter
+% Auto-Alphabetic (a, b, c)
+\newenvironment{autoalph}[1][]{%
+    \stepcounter{autolist}%
+    \edef\myautolist{\theautolist}%
+    \def\currentmax{1}%
+    \ifcsname autolist@\myautolist\endcsname
+        \edef\currentmax{\csname autolist@\myautolist\endcsname}%
+    \fi
+    \begin{enumerate}[label=(\alph*), widest*=\currentmax, #1]%
+}{%
+    \immediate\write\@auxout{%
+        \string\gdef\string\autolist@\myautolist{\number\value{\@enumctr}}%
+    }%
+    \end{enumerate}%
+}
+
+% Auto-Roman (i, ii, iii)
+\newenvironment{autoroman}[1][]{%
+    \stepcounter{autolist}%
+    \edef\myautolist{\theautolist}%
+    \def\currentmax{1}%
+    \ifcsname autolist@\myautolist\endcsname
+        \edef\currentmax{\csname autolist@\myautolist\endcsname}%
+    \fi
+    \begin{enumerate}[label=(\roman*), widest*=\currentmax, #1]%
+}{%
+    \immediate\write\@auxout{%
+        \string\gdef\string\autolist@\myautolist{\number\value{\@enumctr}}%
+    }%
+    \end{enumerate}%
+}
+\makeatother
+
+% =========================================
+% 5. THEOREM ENVIRONMENTS (skip for beamer — beamer provides its own)
+% =========================================
+\makeatletter
+\@ifclassloaded{beamer}{}{%
+\newtheorem{Prop}{Proposition}[section]
+\newtheorem{Thm}[Prop]{Theorem}
+\newtheorem{Observation}[Prop]{Observation}
+\newtheorem{corollary}[Prop]{Corollary}
+\newtheorem{lemma}[Prop]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{Def}[Prop]{Definition}
+\newtheorem*{remark}{Remark}
+\newtheorem{example}[Prop]{Example}
+}
+\makeatother
+
+% =========================================
+% 6. CUSTOM MACROS
+% =========================================
+% --- Number Sets ---
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\T}{\mathcal{T}}      % Torus / Circle group (topology)
+\newcommand{\B}{\mathcal{B}}      % Basis / Borel
+\newcommand{\F}{\mathbb{F}}       % Arbitrary Field
+\newcommand{\I}{\mathcal{I}}      % Ideal / Index set
+\newcommand{\J}{\mathcal{J}}      % Ideal / Index set
+\AtBeginDocument{\renewcommand{\P}{\mathscr{P}}}       % Power set / Partition (overrides paragraph ¶)
+
+% --- Logic & Relations ---
+\newcommand{\df}{\stackrel{\mathrm{df}}{=}}           % Definitional equality (roman "df")
+\renewcommand{\st}{~:\middle|:~}                      % "such that" (colon-bar-colon, bar auto-scales)
+\newcommand{\tand}{~\mathrm{and}~}                    % Text "and" in math mode (SAFE)
+\newcommand{\tor}{~\mathrm{or}~}                      % Text "or" in math mode (SAFE)
+\renewcommand{\ge}{\geqslant}
+\renewcommand{\le}{\leqslant}
+
+% --- Quality of Life Math Shortcuts ---
+\newcommand{\inv}{^{-1}}                              % Quick inverse
+\renewcommand{\vec}[1]{\bm{#1}}                       % Bold vector (uses bm, not physics)
+\AtBeginDocument{\renewcommand{\ss}{\subseteq}}       % Subset (overrides German ß)
+\newcommand{\es}{\varnothing}                         % Empty set
+\newcommand{\sm}{\setminus}                           % Set minus
+\newcommand{\eps}{\varepsilon}                        % Varepsilon (prettier than \epsilon)
+\newcommand{\p}{\partial}                             % Partial derivative
+\newcommand{\dd}{\mathrm{d}}                          % Differential d (for integrals/exterior calculus)
+
+% --- Auto-Scaling Delimiter Macros ---
+\newcommand{\Br}[1]{\mleft( #1 \mright)}              % Auto-scaling parentheses
+\newcommand{\SqBr}[1]{\mleft[ #1 \mright]}            % Auto-scaling square brackets
+\newcommand{\set}[1]{\mleft\{ #1 \mright\}}           % Auto-scaling braces (set notation)
+\newcommand{\eval}[1]{\mleft. #1 \mright|}            % Auto-scaling evaluation bar
+\newcommand{\norm}[1]{\mleft\| #1\mright\|}           % Auto-scaling norm
+\newcommand{\Inner}[2]{\mleft\langle #1, #2 \mright\rangle} % Inner product
+\newcommand{\abs}[1]{\mleft| #1 \mright|}             % Auto-scaling absolute value
+
+% --- Interval Notation ---
+\newcommand{\open}[2]{\mleft] #1, #2 \mright[}
+\newcommand{\ropen}[2]{\mleft[ #1, #2 \mright[}
+\newcommand{\lopen}[2]{\mleft] #1, #2 \mright]}
+\newcommand{\closed}[2]{\SqBr{#1, #2}}
+
+% --- Integration ---
+\newcommand{\Int}[3]{\int_{#1} #2 ~ \mathrm{d}{#3}}
+
+% --- Structural Macros ---
+\AtBeginDocument{\renewcommand{\S}{\mathbb{S}}}       % n-sphere (overrides section §)
+\AtBeginDocument{\renewcommand{\L}{\mathcal{L}}}      % Lagrangian / Linear map space (overrides Polish Ł)
+\newcommand{\U}{\mathcal{U}}      % Open cover (for unitary group, define \Ugrp in preamble)
+\newcommand{\A}{\mathcal{A}}      % Algebra / Atlas
+\AtBeginDocument{\renewcommand{\H}{\mathcal{H}}}      % Hilbert space (overrides Hungarian double acute ő)
+
+% =========================================
+% 7. OPERATORS & FUNCTIONS
+% =========================================
+% --- Math Operators (with automatic parentheses) ---
+% Usage: \Null{V} → Null(V), \Span{S} → Span(S), etc.
+\newcommand{\Null}[1]{\func{\operatorname{Null}}{#1}}
+\newcommand{\Span}[1]{\func{\operatorname{Span}}{#1}}
+\newcommand{\Dom}[1]{\func{\operatorname{Dom}}{#1}}
+\newcommand{\Range}[1]{\func{\operatorname{Range}}{#1}}
+\newcommand{\dist}{\mathrm{dist}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Hom}[1]{\func{\operatorname{Hom}}{#1}}
+
+% --- Calculus Operators ---
+% These use \DeclareMathOperator internally for correct spacing,
+% then wrapped for parenthesized argument syntax.
+\DeclareMathOperator{\curlOp}{curl}
+\DeclareMathOperator{\divOp}{div}
+\DeclareMathOperator{\gradOp}{grad}
+\newcommand{\curl}[1]{\func{\curlOp}{#1}}
+\renewcommand{\div}[1]{\func{\divOp}{#1}}   % overrides division ÷
+\newcommand{\grad}[1]{\func{\gradOp}{#1}}
+
+% --- Matrix Lie Groups (mathematical physics) ---
+% Use: \GL(n,\R), \SL(2,\C), \SO(3), \SU(2), \Sp(2n,\R)
+% Three-tier notational convention:
+%   \mathrm{GL}(n,\R) — underlying set (just the smooth manifold, forget group structure)
+%   \GL(n,\R)        — Lie group (\mathsf{GL}, sans-serif upright)
+%   \gl(n,\R)        — Lie algebra (\mathfrak{gl}, fraktur)
+% Group symbols (\mathsf) and their underlying sets (\mathrm):
+\newcommand{\GL}{\operatorname{\mathsf{GL}}}
+\newcommand{\SL}{\operatorname{\mathsf{SL}}}
+\newcommand{\SO}{\operatorname{\mathsf{SO}}}
+\newcommand{\SU}{\operatorname{\mathsf{SU}}}
+\newcommand{\Sp}{\operatorname{\mathsf{Sp}}}
+\newcommand{\GLset}{\operatorname{GL}}
+\newcommand{\SLset}{\operatorname{SL}}
+\newcommand{\SOset}{\operatorname{SO}}
+\newcommand{\SUset}{\operatorname{SU}}
+\newcommand{\Spset}{\operatorname{Sp}}
+\providecommand{\transp}{^{\intercal}}
+\newcommand{\herm}{^{\dagger}}
+
+% --- Lie Theory Macros ---
+% Convention (three-tier):
+%   \mathrm  — underlying set (just the manifold/vector space, forget extra structure)
+%   \mathsf  — Lie group (the set with its group structure)
+%   \mathfrak — Lie algebra (the tangent space at identity with the Lie bracket)
+% Examples: \mathrm{SU}(2) (underlying set), \SU(2)=\mathsf{SU}(2) (Lie group), \su(2)=\mathfrak{su}(2) (Lie algebra)
+\newcommand{\X}{\mathfrak{X}}        % Vector fields
+\newcommand{\g}{\mathfrak{g}}        % Lie algebra of G
+\newcommand{\h}{\mathfrak{h}}        % Lie subalgebra / Cartan
+\newcommand{\gl}{\mathfrak{gl}}      % General linear Lie algebra
+\renewcommand{\sl}{\mathfrak{sl}}    % Special linear Lie algebra (overrides LaTeX \sl slanted font)
+\renewcommand{\so}{\mathfrak{so}}    % Special orthogonal Lie algebra (overrides OT1 \so)
+\newcommand{\su}{\mathfrak{su}}      % Special unitary Lie algebra
+\renewcommand{\sp}{\mathfrak{sp}}    % Symplectic Lie algebra (overrides TeX \sp superscript primitive)
+% Algebra underlying sets (\mathrm — just the vector space, forget the bracket):
+\newcommand{\glset}{\operatorname{gl}}
+\newcommand{\slset}{\operatorname{sl}}
+\newcommand{\soset}{\operatorname{so}}
+\newcommand{\suset}{\operatorname{su}}
+\newcommand{\spset}{\operatorname{sp}}
+\newcommand{\ev}{\mathrm{ev}}        % Evaluation map
+\DeclareMathOperator{\tr}{tr}        % Trace operator
+\newcommand{\mqty}[1]{\begin{bmatrix*}[r]#1\end{bmatrix*}}  % Right-aligned matrix
+
+% --- Function Application Macros ---
+% \func{f}{x}       → f(x)
+% \Func{f}{x}       → (f)(x)
+% \FUNC{X,Y}{f}     → [X,Y](f)
+% \FUNC[\circ]{X,Y}{f} → [X,Y]_\circ(f)  (optional subscript)
+\newcommand{\func}[2]{#1 \Br{#2}}
+\newcommand{\Func}[2]{\func{\Br{#1}}{#2}}
+\NewDocumentCommand{\FUNC}{o m m}{%
+  \func{\SqBr{#2}\IfValueT{#1}{_{#1}}}{#3}%
+}
+
+% =========================================
+% 8. CUSTOM DOCUMENT ENVIRONMENTS (skip for beamer)
+% =========================================
+\makeatletter
+\@ifclassloaded{beamer}{}{%
+\newcommand{\myTitle}[3]{%
+    \begin{center}
+        \textbf{#1\hfill #2\hfill #3}
+    \end{center}
+    \medskip\hrule\bigskip
+}
+
+\newenvironment{problem}[1]{%
+    \par\medskip\ul{Problem #1}\par\nobreak\ignorespaces
+}{%
+    \par\bigskip
+    \ignorespacesafterend
+}
+
+\newenvironment{question}[2]{%
+    \par\medskip\textbf{QUESTION #1\hfill(Total: #2 marks)}\par\nobreak\ignorespaces
+}{%
+    \par\bigskip
+    \ignorespacesafterend
+}
+
+\newenvironment{solution}{%
+    \par\color{teal}\textit{Solution}\par\nobreak\ignorespaces
+}{%
+    \par\ignorespacesafterend
+}
+
+\newenvironment{attempt}{%
+    \par\color{teal}\textit{Attempt}\par\nobreak\ignorespaces
+}{%
+    \par\ignorespacesafterend
+}
+}
+\makeatother
+
+% =========================================
+% 9. HYPERREF (skip for beamer — beamer loads its own)
+% =========================================
+\makeatletter
+\@ifclassloaded{beamer}{}{%
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=teal, urlcolor=blue]{hyperref}
+}
+\makeatother
+
+% --- Extensible Equality Arrow ---
+\makeatletter
+\newcommand*{\Relbarfill@}{\arrowfill@\Relbar\Relbar\Relbar}
+\newcommand*{\xeq}[2][]{\ext@arrow 0055\Relbarfill@{#1}{#2}}
+\makeatother
