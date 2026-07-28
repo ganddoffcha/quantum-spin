@@ -1,2 +1,2 @@
 # Slides: pdflatex (no fontspec needed)
-# PDF goes to out/slides.pdf — publish script copies to repo root
+# PDF → out/slides.pdf (not copied to repo root)

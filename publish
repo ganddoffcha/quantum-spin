@@ -15,13 +15,11 @@ cp "out/paper.pdf" "../gordon-chan-quantum-spin.pdf"
 echo "=== Compiling poster ==="
 cd "$REPO/poster"
 latexmk -g -lualatex poster.tex
-cp "out/poster.pdf" "../poster.pdf"
 
 # Compile slides (pdflatex) → out/slides.pdf
 echo "=== Compiling slides ==="
 cd "$REPO/slides"
 latexmk -g -pdf slides.tex
-cp "out/slides.pdf" "../slides.pdf"
 
 # Commit and push
 cd "$REPO"

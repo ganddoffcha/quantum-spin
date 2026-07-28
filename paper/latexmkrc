@@ -1,2 +1,2 @@
 # Paper: pdflatex (default)
-# PDF goes to out/paper.pdf — publish script copies to repo root
+# PDF → out/paper.pdf — publish script copies to ../gordon-chan-quantum-spin.pdf
