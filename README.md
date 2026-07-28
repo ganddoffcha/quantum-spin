@@ -37,25 +37,25 @@ The repository is self-contained — `leopard.sty` is bundled in each source dir
 ### Compile everything
 
 ```bash
-# Paper (pdflatex)
+# Paper (pdflatex) → out/paper.pdf
 cd paper && latexmk -pdf paper.tex
 
-# Poster (lualatex — required for fontspec + custom fonts)
+# Poster (lualatex) → out/poster.pdf
 cd poster && latexmk -lualatex poster.tex
 
-# Slides (pdflatex)
+# Slides (pdflatex) → out/slides.pdf
 cd slides && latexmk -pdf slides.tex
 ```
 
-Each `latexmk` run produces the PDF in an `out/` subdirectory and copies it to the repo root. Run twice if cross-references or table of contents need updating.
+Each `latexmk` run produces the PDF in an `out/` subdirectory. Run twice if cross-references or table of contents need updating.
 
-### One-command publish (author only)
+### Publish (author only)
 
 ```bash
 ./publish
 ```
 
-Compiles paper, poster, and slides; commits PDFs; pushes to GitHub.
+Compiles all three, copies PDFs to repo root, commits, and pushes to GitHub.
 
 ## Style file
 

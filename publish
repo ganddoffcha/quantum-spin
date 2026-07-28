@@ -1,25 +1,27 @@
 #!/bin/sh
-# publish — compile paper + poster + slides, commit, and push to github.com/ganddoffcha/quantum-spin
+# publish — compile paper + poster + slides, copy PDFs to repo root, commit, and push
 set -eu
 
 REPO="/home/gc/Documents/quantum-spin-public"
-
 cd "$REPO"
 
-# Compile paper (pdflatex)
+# Compile paper (pdflatex) → out/paper.pdf
 echo "=== Compiling paper ==="
 cd "$REPO/paper"
 latexmk -g -pdf paper.tex
+cp "out/paper.pdf" "../gordon-chan-quantum-spin.pdf"
 
-# Compile poster (lualatex)
+# Compile poster (lualatex) → out/poster.pdf
 echo "=== Compiling poster ==="
 cd "$REPO/poster"
 latexmk -g -lualatex poster.tex
+cp "out/poster.pdf" "../poster.pdf"
 
-# Compile slides (pdflatex)
+# Compile slides (pdflatex) → out/slides.pdf
 echo "=== Compiling slides ==="
 cd "$REPO/slides"
 latexmk -g -pdf slides.tex
+cp "out/slides.pdf" "../slides.pdf"
 
 # Commit and push
 cd "$REPO"

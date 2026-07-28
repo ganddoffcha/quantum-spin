@@ -1,3 +1,2 @@
 $pdf_mode = 4;    # lualatex (needed for fontspec + din.otf)
-# Auto-copy compiled poster PDF to repo root
-$success_cmd = 'cp "out/poster.pdf" "../poster.pdf"';
+# PDF goes to out/poster.pdf — publish script copies to repo root

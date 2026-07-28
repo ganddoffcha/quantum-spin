@@ -1,2 +1,2 @@
 # Slides: pdflatex (no fontspec needed)
-$success_cmd = 'cp "out/%B.pdf" "../slides.pdf"';
+# PDF goes to out/slides.pdf — publish script copies to repo root
