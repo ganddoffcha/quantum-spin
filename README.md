@@ -15,11 +15,9 @@ Introductory quantum mechanics often introduces the concept of spin heuristicall
 
 | File | Description |
 |------|-------------|
-| [`gordon-chan-quantum-spin.pdf`](gordon-chan-quantum-spin.pdf) | Full paper (pdflatex, ~30 pages) |
-| [`poster.pdf`](poster.pdf) | A1 conference poster (lualatex) |
-| [`slides.pdf`](slides.pdf) | Presentation slides (pdflatex) |
+| [`gordon-chan-quantum-spin.pdf`](gordon-chan-quantum-spin.pdf) | Full paper (pdflatex, 40 pages) |
 | [`paper/`](paper/) | Paper LaTeX source + [`leopard.sty`](paper/leopard.sty) |
-| [`poster/`](poster/) | Poster LaTeX source + [`leopard.sty`](poster/leopard.sty) |
+| [`poster/`](poster/) | Poster LaTeX source + [`leopard.sty`](poster/leopard.sty) + assets |
 | [`slides/`](slides/) | Slides LaTeX source + [`leopard.sty`](slides/leopard.sty) |
 
 ## Build
@@ -55,7 +53,7 @@ Each `latexmk` run produces the PDF in an `out/` subdirectory. Run twice if cros
 ./publish
 ```
 
-Compiles all three, copies PDFs to repo root, commits, and pushes to GitHub.
+Compiles all three, copies paper PDF to repo root, commits, and pushes to GitHub.
 
 ## Style file
 
