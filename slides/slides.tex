@@ -1,10 +1,11 @@
-\documentclass[11pt]{beamer}
+\documentclass[9pt]{beamer}
 
 \usetheme{Madrid}
 \usecolortheme{default}
 
 % --- Load leopard.sty (all macros, number sets, operators, etc.) ---
 \usepackage{leopard}
+\usepackage{qrcode}
 \renewcommand{\mathrm}[1]{\mathsf{#1}}
 
 % --- Project-specific overrides (matching paper + poster) ---
@@ -52,18 +53,45 @@
 \setbeamertemplate{footline}[frame number]
 
 \title{Representations of Lie Groups\\A Mathematical Dissection of Quantum Spin}
-\subtitle{Part I: Mathematical Foundations}
 \author{Gordon Chan\\Supervisor: Assoc. Prof. François Gay-Balmaz}
-\date{28 July 2026}
+\date{31 July 2026}
 
 \begin{document}
 
 % ======================================================================
-\frame{\titlepage}
+\begin{frame}
+\titlepage
+\end{frame}
 
 % ======================================================================
 \begin{frame}{Outline}
 \tableofcontents
+\end{frame}
+
+% ======================================================================
+\section{Motivation}
+
+\begin{frame}{Why Lie Groups? Why Quantum Spin?}
+\begin{block}{Puzzle}
+Introductory quantum mechanics presents spin heuristically, as an
+``intrinsic angular momentum'' with mysterious half-integer values.
+Where does this come from?
+\end{block}
+
+\pause
+\vspace{0.5em}
+\textbf{Approach.} Build the answer from the ground up:
+\begin{enumerate}
+\item Topology $\to$ smooth manifolds: the geometric language.
+\item Lie groups = smooth manifolds + group structure: continuous symmetries.
+\item Representation theory: how abstract groups act on vector spaces.
+\item $\SU(2)$ and $\SO(3)$: the rotation group and its double cover.
+\item Classification of irreps $\to$ integer \& half-integer spin.
+\end{enumerate}
+
+\pause
+\vspace{0.3em}
+Topology and abstract algebra $\longrightarrow$ quantum physics.
 \end{frame}
 
 % ======================================================================
@@ -85,103 +113,134 @@ $\forall U,V\in\T:U\cap V\in\T$.
 
 \pause
 \vspace{0.5em}
-\textbf{Why this matters.} A topology tells us what ``closeness'' means
+\textbf{Significance.} A topology tells us what ``closeness'' means
 without needing a distance function. Open sets are the primitive notion
-of ``nearby'' — they generalise open intervals in $\R$.
+of ``nearby'': they generalise open intervals in $\R$.
 
 \pause
 \vspace{0.3em}
-\textbf{Key constructions.} Product topology, subspace topology, metric
+\textbf{Constructions.} Product topology, subspace topology, metric
 topologies (e.g.\ the Euclidean topology on $\R^n$).
-\end{frame}
-
-% ======================================================================
-\section{Topological Manifolds}
-
-\begin{frame}{Topological Manifolds}
-\begin{Def}{Definition (topological manifold)}
-A \textbf{topological manifold} is a topological space $(M,\T)$ satisfying:
-\begin{enumerate}
-\item (Hausdorff) Points can be separated by disjoint open sets.
-\item (Second-countable) The topology has a countable basis.
-\item (Locally Euclidean) Every point has a neighbourhood homeomorphic to
-$\R^n$ for some fixed $n=\dim(M)$.
-\end{enumerate}
-\end{Def}
-
-\pause
-\vspace{0.5em}
-\textbf{Intuition.} A manifold is a space that \emph{locally looks like}
-$\R^n$, but may have a nontrivial global shape (e.g.\ a sphere $S^2$
-or a torus $T^2$).
-
-\pause
-\vspace{0.3em}
-\textbf{Why Hausdorff~+~second-countable?} These are technical conditions
-that prevent pathological spaces. They guarantee that partitions of unity
-exist.
 \end{frame}
 
 % ======================================================================
 \section{Smooth Manifolds}
 
-\begin{frame}{Smooth Manifolds}
+\begin{frame}{From Topological to Smooth Manifolds}
+\begin{Def}{Definition (topological manifold)}
+A \textbf{topological manifold} is a space $(M,\T)$ that is Hausdorff,
+second-countable, and locally Euclidean of dimension $n$.
+\end{Def}
+
+\pause
 \begin{Def}{Definition (smooth manifold)}
 A \textbf{smooth manifold} is a triple $(M,\T,\A)$ where:
 \begin{enumerate}
 \item $(M,\T)$ is a topological manifold.
 \item $\A=\set{(U_\alpha,\phi_\alpha)}_{\alpha\in\I}$ is a
-\textbf{smooth atlas}: each $(U_\alpha,\phi_\alpha)$ is a chart,
-the charts cover $M$, and transition maps
+\textbf{smooth atlas}: charts cover $M$, and transition maps
 $\phi_\beta\circ\phi_\alpha^{-1}$ are $C^\infty$.
 \item $\A$ is \textbf{maximal} with respect to smooth compatibility.
 \end{enumerate}
 \end{Def}
 
 \pause
-\vspace{0.5em}
-\textbf{Key idea.} Charts are local coordinate systems. Smoothness means
-that when you switch between coordinate systems, the change-of-coordinates
-map is infinitely differentiable.
+\vspace{0.3em}
+\textbf{Idea.} Charts are local coordinate systems. Smoothness means
+change-of-coordinates is infinitely differentiable. A \textbf{diffeomorphism}
+is a smooth bijection with smooth inverse: manifolds that are ``the same.''
 \end{frame}
 
-\begin{frame}{Smooth Maps and Diffeomorphisms}
-\begin{Def}{Definition (smooth map)}
-A map $F:M\to N$ between smooth manifolds is \textbf{smooth} if its
-coordinate representation $\psi\circ F\circ\phi^{-1}$ is $C^\infty$
-for all compatible charts.
-\end{Def}
+% ======================================================================
+\section{Germs and Stalks}
 
-\pause
-\begin{Def}{Definition (diffeomorphism)}
-$F:M\to N$ is a \textbf{diffeomorphism} if it is smooth, bijective,
-and $F^{-1}$ is also smooth. Diffeomorphic manifolds are
-``the same'' from the smooth perspective.
+\begin{frame}{Local Smooth Representatives}
+\begin{Def}{Definition (local smooth representative)}
+Let $(M,\T,\A)$ be a smooth manifold, $p\in M$.
+The \textbf{set of local smooth representatives at $p$} is
+\[
+\Rep_p(M,\T,\A)\df\set{(U,f)\st p\in U\in\T\tand
+f:U\to\R~\text{is smooth}}.
+\]
+A pair $(U,f)\in\Rep_p(M,\T,\A)$ is a smooth map defined on some
+open neighbourhood $U$ of $p$.
 \end{Def}
 
 \pause
 \vspace{0.5em}
-\textbf{Example.} $\R^n$ is diffeomorphic to the open unit ball $B_1(0)$.
-$S^n$ is \emph{not} diffeomorphic to $\R^n$ (compact vs.\ non-compact).
+\textbf{Why local representatives?} On a manifold, smooth maps may only
+be defined locally (e.g.\ on a chart domain). To work algebraically at a
+point, we need all functions defined on \emph{any} neighbourhood
+of that point, not just globally-defined ones.
+\end{frame}
+
+\begin{frame}{Germs: Equivalence}
+\begin{block}{Motivation}
+To define tangent vectors algebraically, we need to know when two locally
+defined smooth maps are ``the same near a point'', even if they differ
+far away. This is captured by \textbf{germs}.
+\end{block}
+
+\pause
+\begin{Def}{Definition (germ equivalence)}
+Let $p\in M$ and $(U,f),(V,g)\in\Rep_p(M,\T,\A)$.
+$(U,f)$ and $(V,g)$ are \textbf{germ equivalent at $p$}, denoted
+$(U,f)\sim_p(V,g)$, iff
+\[
+\exists W\in\T:\quad p\in W\subseteq U\cap V\tand f|_W=g|_W.
+\]
+\end{Def}
+
+\pause
+\vspace{0.5em}
+\textbf{Intuition.} Two functions are germ equivalent if they agree on
+some neighbourhood of $p$. What happens far from $p$ does not matter.
+\end{frame}
+
+\begin{frame}{Germs: Germ and Stalk}
+\begin{Def}{Definition (germ)}
+Let $p\in M$ and $(U,f)\in\Rep_p(M,\T,\A)$.
+The \textbf{$(U,f)$-germ at $p$} is the equivalence class
+\[
+\SqBr{(U,f)}_p\df\set{(V,g)\in\Rep_p(M,\T,\A)\st (U,f)\sim_p(V,g)}.
+\]
+\end{Def}
+
+\pause
+\begin{Def}{Definition (stalk)}
+The \textbf{stalk of smooth maps at $p$} is the quotient
+\[
+\begin{gathered}
+C_p^\infty(M,\T,\A)\df\Rep_p(M,\T,\A)/\sim_p\\
+=\set{\SqBr{(U,f)}_p\st (U,f)\in\Rep_p(M,\T,\A)}.
+\end{gathered}
+\]
+\end{Def}
+
+\pause
+\vspace{0.3em}
+\textbf{Structure.} The stalk $C_p^\infty(M,\T,\A)$ is a commutative
+associative unital $\R$-algebra under pointwise operations on germs.
 \end{frame}
 
 % ======================================================================
 \section{Tangent Spaces}
 
 \begin{frame}{Tangent Spaces via Derivations}
-\begin{block}{Motivation}
-How do we define tangent vectors to a smooth manifold without embedding
-it in $\R^N$?  Answer: \textbf{derivations} — linear maps that satisfy
-the Leibniz rule.
-\end{block}
+\begin{Def}{Definition (derivation at a point)}
+Let $p\in M$. A map $v:C_p^\infty(M,\T,\A)\to\R$ is a
+\textbf{derivation at $p$} iff:
+\begin{enumerate}
+\item ($\R$-Linearity) $v(\alpha+\lambda\beta)=v(\alpha)+\lambda\,v(\beta)$.
+\item (Leibniz Rule) $v(\alpha\times\beta)=v(\alpha)\,\beta(p)+\alpha(p)\,v(\beta)$.
+\end{enumerate}
+\end{Def}
 
 \pause
 \begin{Def}{Definition (tangent space)}
-Let $M$ be a smooth manifold, $p\in M$. The \textbf{stalk} $C_p^\infty M$
-is the set of germs of smooth functions at $p$. The \textbf{tangent space}
-at $p$ is
+The \textbf{tangent space at $p$} is
 \[
-T_pM\df\set{v : C_p^\infty M\to\R \st
+T_pM\df\set{v:C_p^\infty(M,\T,\A)\to\R\st
 v~\text{is a derivation at}~p}.
 \]
 $T_pM$ is an $\R$-vector space with $\dim(T_pM)=\dim(M)$.
@@ -189,10 +248,10 @@ $T_pM$ is an $\R$-vector space with $\dim(T_pM)=\dim(M)$.
 
 \pause
 \vspace{0.5em}
-\textbf{Why derivations?} For $\R^n$, a tangent vector $v$ acts on
-functions by the directional derivative:
-$v(f)=\sum_i v^i\frac{\p f}{\p x^i}\big|_p$.
-This algebraic characterisation generalises to any manifold.
+\textbf{Motivation.} For $\R^n$, a tangent vector $\bm v$ acts by the
+directional derivative: $\bm v(f)=\sum_i v^i\frac{\p f}{\p x^i}\big|_p$.
+The derivation formalism generalises this to any manifold without an
+embedding.
 \end{frame}
 
 \begin{frame}{The Differential}
@@ -220,38 +279,125 @@ to a smooth map, generalising the Jacobian matrix from multivariable calculus.
 \end{frame}
 
 % ======================================================================
-\section{Algebraic Structures}
+\section{Smooth Vector Fields}
 
-\begin{frame}{Groups, Fields, and Vector Spaces}
-\begin{Def}{Definition (group)}
-A set $G$ with an associative binary operation $\mu$, an identity $e$,
-and inverses $\iota$.  A group is the algebraic abstraction of
-\textbf{symmetry}.
+\begin{frame}{Smooth Vector Fields: Definition}
+\begin{block}{Motivation}
+A tangent vector lives at a single point. A \textbf{vector field} assigns a
+tangent vector to \emph{every} point, smoothly. Algebraically, it is a
+derivation on the algebra of global smooth maps.
+\end{block}
+
+\pause
+\begin{Def}{Definition (smooth vector field)}
+Let $(M,\T,\A)$ be a smooth manifold.
+A map $X:C^\infty(M,\T,\A)\to C^\infty(M,\T,\A)$ is a
+\textbf{smooth vector field} iff:
+\begin{enumerate}
+\item ($\R$-Linearity) $X$ is $\R$-linear.
+\item (Leibniz Rule) $\forall f,g\in C^\infty(M,\T,\A):\;
+X(f\times g)=X(f)\times g+f\times X(g)$.
+\end{enumerate}
+The \textbf{set of smooth vector fields} is
+\[
+\X(M,\T,\A)\df\set{X\in\L\Br{C^\infty(M,\T,\A)}\st
+X~\text{is a smooth vector field}}.
+\]
 \end{Def}
 
 \pause
-\begin{Def}{Definition (field)}
-A set $\F$ (e.g.\ $\R,\C$) with addition, multiplication,
-and all the usual arithmetic axioms — a domain where linear algebra works.
+\vspace{0.3em}
+\textbf{Insight.} A smooth vector field is a \textbf{global derivation} on
+$C^\infty(M)$. It takes a smooth map and produces another smooth map
+; it is the derivative along $X$, satisfying the Leibniz rule. $\X(M)$ is an
+$\R$-vector space under pointwise operations.
+\end{frame}
+
+\begin{frame}{Smooth Vector Fields: Evaluation at a Point}
+\begin{block}{Question}
+A smooth vector field $X$ acts on \emph{global} functions.
+How do we recover a tangent vector $X_p\in T_pM$ at a single point?
+\end{block}
+
+\pause
+\begin{Def}{Definition (value of a vector field at a point)}
+Let $X\in\X(M,\T,\A)$ and $p\in M$. The \textbf{value of $X$ at $p$},
+denoted $\eval{X}_p:C_p^\infty(M,\T,\A)\to\R$, is
+\[
+\forall\SqBr{(U,f)}_p\in C_p^\infty(M,\T,\A):\quad
+\eval{X}_p\Br{\SqBr{(U,f)}_p}\df\FUNC{X\Br{\tilde f}}{p},
+\]
+where $\tilde f\in C^\infty(M,\T,\A)$ is any global representative of
+the germ ; existence follows from the Germ Extension Lemma.
 \end{Def}
 
 \pause
-\begin{Def}{Definition (vector space)}
-An abelian group $(V,+)$ with scalar multiplication $\F\times V\to V$
-satisfying distributivity and compatibility axioms.
+\begin{Def}{Definition (evaluation map)}
+The \textbf{evaluation map at $p$} is
+\[
+\operatorname{ev}_p:\X(M,\T,\A)\to T_p(M,\T,\A),\qquad
+\operatorname{ev}_p(X)\df\eval{X}_p.
+\]
 \end{Def}
+\end{frame}
+
+\begin{frame}{Smooth Vector Fields: Properties of Evaluation}
+\begin{lemma}[Value of a vector field is a derivation]
+$\eval{X}_p\in T_p(M,\T,\A)$: the value of a smooth vector field
+at a point is a tangent vector.
+\end{lemma}
+
+\pause
+\begin{lemma}[Evaluation map is linear]
+$\operatorname{ev}_p:\X(M,\T,\A)\to T_p(M,\T,\A)$
+is a linear transformation:
+\[
+\operatorname{ev}_p(X\pwplus\lambda\pwcdot Y)
+=\operatorname{ev}_p(X)\pwplus\lambda\pwcdot\operatorname{ev}_p(Y).
+\]
+\end{lemma}
 
 \pause
 \vspace{0.5em}
-\textbf{Why these matter.} Lie groups combine the smooth structure of
-manifolds with the algebraic structure of groups. Lie algebras are
-vector spaces with an extra bracket operation.
+\textbf{Fact.} Every tangent vector is the value of \emph{some} smooth
+vector field at $p$. Locality lemma: if $h$ vanishes on a neighbourhood
+of $p$, then $\FUNC{X(h)}{p}=0$.
 \end{frame}
 
-\begin{frame}{Algebras and Lie Algebras}
+\begin{frame}{Vector Fields Form a Lie Algebra}
+\begin{Thm}{Theorem (Lie algebra of vector fields)}
+Let $(M,\T,\A)$ be a smooth manifold.
+Define the \textbf{commutator} of $X,Y\in\X(M,\T,\A)$ by
+$[X,Y]_\circ\df X\circ Y-Y\circ X$, i.e.,
+\[
+\forall f\in C^\infty(M,\T,\A):\quad
+\Func{[X,Y]_\circ}{f}=X(Y(f))-Y(X(f)).
+\]
+Then $[X,Y]_\circ\in\X(M,\T,\A)$ and
+$\Br{\X(M,\T,\A),\set{+,-,\bm0,\cdot,[\bullet,\bullet]_\circ}}$
+is a Lie $\R$-algebra.
+\end{Thm}
+
+\pause
+\vspace{0.5em}
+\textbf{Significance.} The commutator of two vector fields measures the
+failure of their flows to commute. It encodes the geometry of the manifold
+in an algebraic structure.
+\end{frame}
+
+% ======================================================================
+\section{Algebraic Structures}
+
+\begin{frame}{Groups, Algebras, and Lie Algebras}
+\begin{Def}{Definition (group)}
+A set $G$ with an associative binary operation $\mu$, an identity $e$,
+and inverses $\iota$. A group is the algebraic abstraction of \textbf{symmetry}.
+\end{Def}
+
+\pause
 \begin{Def}{Definition ($\F$-algebra)}
 A vector space $\A$ over $\F$ together with a bilinear multiplication
-$\A\times\A\to\A$.  (Examples: $\R^{n,n}$ with matrix multiplication,
+$\A\times\A\to\A$. (Examples: $\R^{n,n}$ with matrix multiplication,
 $C^\infty(M)$ with pointwise multiplication.)
 \end{Def}
 
@@ -267,9 +413,10 @@ $\SqBr{X,\SqBr{Y,Z}}+\SqBr{Y,\SqBr{Z,X}}+\SqBr{Z,\SqBr{X,Y}}=\bm0$
 \end{Def}
 
 \pause
-\vspace{0.5em}
-\textbf{Key example.} $(\R^{3},\times)$ — the cross product makes $\R^3$
-a Lie algebra.  $\SqBr{v,w}=v\times w$ satisfies skew-symmetry and Jacobi.
+\vspace{0.3em}
+\textbf{Example.} $\R^3$ with the cross product is a Lie algebra.
+The commutator $\SqBr{\bm A,\bm B}=\bm A\bm B-\bm B\bm A$ on matrices
+makes any matrix space a Lie algebra.
 \end{frame}
 
 % ======================================================================
@@ -287,22 +434,22 @@ $\Br{G,\set{\mu,\iota,e}}$ such that:
 
 \pause
 \vspace{0.5em}
-\textbf{The synthesis.} A Lie group unifies geometry (smooth manifold)
-with algebra (group).  This allows us to study continuous symmetries
+\textbf{Synthesis.} A Lie group unifies geometry (smooth manifold)
+with algebra (group). This allows us to study continuous symmetries
 using both differential calculus and group theory.
 
 \pause
 \vspace{0.3em}
 \textbf{Examples.}
 \begin{itemize}
-\item $(\R^n,+)$ — the translation group.
-\item $\GL(n,\R)$ — invertible $n\times n$ real matrices.
-\item $\SO(n)$ — rotations in $\R^n$.
-\item $\SU(n)$ — unitary transformations with determinant $1$.
+\item $(\R^n,+)$: the translation group.
+\item $\GL(n,\R)$: invertible $n\times n$ real matrices  of dimension $n^2$.
+\item $\SO(n)$: rotations in $\R^n$.
+\item $\SU(n)$: unitary transformations with determinant $1$.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Left Translation and Left-Invariant Vector Fields}
+\begin{frame}{Left-Invariant Vector Fields}
 \begin{Def}{Definition (left translation)}
 For $g\in G$, $L_g:G\to G$ is defined by $L_g(h)\df gh$.
 $L_g$ is a diffeomorphism.
@@ -310,7 +457,7 @@ $L_g$ is a diffeomorphism.
 
 \pause
 \begin{Def}{Definition (left-invariant vector field)}
-A smooth vector field $X$ on $G$ is \textbf{left-invariant} if
+A smooth vector field $X\in\X(G,\T,\A)$ is \textbf{left-invariant} if
 \[
 \forall g\in G,\;\forall f\in C^\infty(G):\quad
 X(f\circ L_g)=X(f)\circ L_g.
@@ -319,16 +466,28 @@ X(f\circ L_g)=X(f)\circ L_g.
 
 \pause
 \vspace{0.5em}
-\textbf{Geometric meaning.} A left-invariant vector field is completely
-determined by its value at the identity $e$.  Translating the vector
+\textbf{Meaning.} A left-invariant vector field is completely
+determined by its value at the identity $e$. Translating the vector
 at $e$ by $L_g$ gives the vector at any point $g$.
 \end{frame}
 
 \begin{frame}{The Lie Algebra of a Lie Group}
+\begin{block}{Evaluation at the identity}
+Recall the evaluation map: for any smooth vector field $X$,
+$\eval{X}_e$ is its value at the identity $e\in G$. The map
+\[
+\operatorname{ev}_e:\X_L(G)\to T_eG,\qquad
+\operatorname{ev}_e(X)\df\eval{X}_e,
+\]
+takes a left-invariant vector field and returns its tangent vector at $e$.
+This map is a \textbf{linear isomorphism}.
+\end{block}
+
+\pause
 \begin{Thm}{Theorem (tangent space at identity is a Lie algebra)}
-Let $G$ be a Lie group.  Define $\g = T_eG$ (tangent space at identity).
-For each $v\in\g$, there exists a \textbf{unique} left-invariant vector
-field $X^v$ with $\eval{X^v}_e=v$.  Define the bracket on $\g$ by
+Let $G$ be a Lie group. Define $\g = T_eG$.
+For each $v\in\g$, there exists a \textbf{unique} left-invariant smooth
+vector field $X^v$ with $\eval{X^v}_e=v$. Define the bracket on $\g$ by
 \[
 \SqBr{v,w}_\g\df\eval{\SqBr{X^v,X^w}_\circ}_e.
 \]
@@ -337,69 +496,16 @@ $\dim(\g)=\dim(G)$.
 \end{Thm}
 
 \pause
-\vspace{0.5em}
-\textbf{The bridge.} Every Lie group gives rise to a Lie algebra
-(its tangent space at the identity). The Lie algebra captures the
-\textbf{infinitesimal} structure of the group.
-
-\pause
-\vspace{0.3em}
-\textbf{Remark.} We denote the Lie algebra of a Lie group $G$ by
-$\Lie(G)$.
-\end{frame}
-
-\begin{frame}{The Closed Subgroup Theorem (É.~Cartan)}
-\begin{Thm}{Theorem (Closed Subgroup Theorem)}
-Let $G$ be a Lie group and $H\subseteq G$ a closed subgroup.
-Then $H$ admits a unique smooth structure making it a Lie group
-such that the inclusion $H\hookrightarrow G$ is a smooth embedding.
-\end{Thm}
-
-\pause
-\vspace{0.5em}
-\textbf{Powerful consequence.} To show that a subset of matrices is a Lie group,
-you only need to check that it is a closed subgroup of some $\GL(n,\F)$.
-No need to construct charts explicitly.
-
-\pause
-\vspace{0.3em}
-\textbf{Example.} $\SO(n)$, $\SU(n)$, $\SL(n,\R)$, and $\Sp(2n)$ are all
-closed subgroups of $\GL(N,\F)$ and therefore Lie groups.
+\textbf{Bridge.} Every Lie group gives rise to a Lie algebra
+, its tangent space at the identity,. The Lie algebra captures the
+\textbf{infinitesimal} structure of the group. We write $\Lie(G)$.
 \end{frame}
 
 % ======================================================================
 \section{Matrix Lie Groups}
 
-\begin{frame}{The General Linear Group \texorpdfstring{$\GL(n,\F)$}{GL(n,F)}}
-\begin{Ex}{Example (the general linear group)}
-\[
-\GL(n,\F)=\set{\bm A\in\F^{n,n}\st\det(\bm A)\ne0}.
-\]
-\end{Ex}
-
-\pause
-\begin{itemize}
-\item $\GL(n,\F)$ is an open subset of $\F^{n,n}\cong\F^{n^2}$,
-hence a smooth manifold of dimension $n^2$.
-
-\pause
-\item Its Lie algebra is $\gl(n,\F)=\F^{n,n}$ (all $n\times n$ matrices)
-with the commutator bracket:
-\[
-\SqBr{\bm A,\bm B}=\bm A\bm B-\bm B\bm A.
-\]
-
-\pause
-\item Most matrix Lie groups arise as closed subgroups of $\GL(n,\F)$.
-Their Lie algebras are subspaces of $\gl(n,\F)$ closed under the commutator.
-\end{itemize}
-\end{frame}
-
-% ======================================================================
-\section{The Rotation Group \texorpdfstring{$\SO(3)$}{SO(3)}}
-
-\begin{frame}{The Special Orthogonal Group \texorpdfstring{$\SO(3)$}{SO(3)}}
-\begin{Ex}{Example (the special orthogonal group — rigid rotations)}
+\begin{frame}{The Rotation Group \texorpdfstring{$\SO(3)$}{SO(3)}}
+\begin{Ex}{Example (the special orthogonal group)}
 \[
 \begin{aligned}
 \SO(3)&=\set{\bm R\in\R^{3,3}\st\bm R\transp\bm R=\bm I_3,\;
@@ -407,7 +513,7 @@ Their Lie algebras are subspaces of $\gl(n,\F)$ closed under the commutator.
 \so(3)&=T_{\bm I_3}\SO(3)=\set{\bm R\in\R^{3,3}\st\bm R\transp=-\bm R}.
 \end{aligned}
 \]
-$\dim(\so(3))=\dim(\SO(3))=3$, with basis
+$\dim(\so(3))=\dim(\SO(3))=3$, with basis satisfying
 $\SqBr{\bm L_i,\bm L_j}=\eps_{ijk}\bm L_k$:
 \[
 \bm L_1=\mqty{0&0&0\\0&0&-1\\0&1&0},\;
@@ -418,12 +524,9 @@ $\SqBr{\bm L_i,\bm L_j}=\eps_{ijk}\bm L_k$:
 
 \pause
 \vspace{0.3em}
-\textbf{Remark.} $\SqBr{\bm L_i,\bm L_j}=\eps_{ijk}\bm L_k$ —
+\textbf{Remark.} $\SqBr{\bm L_i,\bm L_j}=\eps_{ijk}\bm L_k$:
 the same structure as the cross product on $\R^3$.
 \end{frame}
-
-% ======================================================================
-\section{The Special Unitary Group \texorpdfstring{$\SU(2)$}{SU(2)}}
 
 \begin{frame}{The Special Unitary Group \texorpdfstring{$\SU(2)$}{SU(2)}}
 \begin{Ex}{Example (the special unitary group)}
@@ -435,7 +538,7 @@ the same structure as the cross product on $\R^3$.
 =\set{\bm U\in\C^{2,2}\st\bm U\herm=-\bm U,\;\tr(\bm U)=0}.
 \end{aligned}
 \]
-$\dim(\su(2))=\dim(\SU(2))=3$, with basis
+$\dim(\su(2))=\dim(\SU(2))=3$, with basis satisfying
 $\SqBr{\bm T_i,\bm T_j}=\eps_{ijk}\bm T_k$:
 \[
 \bm T_1=\frac12\mqty{0&-\ii\\-\ii&0},\;
@@ -446,9 +549,8 @@ $\SqBr{\bm T_i,\bm T_j}=\eps_{ijk}\bm T_k$:
 
 \pause
 \vspace{0.3em}
-\textbf{Remark.} $\SqBr{\bm T_i,\bm T_j}=\eps_{ijk}\bm T_k$ —
-\textbf{identical} to $\so(3)$.  This is the first hint of the
-isomorphism $\so(3)\cong\su(2)$.
+\textbf{Remark.} $\SqBr{\bm T_i,\bm T_j}=\eps_{ijk}\bm T_k$:
+\textbf{identical} to $\so(3)$. Hence $\so(3)\cong\su(2)$ as Lie algebras.
 \end{frame}
 
 % ======================================================================
@@ -460,22 +562,27 @@ For $\bm U\in\SU(2)$, define $\Phi(\bm U):\su(2)\to\su(2)$ by
 \[
 \FUNC{\Phi(\bm U)}{\bm X}\df\bm U\bm X\bm U\herm.
 \]
-Using the basis $\beta=(\bm T_1,\bm T_2,\bm T_3)$, identify
-$\su(2)\cong\R^3$.  Then the matrix $\SqBr{\Phi(\bm U)}_\beta^\beta$
+Using the basis $(\bm T_1,\bm T_2,\bm T_3)$, identify
+$\su(2)\cong\R^3$. Then the matrix $\SqBr{\Phi(\bm U)}_\beta^\beta$
 lies in $\SO(3)$.
 \end{block}
 
 \pause
-\begin{Thm}{Theorem (double cover \texorpdfstring{$\SU(2)\to\SO(3)$}{SU(2)→SO(3)})}
+\begin{Thm}{Theorem (double cover)}
 $\Phi:\SU(2)\to\SO(3)$ is:
 \begin{enumerate}
-\item A smooth group homomorphism:
-$\Phi(\bm U\bm V)=\Phi(\bm U)\circ\Phi(\bm V)$.
+\item A smooth group homomorphism.
 \item Surjective.
-\item Has kernel $\ker(\Phi)=\set{\pm\bm I_2}$ (two elements).
+\item Has kernel $\ker(\Phi)=\set{\pm\bm I_2}$ .
 \end{enumerate}
 Thus $\SU(2)$ is a \textbf{double cover} of $\SO(3)$.
 \end{Thm}
+
+\pause
+\vspace{0.3em}
+\textbf{Two-to-one.} Both $\bm U$ and $-\bm U$ give the same rotation.
+A rotation by angle $\theta$ about axis $\hat{\bm n}$ lifts to
+$\pm\cos(\theta/2)\bm I_2\mp\ii\sin(\theta/2)(\hat{\bm n}\cdot\bm\sigma)$.
 \end{frame}
 
 \begin{frame}{The Double Cover: Geometric Picture}
@@ -484,7 +591,7 @@ Thus $\SU(2)$ is a \textbf{double cover} of $\SO(3)$.
   % SU(2) as S^3
   \draw[fill=blue!15] (0,0) circle (1.2);
   \node at (0,1.5) {$\SU(2)\cong S^3$};
-  \node at (0,0.1) {\small (simply connected)};
+  \node at (0,0) {\small (simply connected)};
   \draw[fill=black] (0,0.3) circle (0.04) node[right] {$+\bm I_2$};
   \draw[fill=black] (0,-0.3) circle (0.04) node[right] {$-\bm I_2$};
 
@@ -494,102 +601,260 @@ Thus $\SU(2)$ is a \textbf{double cover} of $\SO(3)$.
   % SO(3) as RP^3
   \draw[fill=red!15] (5,0) circle (1.2);
   \node at (5,1.5) {$\SO(3)\cong \R P^3$};
-  \node at (5,0.1) {\small (not simply connected)};
+  \node at (5,0.3) {\small (not simply connected)};
   \draw[fill=black] (5,0) circle (0.04) node[right] {$\bm I_3$};
 \end{tikzpicture}
 \end{center}
 
 \pause
 \vspace{0.5em}
-\textbf{Why two-to-one?}  Both $\bm U$ and $-\bm U$ give the same rotation.
-A rotation by angle $\theta$ about axis $\hat{\bm n}$ lifts to
-$\pm\cos(\theta/2)\bm I_2\mp\ii\sin(\theta/2)(\hat{\bm n}\cdot\bm\sigma)$.
-Increasing $\theta$ by $2\pi$ flips the sign.
+\textbf{Interpretation.} $\SU(2)\cong S^3$ , the $3$-sphere, is
+simply connected: it is the \textbf{universal cover} of $\SO(3)\cong\R P^3$.
+The two-to-one map identifies antipodal points on $S^3$.
 \end{frame}
 
 % ======================================================================
-\section{Lie Algebra Isomorphism \texorpdfstring{$\so(3)\cong\su(2)$}{so(3)≅su(2)}}
+\section{Complexification and Cartan-Weyl Basis}
 
-\begin{frame}{Lie Algebra Isomorphism \texorpdfstring{$\so(3)\cong\su(2)$}{so(3)≅su(2)}}
-\begin{Thm}{Theorem (Lie algebra isomorphism \texorpdfstring{$\so(3)\cong\su(2)$}{so(3)≅su(2)})}
-Define $\phi:\so(3)\to\su(2)$ by $\phi(\bm L_i)\df\bm T_i$
-(and extend $\R$-linearly).  Then $\phi$ is a Lie algebra isomorphism.
-\end{Thm}
+\begin{frame}{Complexification \texorpdfstring{$\su(2)_\C\cong\mathfrak{sl}(2,\C)$}{su(2)_C ≅ sl(2;C)}}
+\begin{Def}{Definition (special linear Lie algebra)}
+$\mathfrak{sl}(2,\C)\df\set{\bm A\in\C^{2,2}\st\tr(\bm A)=0}$,
+with bracket $\SqBr{\bm A,\bm B}=\bm A\bm B-\bm B\bm A$.
+\end{Def}
 
 \pause
-\begin{block}{Proof (essence)}
-\begin{itemize}
-\item $\phi$ maps a basis to a basis $\implies$ linear isomorphism.
-\item Both satisfy $\SqBr{\bm L_i,\bm L_j}=\eps_{ijk}\bm L_k$
-and $\SqBr{\bm T_i,\bm T_j}=\eps_{ijk}\bm T_k$.
-\item Therefore
-$\phi\Br{\SqBr{\bm L_i,\bm L_j}}
-=\phi\Br{\eps_{ijk}\bm L_k}
-=\eps_{ijk}\bm T_k
-=\SqBr{\bm T_i,\bm T_j}
-=\SqBr{\phi(\bm L_i),\phi(\bm L_j)}$.
-\end{itemize}
-\end{block}
+\begin{Def}{Definition (Cartan-Weyl basis)}
+The \textbf{Cartan-Weyl basis} $\set{\bm H,\bm E,\bm F}$ of $\mathfrak{sl}(2,\C)$:
+\[
+\bm H=\mqty{1&0\\0&-1},\quad
+\bm E=\mqty{0&1\\0&0},\quad
+\bm F=\mqty{0&0\\1&0}.
+\]
+Satisfying: $\SqBr{\bm H,\bm E}=2\bm E,\;
+\SqBr{\bm H,\bm F}=-2\bm F,\;
+\SqBr{\bm E,\bm F}=\bm H$.
+\end{Def}
+
+\pause
+\begin{Thm}{Theorem (\texorpdfstring{$\su(2)_\C\cong\mathfrak{sl}(2,\C)$}{su(2)_C ≅ sl(2;C)})}
+The complexification $\su(2)_\C=\su(2)\otimes_\R\C$ is isomorphic to
+$\mathfrak{sl}(2,\C)$ via mutually-inverse maps
+$\Phi:\mathfrak{sl}(2,\C)\to\su(2)_\C$ and
+$\Psi:\su(2)_\C\to\mathfrak{sl}(2,\C)$.
+Under this isomorphism: $\bm H\mapsto 2\ii\bm T_3$,
+$\bm E\mapsto \ii\bm T_1-\bm T_2$,
+$\bm F\mapsto \ii\bm T_1+\bm T_2$.
+\end{Thm}
+\end{frame}
+
+% ======================================================================
+\section{Classification of Irreducible Representations}
+
+\begin{frame}{Representation Theory: The Basic Notions}
+\begin{Def}{Definition (Lie algebra representation)}
+A \textbf{representation} of a Lie algebra $\g$ on a vector space $V$
+is a Lie algebra homomorphism $\pi:\g\to\gl(V)$, i.e., a linear map
+preserving the bracket:
+\[
+\pi\Br{\SqBr{X,Y}}=\SqBr{\pi(X),\pi(Y)}.
+\]
+\end{Def}
+
+\pause
+\begin{Def}{Definition (Lie group representation)}
+A \textbf{representation} of a Lie group $G$ on an $\F$-vector space $V$
+is a smooth map $\Pi:G\to\GL(V)$ satisfying:
+\begin{enumerate}
+\item $\forall g,h\in G:\;\Pi(gh)=\Pi(g)\circ\Pi(h)$,
+\item $\Pi(e)=I_V$.
+\end{enumerate}
+Equivalently, $\Pi$ is a Lie group homomorphism from $G$ to $\GL(V)$.
+\end{Def}
+
+\pause
+\begin{Def}{Definition (irreducible representation)}
+A representation $(\pi,V)$ is \textbf{irreducible} if the only
+$\pi(\g)$-invariant subspaces of $V$ are $\set{\bm0}$ and $V$.
+\end{Def}
 
 \pause
 \vspace{0.5em}
-\textbf{Significance.} Although $\SU(2)$ and $\SO(3)$ are different as groups
-(double cover vs.\ quotient), their Lie algebras are \textbf{identical}.
-Infinitesimal rotations are the same in both pictures.
+\textbf{Goal.} Classify \emph{all} finite-dimensional irreducible
+representations of $\su(2)$ (equivalently, of $\mathfrak{sl}(2,\C)$).
+This classification is the mathematical origin of spin.
+\end{frame}
+
+\begin{frame}{Classification of Irreps of \texorpdfstring{$\mathfrak{sl}(2,\C)$}{sl(2;C)}}
+\begin{lemma}[Raising/Lowering]
+Let $(\pi,V)$ be a representation of $\mathfrak{sl}(2,\C)$.
+If $\bm v$ is an eigenvector of $\pi(\bm H)$ with eigenvalue $\lambda$,
+then $\FUNC{\pi(\bm E)}{\bm v}$ has eigenvalue $\lambda+2$  and
+$\FUNC{\pi(\bm F)}{\bm v}$ has eigenvalue $\lambda-2$ .
+\end{lemma}
+
+\pause
+\begin{Thm}{Theorem (classification of finite-dimensional irreps)}
+Every finite-dimensional irreducible representation of $\mathfrak{sl}(2,\C)$
+is characterised by its \textbf{highest weight} $n\in\Z_{\ge0}$:
+\begin{itemize}
+\item $\dim V = n+1$.
+\item $V$ has a basis $\set{\bm v_0,\bm v_1,\dots,\bm v_n}$ where
+$\bm v_k\df\FUNC{\pi(\bm F)^k}{\bm v_0}$.
+\item $\FUNC{\pi(\bm H)}{\bm v_k}=(n-2k)\bm v_k$ ; the weights are $n,n-2,\dots,-n$.
+\item $\FUNC{\pi(\bm E)}{\bm v_k}=k(n-k+1)\bm v_{k-1}$.
+\end{itemize}
+\end{Thm}
+
+\pause
+\vspace{0.3em}
+\textbf{Translation to physics.} Set $n=2j$ for $j\in\set{0,\tfrac12,1,\tfrac32,\dots}$.
+Then $\dim V = 2j+1$ and the weights are $2j,2j-2,\dots,-2j$.
+\end{frame}
+
+\begin{frame}{Integration to \texorpdfstring{$\SU(2)$}{SU(2)} and the Descent Criterion}
+\begin{Thm}{Theorem (integration to \texorpdfstring{$\SU(2)$}{SU(2)})}
+Every finite-dimensional irreducible representation of $\su(2)$
+exponentiates uniquely to an irreducible representation of $\SU(2)$:
+\[
+\Pi_n\Br{e^{\bm X}}\df e^{\pi_n(\bm X)}.
+\]
+This works because $\SU(2)\cong S^3$ is simply connected.
+\end{Thm}
+
+\pause
+\begin{Thm}{Theorem (descent criterion)}
+Let $\Pi_n:\SU(2)\to\GL(V)$ be the irrep of highest weight $n$.
+\begin{enumerate}
+\item $\Pi_n\Br{-\bm I_2}=(-1)^n\,\id_V$.
+\item If $n$ is \textbf{even}, $\Pi_n$ factors through
+$\Phi:\SU(2)\to\SO(3)$: gives an \textbf{ordinary representation}
+of $\SO(3)$.
+\item If $n$ is \textbf{odd}, $\Pi_n$ does \emph{not} descend:
+gives a \textbf{projective (spinor) representation} of $\SO(3)$.
+\end{enumerate}
+\end{Thm}
+
+\pause
+\vspace{0.3em}
+\textbf{Punchline.} $j$ integer $\leftrightarrow$ ordinary reps of $\SO(3)$.
+$j$ half-integer $\leftrightarrow$ spinor reps (projective reps of $\SO(3)$).
 \end{frame}
 
 % ======================================================================
-\section{Summary and Next Steps}
+\section{Quantum Spin}
 
-\begin{frame}{What We Have Built So Far}
-\begin{enumerate}
-\item \textbf{Topological spaces} $\to$ \textbf{topological manifolds}
-$\to$ \textbf{smooth manifolds} — the geometric foundation.
-
-\pause
-\item \textbf{Groups, fields, vector spaces, Lie algebras} — the
-algebraic foundation.
-
-\pause
-\item \textbf{Lie groups} = smooth manifolds~+~groups —
-where geometry meets algebra.
+\begin{frame}{Spin Operators and Quantum Spin}
+\begin{Def}{Definition (spin operators)}
+Let $\Pi_n:\SU(2)\to\GL(V)$ be the irrep of highest weight $n=2j$.
+The \textbf{spin operators} $S_k:\R\to\GL(V)$ are
+\[
+S_k\df\ii\hbar\;\dd\Pi_n(\bm T_k),\qquad k=1,2,3.
+\]
+\end{Def}
 
 \pause
-\item Every Lie group has a \textbf{Lie algebra} (tangent space at identity
-with commutator bracket).
+\begin{block}{Commutation relations}
+$\SqBr{S_i,S_j}=\ii\hbar\,\eps_{ijk}S_k$: the canonical angular
+momentum algebra.
+\end{block}
 
 \pause
-\item The \textbf{Closed Subgroup Theorem} lets us recognise matrix Lie
-groups easily.
+\begin{block}{Casimir operator}
+$S^2\df S_1^2+S_2^2+S_3^2$ satisfies
+$S^2=\hbar^2\,j(j+1)\,\id_V$,
+so states in the irrep have total spin $\hbar^2 j(j+1)$.
+\end{block}
 
 \pause
-\item $\SO(3)$ (rotations) and $\SU(2)$ (unitary $2\times 2$ matrices)
-are the central examples.
-
-\pause
-\item $\SU(2)$ is a \textbf{double cover} of $\SO(3)$.
-Their Lie algebras are \textbf{isomorphic}: $\so(3)\cong\su(2)$.
-\end{enumerate}
+\vspace{0.3em}
+\textbf{Interpretation.} The irrep of highest weight $n=2j$ describes
+a quantum particle of spin $j$. The eigenvalues of $S_3$ are
+$m\hbar$ for $m\in\set{-j,-j+1,\dots,j}$: the $2j+1$ spin projections.
 \end{frame}
 
-\begin{frame}{What Comes Next (Part II)}
-\begin{block}{Representation theory}
-\begin{itemize}
-\item Representations of Lie algebras and Lie groups.
-\item Complexification $\su(2)_\C\cong\mathfrak{sl}(2,\C)$
-and the Cartan--Weyl basis $(\bm H,\bm E,\bm F)$.
-\item Classification of irreducible representations of $\su(2)$:
-for each $j\in\set{0,\tfrac12,1,\tfrac32,\dots}$,
-a unique irrep of dimension $2j+1$.
-\item Integration: every $\su(2)$-representation exponentiates
-to an $\SU(2)$-representation.
-\item Projective representations and the descent to $\SO(3)$:
-integer $j$ $\to$ ordinary representations,
-half-integer $j$ $\to$ spinor (projective) representations.
-\item Physical spin operators and the $4\pi$ periodicity of spinors.
-\end{itemize}
+\begin{frame}{Why Half-Integer Spin?}
+\begin{block}{Topological origin}
+The universal cover $\SU(2)\to\SO(3)$ is \textbf{two-to-one}.
+Representations of $\SO(3)$ must satisfy
+$\Pi(\bm R)=\Pi(-\bm R)$ for all rotations $\bm R$.
+But in $\SU(2)$, the element $-\bm I_2$ acts as $(-1)^n\id_V$.
+
+\pause
+\vspace{0.5em}
+For \textbf{half-integer} $j$ ($n$ odd):
+$\Pi_n\Br{-\bm I_2}=-\id_V\neq\id_V$, so these are genuine representations
+of $\SU(2)$ that are only \emph{projective} representations of $\SO(3)$.
+\end{block}
+
+\pause
+\begin{block}{The \texorpdfstring{$4\pi$}{4π} periodicity}
+A rotation by $2\pi$ about any axis acts as $-\id_V$ on a half-integer
+spin representation. A rotation by $4\pi$ is needed to return to the
+identity. This is observed experimentally in neutron interferometry.
 \end{block}
 \end{frame}
 
+% ======================================================================
+\section{Summary}
+
+\begin{frame}{What We Have Built}
+\begin{enumerate}
+\item \textbf{Topological spaces} $\to$ \textbf{smooth manifolds}: the
+geometric foundation.
+
+\pause
+\item \textbf{Germs and stalks}: local behaviour of smooth maps.
+\textbf{Tangent spaces} via derivations on germs.
+
+\pause
+\item \textbf{Smooth vector fields}: global derivations on $C^\infty(M)$.
+\textbf{Evaluation at a point} recovers tangent vectors.
+
+\pause
+\item \textbf{Lie groups} = smooth manifolds + groups.\\
+\textbf{Lie algebras} = tangent spaces at the identity.
+
+\pause
+\item \textbf{Matrix Lie groups}: $\SO(3)$ (rotations) and $\SU(2)$ (unitary $2\times2$).
+
+\pause
+\item $\SU(2)$ is a \textbf{double cover} of $\SO(3)$.
+Their Lie algebras are isomorphic: $\so(3)\cong\su(2)$.
+
+\pause
+\item \textbf{Complexification}: $\su(2)_\C\cong\mathfrak{sl}(2,\C)$.
+\textbf{Cartan-Weyl basis} enables the classification.
+
+\pause
+\item \textbf{Classification of irreps}: for each $j\in\set{0,\tfrac12,1,\dots}$,
+a unique $(2j+1)$-dimensional irrep.
+
+\pause
+\item \textbf{Descent criterion}: $j$ integer $\to$ ordinary reps of $\SO(3)$;
+$j$ half-integer $\to$ spinor (projective) reps.
+
+\pause
+\item \textbf{Quantum spin}: spin operators $S_k$, Casimir $S^2$,
+$m\hbar$ eigenvalues, $4\pi$ periodicity.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Thank You}
+\begin{center}
+\Large Thank you for your attention.
+
+\vspace{1em}
+\normalsize
+Questions?
+
+\vspace{1em}
+\qrcode[height=2.5cm,link,tight]{https://raw.githubusercontent.com/ganddoffcha/quantum-spin/main/gordon-chan-quantum-spin.pdf}\\[0.3em]
+{\footnotesize\textcolor{blue}{\href{https://raw.githubusercontent.com/ganddoffcha/quantum-spin/main/gordon-chan-quantum-spin.pdf}{Full paper with proofs (PDF)}}}
+
+\vspace{0.5em}
+\tiny
+\texttt{github.com/ganddoffcha/quantum-spin}
+\end{center}
+\end{frame}
 
 \end{document}

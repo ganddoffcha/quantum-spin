@@ -1663,8 +1663,8 @@ on germs (via representatives) as follows:
   \[\SqBr{\Br{M,1_{M\to\R}}}_p,\quad
   \forall q\in M:\;1_{M\to\R}(q)\df1.\]
 \end{enumerate}
-These operations are well-defined $\tand$
-$\Br{C_p^\infty(M,\T,\A),\set{+,-,\SqBr{\Br{M,0_{M\to\R}}}_p,\cdot,\times,\SqBr{\Br{M,1_{M\to\R}}}_p}}$
+These operations are well-defined and
+\[\Br{C_p^\infty(M,\T,\A),\set{+,-,\SqBr{\Br{M,0_{M\to\R}}}_p,\cdot,\times,\SqBr{\Br{M,1_{M\to\R}}}_p}}\]
 is a commutative associative unital $\R$-algebra.
 \end{Thm}
 
@@ -1907,7 +1907,7 @@ $(U,f)\sim_p\Br{M,\tilde f}$. Consequently,
 ${\SqBr{(U,f)}}_p=\SqBr{\Br{M,\tilde f}}_p$.
 \end{lemma}
 \begin{proof}
-Since $U\in\T$ and $p\in U$, we can choose an open neighbourhood $V$ of $p$
+Since $U\in\T$ and $p\in U$, we can choose an open neighborhood $V$ of $p$
 with $\overline V\subseteq U$ (e.g., take a coordinate ball around $p$
 contained in $U$).  Let $\rho:M\to[0,1]$ be a smooth bump function with
 $\rho\equiv 1$ on $V$ and $\operatorname{supp}(\rho)\subseteq U$.
@@ -1927,7 +1927,7 @@ overlap (where $\rho$ transitions to $0$), $\tilde f$ is smooth on all of
 $M$.  Thus $\tilde f\in C^\infty(M,\T,\A)$.
 
 Finally, for any $q\in V$ we have $\rho(q)=1$, so
-$\tilde f(q)=f(q)$.  Hence $V$ is an open neighbourhood of $p$ on which
+$\tilde f(q)=f(q)$.  Hence $V$ is an open neighborhood of $p$ on which
 $\tilde f$ and $f$ agree, i.e., $(U,f)\sim_p\Br{M,\tilde f}$.
 The equality of germs follows directly.
 \end{proof}
@@ -1948,7 +1948,7 @@ $\rho\in C^\infty(M,\T,\A)$ such that
 $\rho(p)=0$ and $\rho\equiv 1$ on $M\setminus U$.
 (Such a function exists because on a smooth manifold one can construct
 a smooth function that vanishes at a point and equals $1$ outside any
-prescribed open neighbourhood of that point.)
+prescribed open neighborhood of that point.)
 
 Now observe that $h=\rho\pwtimes h$ globally:
 \begin{itemize}
@@ -2408,9 +2408,9 @@ and that $\operatorname{ev}_e(X^v)=v$.
 \begin{enumerate}
 \item (Well-definedness on germs)
 If $\SqBr{(U,f)}_{g}=\SqBr{(V,\tilde f)}_{g}$, then
-$f$ and $\tilde f$ agree on an open neighbourhood $W$ of $g$.
+$f$ and $\tilde f$ agree on an open neighborhood $W$ of $g$.
 Then $f\circ L_g$ and $\tilde f\circ L_g$ agree on $L_g\inv(W)$,
-which is an open neighbourhood of $e$.
+which is an open neighborhood of $e$.
 Hence the germs at $e$ coincide, and the value
 $v\Br{\SqBr{\Br{L_g\inv(U),f\circ L_g}}_{e}}$
 depends only on the germ $\SqBr{(U,f)}_{g}$.
@@ -2692,15 +2692,15 @@ where
   \item (Linearity) Each $v\mapsto v(x_{ij})$ is linear, so $\Phi$ is linear.
 
   \item (Injectivity) Suppose $\Phi(v)=0$, i.e.\ $v(x_{ij})=0$ for all $i,j$.
-  For any $f\in C^\infty(G)$, restrict to a convex neighbourhood of $e$.
+  For any $f\in C^\infty(G)$, restrict to a convex neighborhood of $e$.
   By Hadamard's Lemma (Lemma~\ref{lem:hadamard}), there exist smooth $g_{ij}$ such that
   \[
-    f(\bm A) = f(\bm I_n) + \sum_{i,j} \Br{a_{ij}-\delta_{ij}}\,g_{ij}(\bm A).
+    f(\bm A) = f(\bm I_n) + \sum_{i,j} \Br{a_{ij}-\delta_{ij}}g_{ij}(\bm A).
   \]
   Applying $v$, the constant term yields $0$.  For each summand:
   \[
     v\Br{\Br{x_{ij}-\delta_{ij}}g_{ij}}
-    = \Br{x_{ij}(e)-\delta_{ij}}\,v(g_{ij}) + g_{ij}(e)\,v\Br{x_{ij}-\delta_{ij}}
+    = \Br{x_{ij}(e)-\delta_{ij}}v(g_{ij}) + g_{ij}(e)v\Br{x_{ij}-\delta_{ij}}
     = 0,
   \]
   since $x_{ij}(e)=\delta_{ij}$ and $v(x_{ij})=0$.  Thus $v(f)=0$ for all $f$, so $v=0$.
@@ -2769,7 +2769,7 @@ where
   For $f\in C^\infty(G)$ and $g\in G$,
   \[
     \FUNC{X^{\bm A}(X^{\bm B}f)}{g}
-    =\eval{\frac{\partial^2}{\partial t\,\partial s}
+    =\eval{\frac{\partial^2}{\partial t\partial s}
       f\Br{g(\bm I_n + t\bm A)(\bm I_n + s\bm B)}}_{(t,s)=(0,0)}.
   \]
   Expand the matrix product:
@@ -2780,7 +2780,7 @@ where
   Hence
   \[
     \FUNC{X^{\bm A}(X^{\bm B}f)}{g}
-    =\eval{\frac{\partial^2}{\partial t\,\partial s}
+    =\eval{\frac{\partial^2}{\partial t\partial s}
       f\Br{g\Br{\bm I_n + t\bm A + s\bm B + ts\bm A\bm B}}}_{(t,s)=(0,0)}.
   \]
 
@@ -2788,27 +2788,27 @@ where
   Let $\bm H(t,s)\df\bm I_n + t\bm A + s\bm B + ts\bm A\bm B$.
   By the chain rule for partial derivatives,
   \[
-    \frac{\partial^2}{\partial t\,\partial s}
+    \frac{\partial^2}{\partial t\partial s}
     f(g\bm H(t,s))
     =\sum_{p,q,r,\ell=1}^n
-    \frac{\partial^2 f}{\partial x_{pq}\,\partial x_{r\ell}}(g\bm H)
+    \frac{\partial^2 f}{\partial x_{pq}\partial x_{r\ell}}(g\bm H)
     \cdot\frac{\partial}{\partial t}(g\bm H)_{pq}
     \cdot\frac{\partial}{\partial s}(g\bm H)_{r\ell}
     +\sum_{p,q=1}^n
     \frac{\partial f}{\partial x_{pq}}(g\bm H)
-    \cdot\frac{\partial^2}{\partial t\,\partial s}(g\bm H)_{pq}.
+    \cdot\frac{\partial^2}{\partial t\partial s}(g\bm H)_{pq}.
   \]
   Evaluate at $(t,s)=(0,0)$.  Since $\bm H(0,0)=\bm I_n$,
   \[
     \begin{aligned}
     \frac{\partial}{\partial t}(g\bm H)_{pq}\Big|_{(t,s)=(0,0)} &= (g\bm A)_{pq}, \\
     \frac{\partial}{\partial s}(g\bm H)_{r\ell}\Big|_{(t,s)=(0,0)} &= (g\bm B)_{r\ell}, \\
-    \frac{\partial^2}{\partial t\,\partial s}(g\bm H)_{pq}\Big|_{(t,s)=(0,0)} &= (g\bm A\bm B)_{pq}.
+    \frac{\partial^2}{\partial t\partial s}(g\bm H)_{pq}\Big|_{(t,s)=(0,0)} &= (g\bm A\bm B)_{pq}.
     \end{aligned}
   \]
 
   \item (Symmetrize and subtract)
-  The mixed second derivative $\frac{\partial^2}{\partial t\,\partial s}$ is symmetric in $t,s$,
+  The mixed second derivative $\frac{\partial^2}{\partial t\partial s}$ is symmetric in $t,s$,
   so the first sum (the quadratic form) is symmetric in $\bm A,\bm B$.
   Therefore
   \[
@@ -2816,7 +2816,7 @@ where
     \FUNC{X^{\bm A}(X^{\bm B}f)}{g}
     &=
     \underbrace{\sum_{p,q,r,\ell}
-    \frac{\partial^2 f}{\partial x_{pq}\,\partial x_{r\ell}}(g) \cdot
+    \frac{\partial^2 f}{\partial x_{pq}\partial x_{r\ell}}(g) \cdot
     (g\bm A)_{pq} \cdot (g\bm B)_{r\ell}}_{\text{symmetric in }\bm A,\bm B}
     +\sum_{p,q}
     \frac{\partial f}{\partial x_{pq}}(g) \cdot
@@ -2828,7 +2828,7 @@ where
     \FUNC{X^{\bm B}(X^{\bm A}f)}{g}
     =
     \underbrace{\sum_{p,q,r,\ell}
-    \frac{\partial^2 f}{\partial x_{pq}\,\partial x_{r\ell}}(g) \cdot
+    \frac{\partial^2 f}{\partial x_{pq}\partial x_{r\ell}}(g) \cdot
     (g\bm B)_{pq} \cdot (g\bm A)_{r\ell}}_{\text{same symmetric part}}
     +\sum_{p,q}
     \frac{\partial f}{\partial x_{pq}}(g) \cdot
@@ -2903,7 +2903,7 @@ $\Lie\Br{\GL(n;\C)}\cong\gl(n;\C)$.
   The same construction as in the real case, with coordinate functions
   $u_{ij}=\Re(x_{ij})$, $v_{ij}=\Im(x_{ij})$, yields a linear isomorphism
   $\Phi:T_{\bm I_n}\GL(n;\C)\to\C^{n,n}$ via
-  $\Phi(v)\df\Br{v(u_{ij})+\ii\,v(v_{ij})}_{i,j}$
+  $\Phi(v)\df\Br{v(u_{ij})+\ii v(v_{ij})}_{i,j}$
   (the injectivity argument uses Hadamard's Lemma in $2n^2$ real variables).
 
   For $\bm A\in\C^{n,n}$, define $X^{\bm A}$ by the same formula
@@ -3015,14 +3015,6 @@ where
 \]
 \end{Def}
 
-\begin{Def}
-The \ul{Special $\C$-Linear Lie algebra of degree $2$},
-denoted by ``$\sl(2;\C)$'', is the Lie $\C$-algebra
-\[
-\sl(2;\C)\df\Br{\slset(2;\C),\set{+,-,\bm0_2,\cdot_\C,\SqBr{\bullet,\bullet}}}.
-\]
-\end{Def}
-
 
 \begin{Def}[Adjoint Representation of a Matrix Lie Group]\label{def:adjoint-group}
 Let $G\subseteq\GL(n;\F)$ be a matrix Lie group with Lie algebra
@@ -3128,7 +3120,7 @@ is a smooth map $\rho:G\to\GL(V)$ together with a smooth function
 $\omega:G\times G\to\F^\times$ such that:
 \begin{enumerate}
 \item (Projective Multiplication)
-$\forall g,h\in G:\quad\rho(g)\circ\rho(h)=\omega(g,h)\,\rho(gh)$.
+$\forall g,h\in G:\quad\rho(g)\circ\rho(h)=\omega(g,h)\rho(gh)$.
 \item (Normalization at the Identity)
 $\rho(e)=I_V$.
 \end{enumerate}
@@ -3146,7 +3138,7 @@ Its \ul{complexification}, denoted by ``$\g_\C$'', is defined as:
 which is a Lie $\C$-algebra under the bracket extended $\C$-bilinearly:
 \[
 \forall X_1,X_2,Y_1,Y_2\in\g:\quad
-\SqBr{X_1+\ii Y_1,\,X_2+\ii Y_2}_{\g_\C}
+\SqBr{X_1+\ii Y_1,X_2+\ii Y_2}_{\g_\C}
 \df\SqBr{X_1,X_2}_\g-\SqBr{Y_1,Y_2}_\g
 +\ii\Br{\SqBr{X_1,Y_2}_\g+\SqBr{Y_1,X_2}_\g}.
 \]
@@ -3160,13 +3152,15 @@ Equivalently, $\pi$ extends uniquely to a representation
 $\pi_\C:\g_\C\to\gl(V)$ of the complexified algebra via:
 \[
 \forall X,Y\in\g:\quad
-\pi_\C(X+\ii Y)\df\pi(X)+\ii\,\pi(Y).
+\pi_\C(X+\ii Y)\df\pi(X)+\ii\pi(Y).
 \]
 \end{Def}
 
 
 \begin{Prop}[Equivalence of Complex and Complexified Representations]\label{prop:complex-rep-equivalence}
-Let $\Br{\g,\set{+,-,\bm0,\cdot,\SqBr{\bullet,\bullet}_\g}}$ be a Lie $\R$-algebra
+Let
+\[\Br{\g,\set{+,-,\bm0,\cdot,\SqBr{\bullet,\bullet}_\g}}\]
+be a Lie $\R$-algebra
 and $V$ a $\C$-vector space.
 There is a bijective correspondence between:
 \begin{enumerate}
@@ -3181,11 +3175,11 @@ The correspondence is given by extension and restriction:
 $\pi_\C:\g_\C\to\gl(V)$ by
 \[
 \forall X,Y\in\g:\quad
-\pi_\C(X+\ii Y)\df\pi(X)+\ii\,\pi(Y).
+\pi_\C(X+\ii Y)\df\pi(X)+\ii\pi(Y).
 \]
 \item (Restriction $\Leftarrow$) Given $\Pi$, define
 $\pi\df\eval{\Pi}_{\g}$, i.e.\
-$\forall X\in\g:\quad\pi(X)\df\Pi(X+\ii\,0)$.
+$\forall X\in\g:\quad\pi(X)\df\Pi(X+\ii0)$.
 \end{itemize}
 These two maps are mutual inverses.
 \end{Prop}
@@ -3193,7 +3187,7 @@ These two maps are mutual inverses.
 \begin{enumerate}
 \item (Well-definedness of $\pi_\C$)
 For $X+\ii Y\in\g_\C$, the formula
-$\pi_\C(X+\ii Y)=\pi(X)+\ii\,\pi(Y)$ defines a unique element of
+$\pi_\C(X+\ii Y)=\pi(X)+\ii\pi(Y)$ defines a unique element of
 $\gl(V)$ because $\pi(X),\pi(Y)\in\gl(V)$ and $\gl(V)$ is a $\C$-vector space.
 Since every element of $\g_\C$ has a unique representation $X+\ii Y$
 ($\g_\C\df\g\otimes_\R\C$), $\pi_\C$ is well-defined.
@@ -3204,10 +3198,10 @@ For $X+\ii Y\in\g_\C$ and $a+\ii b\in\C$,
 \begin{aligned}
 \pi_\C\Br{(a+\ii b)(X+\ii Y)}
 &=\pi_\C\Br{(aX-bY)+\ii(bX+aY)} \\
-&=\pi(aX-bY)+\ii\,\pi(bX+aY) \\
+&=\pi(aX-bY)+\ii\pi(bX+aY) \\
 &=\Br{a\pi(X)-b\pi(Y)}+\ii\Br{b\pi(X)+a\pi(Y)} \\
-&=(a+\ii b)\Br{\pi(X)+\ii\,\pi(Y)} \\
-&=(a+\ii b)\,\pi_\C(X+\ii Y).
+&=(a+\ii b)\Br{\pi(X)+\ii\pi(Y)} \\
+&=(a+\ii b)\pi_\C(X+\ii Y).
 \end{aligned}
 \]
 
@@ -3215,7 +3209,7 @@ For $X+\ii Y\in\g_\C$ and $a+\ii b\in\C$,
 For $X_1+\ii Y_1,X_2+\ii Y_2\in\g_\C$,
 \[
 \begin{aligned}
-\pi_\C\Br{\SqBr{X_1+\ii Y_1,\,X_2+\ii Y_2}_{\g_\C}}
+\pi_\C\Br{\SqBr{X_1+\ii Y_1,X_2+\ii Y_2}_{\g_\C}}
 &=\pi_\C\Br{\SqBr{X_1,X_2}_\g-\SqBr{Y_1,Y_2}_\g
 +\ii\Br{\SqBr{X_1,Y_2}_\g+\SqBr{Y_1,X_2}_\g}} \\
 &=\pi\Br{\SqBr{X_1,X_2}_\g}-\pi\Br{\SqBr{Y_1,Y_2}_\g}
@@ -3227,7 +3221,7 @@ $\pi\Br{\SqBr{A,B}_\g}=\SqBr{\pi(A),\pi(B)}_\circ$ for all $A,B\in\g$.
 Thus
 \[
 \begin{aligned}
-\pi_\C\Br{\SqBr{X_1+\ii Y_1,\,X_2+\ii Y_2}_{\g_\C}}
+\pi_\C\Br{\SqBr{X_1+\ii Y_1,X_2+\ii Y_2}_{\g_\C}}
 &=\SqBr{\pi(X_1),\pi(X_2)}_\circ-\SqBr{\pi(Y_1),\pi(Y_2)}_\circ \\
 &\quad+\ii\Br{\SqBr{\pi(X_1),\pi(Y_2)}_\circ+\SqBr{\pi(Y_1),\pi(X_2)}_\circ}.
 \end{aligned}
@@ -3235,8 +3229,8 @@ Thus
 On the other hand,
 \[
 \begin{aligned}
-\SqBr{\pi_\C(X_1+\ii Y_1),\,\pi_\C(X_2+\ii Y_2)}_\circ
-&=\SqBr{\pi(X_1)+\ii\pi(Y_1),\,\pi(X_2)+\ii\pi(Y_2)}_\circ \\
+\SqBr{\pi_\C(X_1+\ii Y_1),\pi_\C(X_2+\ii Y_2)}_\circ
+&=\SqBr{\pi(X_1)+\ii\pi(Y_1),\pi(X_2)+\ii\pi(Y_2)}_\circ \\
 &=\SqBr{\pi(X_1),\pi(X_2)}_\circ
 +\ii\SqBr{\pi(X_1),\pi(Y_2)}_\circ \\
 &\quad+\ii\SqBr{\pi(Y_1),\pi(X_2)}_\circ
@@ -3251,19 +3245,14 @@ $\pi_\C\Br{\SqBr{z_1,z_2}_{\g_\C}}=\SqBr{\pi_\C(z_1),\pi_\C(z_2)}_\circ$.
 \item (Mutual inverses)
 If we start with $\pi$, extend to $\pi_\C$, then restrict back to $\g$:
 for any $X\in\g$,
-$\eval{\pi_\C}_{\g}(X)=\pi_\C(X+\ii\,0)=\pi(X)+\ii\,\pi(0)=\pi(X)$.
+$\eval{\pi_\C}_{\g}(X)=\pi_\C(X+\ii0)=\pi(X)+\ii\pi(0)=\pi(X)$.
 Conversely, if we start with $\Pi:\g_\C\to\gl(V)$ (which is $\C$-linear),
 restrict to $\pi=\eval{\Pi}_{\g}$, then extend:
 \[
-\pi_\C(X+\ii Y)=\pi(X)+\ii\,\pi(Y)=\Pi(X)+\ii\,\Pi(Y)=\Pi(X)+\Pi(\ii Y)=\Pi(X+\ii Y),
+\pi_\C(X+\ii Y)=\pi(X)+\ii\pi(Y)=\Pi(X)+\ii\Pi(Y)=\Pi(X)+\Pi(\ii Y)=\Pi(X+\ii Y),
 \]
 using $\C$-linearity of $\Pi$ to absorb the $\ii$.
 
-\item (Conclusion)
-Every complex representation $\pi$ of $\g$ extends uniquely to
-a $\C$-linear representation $\pi_\C$ of $\g_\C$, and conversely every
-$\C$-linear representation of $\g_\C$ restricts to a complex representation
-of $\g$.  The two constructions are inverse to each other.
 \end{enumerate}
 \end{proof}
 
@@ -3473,13 +3462,13 @@ Hence $\SqBr{\Phi(\bm U)}_\beta^\beta\in\SO(3)$.
 $\Phi(\bm I_2)(\bm X)=\bm I_2\bm X\bm I_2\herm=\bm X$, so
 $\Phi(\bm I_2)=I_{\su(2)}$.
 For $\bm U,\bm V\in\SU(2)$,
-\[
+\[\begin{aligned}
 \FUNC{\Phi(\bm U\bm V)}{\bm X}
-=\Br{\bm U\bm V}\bm X\Br{\bm U\bm V}\herm
-=\bm U\Br{\bm V\bm X\bm V\herm}\bm U\herm
-=\FUNC{\Phi(\bm U)}{\FUNC{\Phi(\bm V)}{\bm X}}
-=\FUNC{(\Phi(\bm U)\circ\Phi(\bm V))}{\bm X},
-\]
+&=\Br{\bm U\bm V}\bm X\Br{\bm U\bm V}\herm\\
+&=\bm U\Br{\bm V\bm X\bm V\herm}\bm U\herm\\
+&=\FUNC{\Phi(\bm U)}{\FUNC{\Phi(\bm V)}{\bm X}}\\
+&=\FUNC{(\Phi(\bm U)\circ\Phi(\bm V))}{\bm X},\\
+\end{aligned}\]
 so $\Phi(\bm U\bm V)=\Phi(\bm U)\circ\Phi(\bm V)$.  Smoothness follows
 because the formula is polynomial in the entries of $\bm U$.
 
@@ -3506,8 +3495,8 @@ The differential $\dd\Phi_{\bm I_2}:T_{\bm I_2}\SU(2)\to T_{\bm I_3}\SO(3)$
 is precisely the Lie algebra isomorphism
 $\phi:\su(2)\to\so(3)$ from Theorem~\ref{thm:so3-su2-isomorphism}.
 Since $\dd\Phi_{\bm I_2}$ is an isomorphism, $\Phi$ is a local diffeomorphism
-at $\bm I_2$, so the image contains an open neighbourhood of $\bm I_3$ in
-$\SO(3)$.  An open neighbourhood of the identity generates the identity
+at $\bm I_2$, so the image contains an open neighborhood of $\bm I_3$ in
+$\SO(3)$.  An open neighborhood of the identity generates the identity
 component.  Since every rotation in $\SO(3)$ can be joined to $\bm I_3$ by a
 continuous path (rotate gradually about its axis), $\SO(3)$ is path-connected;
 thus $\Phi(\SU(2))=\SO(3)$.
@@ -3534,7 +3523,7 @@ $\SqBr{\bm T_i,\bm T_j}=\eps_{ijk}\bm T_k$,
 \begin{aligned}
 \phi\Br{\SqBr{\bm L_i,\bm L_j}}
 &=\phi\Br{\eps_{ijk}\bm L_k}
-=\eps_{ijk}\,\phi(\bm L_k)
+=\eps_{ijk}\phi(\bm L_k)
 =\eps_{ijk}\bm T_k \\
 &=\SqBr{\bm T_i,\bm T_j}
 =\SqBr{\phi(\bm L_i),\phi(\bm L_j)}.
@@ -3542,16 +3531,801 @@ $\SqBr{\bm T_i,\bm T_j}=\eps_{ijk}\bm T_k$,
 \]
 By $\R$-bilinearity, this extends to all of $\so(3)$:
 for $\bm X=\sum_i x_i \bm L_i$, $\bm Y=\sum_j y_j \bm L_j\in\so(3)$,
-\[
+\[\begin{aligned}
 \phi\Br{\SqBr{\bm X,\bm Y}}
-=\phi\Br{\sum_{i,j}x_i y_j\SqBr{\bm L_i,\bm L_j}}
-=\sum_{i,j}x_i y_j\,\phi\Br{\SqBr{\bm L_i,\bm L_j}}
-=\sum_{i,j}x_i y_j\SqBr{\phi(\bm L_i),\phi(\bm L_j)}
-=\SqBr{\phi(\bm X),\phi(\bm Y)}.
-\]
+&=\phi\Br{\sum_{i,j}x_i y_j\SqBr{\bm L_i,\bm L_j}}\\
+&=\sum_{i,j}x_i y_j\phi\Br{\SqBr{\bm L_i,\bm L_j}}\\
+&=\sum_{i,j}x_i y_j\SqBr{\phi(\bm L_i),\phi(\bm L_j)}\\
+&=\SqBr{\phi(\bm X),\phi(\bm Y)}.\\
+\end{aligned}\]
 
 \end{enumerate}
 \end{proof}
 
+
+\begin{Def}[Cartan--Weyl Basis]\label{def:cartan-weyl}
+The \ul{Cartan--Weyl basis} of $\sl(2;\C)$ is the ordered
+$\C$-basis $(\bm H,\bm E,\bm F)$ consisting of the matrices
+\[
+\bm H\df\mqty{1&0\\0&-1},\qquad
+\bm E\df\mqty{0&1\\0&0},\qquad
+\bm F\df\mqty{0&0\\1&0}.
+\]
+These satisfy the commutation relations
+\[
+\SqBr{\bm H,\bm E}=2\bm E,\qquad
+\SqBr{\bm H,\bm F}=-2\bm F,\qquad
+\SqBr{\bm E,\bm F}=\bm H.
+\]
+\end{Def}
+
+\begin{Thm}[Complexification of $\su(2)$]\label{thm:su2-complexification}
+The complexification $\su(2)_\C$ is isomorphic to $\sl(2;\C)$
+as a complex Lie algebra.  Explicitly, the two $\C$-linear maps
+\[
+\begin{aligned}
+\Phi&:\sl(2;\C)\to\su(2)_\C, \\
+\Psi&:\su(2)_\C\to\sl(2;\C),
+\end{aligned}
+\]
+defined on the respective $\C$-bases by
+\[
+\begin{aligned}
+\Phi(\bm H)&\df 2\ii\bm T_3, &
+\Phi(\bm E)&\df \ii\bm T_1-\bm T_2, &
+\Phi(\bm F)&\df \ii\bm T_1+\bm T_2, \\[4pt]
+\Psi(\bm T_1)&\df \frac{\bm E+\bm F}{2\ii}, &
+\Psi(\bm T_2)&\df \frac{\bm F-\bm E}{2}, &
+\Psi(\bm T_3)&\df \frac{\bm H}{2\ii},
+\end{aligned}
+\]
+are mutually inverse complex Lie algebra isomorphisms.
+\end{Thm}
+\begin{proof}
+Since $(\bm H,\bm E,\bm F)$ is a $\C$-basis of $\sl(2;\C)$
+and $(\bm T_1,\bm T_2,\bm T_3)$ is a $\C$-basis of $\su(2)_\C$,
+extending the given assignments $\C$-linearly yields well-defined
+$\C$-linear maps $\Phi$ and $\Psi$.
+
+\begin{enumerate}
+\item (Bracket preservation for $\Phi$)
+Using $\SqBr{\bm T_i,\bm T_j}=\eps_{ijk}\bm T_k$
+(Theorem~\ref{thm:SU2-properties}) and the Cartan--Weyl relations
+(Definition~\ref{def:cartan-weyl}):
+\[
+\begin{aligned}
+\Phi\Br{\SqBr{\bm H,\bm E}}
+&=\Phi(2\bm E)
+=2\Phi(\bm E)
+=2\Br{\ii\bm T_1-\bm T_2}, \\[4pt]
+\SqBr{\Phi(\bm H),\Phi(\bm E)}
+&=\SqBr{2\ii\bm T_3,\;\ii\bm T_1-\bm T_2} \\
+&=2\ii^2\SqBr{\bm T_3,\bm T_1}-2\ii\SqBr{\bm T_3,\bm T_2} \\
+&=-2\bm T_2-2\ii(-\bm T_1)\\
+&=2\Br{\ii\bm T_1-\bm T_2}.\\
+\end{aligned}
+\]
+Thus $\Phi(\SqBr{\bm H,\bm E})=\SqBr{\Phi(\bm H),\Phi(\bm E)}$.
+The remaining two relations are verified analogously:
+\[
+\begin{aligned}
+\Phi\Br{\SqBr{\bm H,\bm F}}
+&=\Phi(-2\bm F)=-2\Phi(\bm F)
+=-2\Br{\ii\bm T_1+\bm T_2}, \\[4pt]
+\SqBr{\Phi(\bm H),\Phi(\bm F)}
+&=\SqBr{2\ii\bm T_3,\;\ii\bm T_1+\bm T_2} \\
+&=2\ii^2\SqBr{\bm T_3,\bm T_1}+2\ii\SqBr{\bm T_3,\bm T_2} \\
+&=-2\bm T_2+2\ii(-\bm T_1)\\
+&=-2\Br{\ii\bm T_1+\bm T_2},\\
+\end{aligned}
+\]
+and
+\[
+\begin{aligned}
+\Phi\Br{\SqBr{\bm E,\bm F}}
+&=\Phi(\bm H)=2\ii\bm T_3, \\[4pt]
+\SqBr{\Phi(\bm E),\Phi(\bm F)}
+&=\SqBr{\ii\bm T_1-\bm T_2,\;\ii\bm T_1+\bm T_2} \\
+&=\ii\SqBr{\bm T_1,\bm T_2}-\ii\SqBr{\bm T_2,\bm T_1} \\
+&=\ii\bm T_3-\ii(-\bm T_3)\\
+&=2\ii\bm T_3.\\
+\end{aligned}
+\]
+By $\C$-bilinearity of the bracket, $\Phi$ preserves all brackets.
+
+\item (Bracket preservation for $\Psi$)
+Since $\Phi$ is a $\C$-linear bijection preserving the bracket,
+its inverse $\Psi=\Phi^{-1}$ automatically preserves the bracket:
+\[
+\forall\bm X,\bm Y\in\su(2)_\C:\quad
+\Psi\Br{\SqBr{\bm X,\bm Y}}
+=\Phi^{-1}\Br{\SqBr{\Phi(\Psi(\bm X)),\Phi(\Psi(\bm Y))}}
+=\SqBr{\Psi(\bm X),\Psi(\bm Y)}.
+\]
+
+\item (Mutual inverses)
+Evaluating $\Psi\circ\Phi$ on the basis of $\sl(2;\C)$:
+\[
+\begin{aligned}
+\FUNC{\Psi\circ\Phi}{\bm H}
+&=\Psi(2\ii\bm T_3)
+=2\ii\cdot\frac{\bm H}{2\ii}=\bm H, \\[4pt]
+\FUNC{\Psi\circ\Phi}{\bm E}
+&=\Psi\Br{\ii\bm T_1-\bm T_2}
+=\ii\cdot\frac{\bm E+\bm F}{2\ii}-\frac{\bm F-\bm E}{2}
+=\frac{\bm E+\bm F}{2}-\frac{\bm F-\bm E}{2}
+=\bm E, \\[4pt]
+\FUNC{\Psi\circ\Phi}{\bm F}
+&=\Psi\Br{\ii\bm T_1+\bm T_2}
+=\ii\cdot\frac{\bm E+\bm F}{2\ii}+\frac{\bm F-\bm E}{2}
+=\frac{\bm E+\bm F}{2}+\frac{\bm F-\bm E}{2}
+=\bm F.
+\end{aligned}
+\]
+Thus $\Psi\circ\Phi=\id_{\sl(2;\C)}$.
+Similarly, $\Phi\circ\Psi=\id_{\su(2)_\C}$ (verified on
+$\bm T_1,\bm T_2,\bm T_3$ by the same computation in reverse).
+
+\end{enumerate}
+\end{proof}
+
+\begin{lemma}[Raising and Lowering Operators]\label{lem:raising-lowering}
+Let $\Br{V,\set{+,-,\bm0_V,\cdot}}$ be a $\C$-vector space.
+Let $\pi:\sl(2;\C)\to\gl(V)$ be a representation.
+If $\bm v\in V\setminus\set{\bm0_V}$ satisfies
+$\FUNC{\pi(\bm H)}{\bm v}=\lambda \bm v$ for some $\lambda\in\C$, then:
+\[
+\begin{aligned}
+\FUNC{\pi(\bm H)}{\FUNC{\pi(\bm E)}{\bm v}}&=(\lambda+2)\FUNC{\pi(\bm E)}{\bm v},\\[4pt]
+\FUNC{\pi(\bm H)}{\FUNC{\pi(\bm F)}{\bm v}}&=(\lambda-2)\FUNC{\pi(\bm F)}{\bm v}.
+\end{aligned}
+\]
+Moreover, for each $k\in\N$,
+\[
+\FUNC{\pi(\bm H)}{\FUNC{\pi\Br{\bm F}^k}{\bm v}}=(\lambda-2k)\FUNC{\pi\Br{\bm F}^k}{\bm v},
+\]
+where $\pi\Br{\bm F}^k\df\pi(\bm F)\circ\cdots\circ\pi(\bm F)$
+($k$-fold composition, with $\pi\Br{\bm F}^0\df I_V$).
+\end{lemma}
+\begin{proof}
+Using the commutation relation $\SqBr{\bm H,\bm E}=2\bm E$
+(Definition~\ref{def:cartan-weyl}) and the fact that $\pi$ preserves the bracket:
+\[
+\begin{aligned}
+\FUNC{\pi(\bm H)}{\FUNC{\pi(\bm E)}{\bm v}}
+&=\FUNC{(\pi(\bm H)\circ\pi(\bm E))}{\bm v} \\
+&=\FUNC{(\pi(\bm E)\circ\pi(\bm H)+\SqBr{\pi(\bm H),\pi(\bm E)})}{\bm v} \\
+&=\FUNC{\pi(\bm E)}{\FUNC{\pi(\bm H)}{\bm v}}
++\FUNC{\pi\Br{\SqBr{\bm H,\bm E}}}{\bm v} \\
+&=\FUNC{\pi(\bm E)}{\lambda \bm v}+\FUNC{\pi(2\bm E)}{\bm v}\\
+&=(\lambda+2)\FUNC{\pi(\bm E)}{\bm v}.\\
+\end{aligned}
+\]
+The formula for $\bm F$ follows from
+$\SqBr{\bm H,\bm F}=-2\bm F$ by the same computation.
+The iterated formula follows by induction on $k$:
+the base case $k=0$ is $\FUNC{\pi(\bm H)}{\bm v}=\lambda \bm v$,
+and the inductive step uses the $k=1$ case with
+$\bm v$ replaced by $\FUNC{\pi\Br{\bm F}^{k-1}}{\bm v}$.
+\end{proof}
+
+\begin{Thm}[Classification of Irreducible Representations of $\sl(2;\C)$]\label{thm:sl2-irrep-classification}
+Let $\Br{V,\set{+,-,\bm0_V,\cdot}}$ be a finite-dimensional $\C$-vector space.
+Let $\pi:\sl(2;\C)\to\gl(V)$ be an irreducible representation.
+Then there exists a unique $n\in\Z_{\ge 0}$ such that:
+\begin{enumerate}
+\item There exists a nonzero vector $\bm{v}_0\in V$, called a
+\ul{highest weight vector}, satisfying
+\[
+\FUNC{\pi(\bm E)}{\bm{v}_0}=\bm0_V,\qquad
+\FUNC{\pi(\bm H)}{\bm{v}_0}=n \bm{v}_0.
+\]
+\item The set
+$\set{\bm{v}_0,\;\FUNC{\pi(\bm F)}{\bm{v}_0},\;\FUNC{\pi\Br{\bm F}^2}{\bm{v}_0},\;
+\dots,\;\FUNC{\pi\Br{\bm F}^n}{\bm{v}_0}}$
+is a $\C$-basis of $V$.
+In particular, $\dim_\C V=n+1$.
+\item For each $k\in\set{0,\dots,n}$,
+\[
+\FUNC{\pi(\bm H)}{\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}}=(n-2k)\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}.
+\]
+\end{enumerate}
+\end{Thm}
+\begin{proof}
+Since $V$ is a finite-dimensional $\C$-vector space,
+the linear operator $\pi(\bm H):V\to V$ possesses at least one eigenvalue.
+Pick an eigenvector $\bm w\in V\setminus\set{\bm0_V}$ with
+$\FUNC{\pi(\bm H)}{\bm w}=\mu \bm w$ for some $\mu\in\C$.
+
+\begin{enumerate}
+\item (Descend to a lowest weight vector)
+Consider the sequence
+$\bm w,\;\FUNC{\pi(\bm F)}{\bm w},\;\FUNC{\pi\Br{\bm F}^2}{\bm w},\;\dots$
+By Lemma~\ref{lem:raising-lowering}, the $k$-th term is an eigenvector of
+$\pi(\bm H)$ with eigenvalue $\mu-2k$.
+Since eigenvectors with distinct eigenvalues are linearly independent and
+$\dim_\C V<\infty$, there exists a maximal index
+$m\in\Z_{\ge 0}$ such that $\pi\Br{\bm F}^m \bm w\neq\bm0_V$.
+Define $\bm{w}_{\min}\df\FUNC{\pi\Br{\bm F}^m}{\bm w}$.
+Then:
+\[
+\FUNC{\pi(\bm F)}{\bm{w}_{\min}}=\bm0_V,\qquad
+\FUNC{\pi(\bm H)}{\bm{w}_{\min}}=\mu_{\min}\bm{w}_{\min},
+\]
+where $\mu_{\min}\df\mu-2m$.
+
+\item (Ascend to a highest weight vector)
+Now consider
+$\bm{w}_{\min},\;\FUNC{\pi(\bm E)}{\bm{w}_{\min}},\;
+\FUNC{\pi\Br{\bm E}^2}{\bm{w}_{\min}},\;\dots$
+Each application of $\pi(\bm E)$ raises the eigenvalue by $2$
+(the computation is symmetric to Lemma~\ref{lem:raising-lowering}
+with $\SqBr{\bm H,\bm E}=2\bm E$).
+Again by finite-dimensionality, there exists a maximal index
+$r\in\Z_{\ge 0}$ such that $\FUNC{\pi\Br{\bm E}^r}{\bm{w}_{\min}}\neq\bm0_V$.
+Define
+$\bm{v}_0\df\FUNC{\pi\Br{\bm E}^r}{\bm{w}_{\min}}$.
+Then:
+\[
+\FUNC{\pi(\bm E)}{\bm{v}_0}=\bm0_V,\qquad
+\FUNC{\pi(\bm H)}{\bm{v}_0}=n \bm{v}_0,
+\]
+where $n\df\mu_{\min}+2r=\mu-2m+2r$.
+Thus $\bm{v}_0$ is a highest weight vector, proving part~(1) of the theorem.
+
+\item (Action formula for $\pi(\bm E)$ on $\pi(\bm F)$-descendants)
+We claim that for every $k\in\Z_{\ge 0}$,
+\begin{equation}\label{eq:EF-action}
+\FUNC{\pi(\bm E)}{\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}}
+=k(n-k+1)\FUNC{\pi\Br{\bm F}^{k-1}}{\bm{v}_0}.
+\end{equation}
+The proof proceeds by induction on $k$.
+For $k=0$, the right-hand side is $0\cdot(n+1)\cdot0=0$, and
+the left-hand side is $\FUNC{\pi(\bm E)}{\bm{v}_0}=\bm0_V$, so the formula holds.
+Assume the formula holds for $k$.  Then:
+\[
+\begin{aligned}
+\FUNC{\pi(\bm E)}{\FUNC{\pi\Br{\bm F}^{k+1}}{\bm{v}_0}}
+&=\FUNC{(\pi(\bm E)\circ\pi(\bm F))}{\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}} \\
+&=\FUNC{(\pi(\bm F)\circ\pi(\bm E)+\SqBr{\pi(\bm E),\pi(\bm F)})}
+{\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}} \\
+&=\FUNC{\pi(\bm F)}{\FUNC{\pi(\bm E)}{\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}}}
++\FUNC{\pi\Br{\SqBr{\bm E,\bm F}}}{\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}}.
+\end{aligned}
+\]
+Using the induction hypothesis and $\SqBr{\bm E,\bm F}=\bm H$:
+\[
+\begin{aligned}
+\FUNC{\pi(\bm E)}{\FUNC{\pi\Br{\bm F}^{k+1}}{\bm{v}_0}}
+&=\FUNC{\pi(\bm F)}
+{k(n-k+1)\FUNC{\pi\Br{\bm F}^{k-1}}{\bm{v}_0}}
++\FUNC{\pi(\bm H)}{\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}} \\
+&=k(n-k+1)\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}
++(n-2k)\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0} \\
+&=\Br{k(n-k+1)+n-2k}\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0} \\
+&=\Br{kn-k^2+k+n-2k}\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0} \\
+&=(k+1)(n-k)\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0},
+\end{aligned}
+\]
+which is exactly the formula~\eqref{eq:EF-action} with $k$ replaced by $k+1$.
+This completes the induction.
+
+\item (Spanning set)
+Let $W\df\operatorname{Span}_\C\Br{\set{\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}\st k\in\Z_{\ge 0}}}$.
+We verify that $W$ is invariant under $\pi(\bm H)$, $\pi(\bm E)$, and
+$\pi(\bm F)$:
+\begin{itemize}
+\item $\pi(\bm F)$ maps each generator to the next, hence $W$ is
+$\pi(\bm F)$-invariant by definition.
+\item By Lemma~\ref{lem:raising-lowering}, each $\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}$ is a
+$\pi(\bm H)$-eigenvector, so $W$ is $\pi(\bm H)$-invariant.
+\item Formula~\eqref{eq:EF-action} shows that
+$\FUNC{\pi(\bm E)}{\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}}$ is a scalar multiple of
+$\FUNC{\pi\Br{\bm F}^{k-1}}{\bm{v}_0}\in W$, so $W$ is $\pi(\bm E)$-invariant.
+\end{itemize}
+Thus $W$ is a nonzero $\pi$-invariant subspace of $V$.
+Since $\pi$ is irreducible, $W=V$.
+
+
+\item (Termination and dimension)
+We show that $\FUNC{\pi\Br{\bm F}^{n+1}}{\bm{v}_0}=\bm0_V$.
+Setting $k=n+1$ in~\eqref{eq:EF-action}:
+\[
+\FUNC{\pi(\bm E)}{\FUNC{\pi\Br{\bm F}^{n+1}}{\bm{v}_0}}
+=(n+1)\cdot 0\cdot\FUNC{\pi\Br{\bm F}^n}{\bm{v}_0}=\bm0_V.
+\]
+If $\FUNC{\pi\Br{\bm F}^{n+1}}{\bm{v}_0}\neq\bm0_V$, then
+$\FUNC{\pi(\bm E)}{\FUNC{\pi\Br{\bm F}^{n+1}}{\bm{v}_0}}=\bm0_V$ by~\eqref{eq:EF-action},
+so it would be a nonzero vector annihilated by $\pi(\bm E)$.
+Its $\pi(\bm H)$-eigenvalue would be
+$n-2(n+1)=-n-2$.  But then repeating the ascent argument (step~2)
+from this vector would produce another highest weight vector with
+eigenvalue $-n-2+2r'>n$, contradicting the maximality of $n$
+(since $\bm{v}_0$ was constructed from $\bm{w}_{\min}$ by ascending as far as possible).
+Hence $\FUNC{\pi\Br{\bm F}^{n+1}}{\bm{v}_0}=\bm0_V$.
+
+Since $W=V$, every vector in $V$ is a linear combination of
+$\set{\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}\st k\ge 0}$.
+But $\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}=\bm0_V$ for all $k>n$, so
+$V=\operatorname{Span}_\C\Br{\set{\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}}_{k=0}^n}$.
+
+\item (Linear independence)
+By Lemma~\ref{lem:raising-lowering}, the vectors
+$\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}$ for $k=0,\dots,n$ are eigenvectors of
+$\pi(\bm H)$ with distinct eigenvalues $n,\;n-2,\;\dots,\;-n$.
+Eigenvectors with distinct eigenvalues are linearly independent,
+so this set is a $\C$-basis of $V$, and $\dim_\C V=n+1$.
+
+\item ($n$ is a non-negative integer)
+The eigenvalues of $\pi(\bm H)$ on $V$ are the $(n+1)$ values
+$n,\;n-2,\;\dots,\;-n+2,\;-n$.
+They are symmetric about $0$: if $\lambda$ is an eigenvalue,
+then so is $-\lambda$ (as the list shows).  Since there are
+$n+1$ distinct integers spaced by $2$, the parameter $n$ must
+be a non-negative integer.
+\end{enumerate}
+\end{proof}
+
+\begin{Thm}[Integration to $\SU(2)$]\label{thm:integration-SU2}
+Let $\Br{V,\set{+,-,\bm0_V,\cdot}}$ be a finite-dimensional $\C$-vector space,
+and let $\pi:\sl(2;\C)\to\gl(V)$ be an irreducible representation with
+highest weight $n\in\Z_{\ge 0}$ as classified in
+Theorem~\ref{thm:sl2-irrep-classification}.
+Then there exists a unique irreducible representation
+\[
+\Pi_n:\SU(2)\to\GL(V)
+\]
+whose differential $\dd(\Pi_n)_{\bm I_2}:T_{\bm I_2}\SU(2)\to\gl(V)$
+coincides with $\pi$ under the identification
+$\sl(2;\C)\cong\su(2)_\C\cong T_{\bm I_2}\SU(2)_\C$.
+Explicitly, for every $\bm U\in\SU(2)$ written as
+$\bm U=\exp\Br{\bm X}$ with $\bm X\in\su(2)$,
+\[
+\Pi_n(\bm U)
+\df\exp\Br{(\pi\circ\Psi)(\bm X)},
+\]
+where $\Psi:\su(2)_\C\to\sl(2;\C)$ is the complex Lie algebra isomorphism of
+Theorem~\ref{thm:su2-complexification}
+and $\exp:\gl(V)\to\GL(V)$ denotes the matrix exponential.
+\end{Thm}
+\begin{proof}
+The proof proceeds in five steps.
+
+\begin{enumerate}
+
+\item (Topology of $\SU(2)$)
+The Lie group $\SU(2)$ is diffeomorphic to the $3$-sphere $S^3$.
+Indeed, every $\bm U\in\SU(2)$ can be written as
+\[
+\bm U=\mqty{\alpha&\beta\\-\overline{\beta}&\overline{\alpha}},\qquad
+\alpha,\beta\in\C,\quad \abs{\alpha}^2+\abs{\beta}^2=1,
+\]
+and the map $\bm U\mapsto(\Re(\alpha),\Im(\alpha),\Re(\beta),\Im(\beta))$
+identifies $\SU(2)$ with $S^3\subseteq\R^4$.
+Since $S^n$ is simply connected for every $n\ge 2$,
+\[
+\pi_1(\SU(2))=\set{\set{1}}.
+\]
+
+\item (Exponential map of $\SU(2)$ is surjective)
+Every compact connected Lie group has surjective exponential map.
+Concretely for $\SU(2)$: each $\bm X\in\su(2)$ satisfies
+$\bm X\herm=-\bm X$ and $\tr(\bm X)=0$, hence its eigenvalues are
+$\pm\ii\lambda$ for some $\lambda\in\R_{\ge 0}$,
+and a direct computation shows
+\[
+\exp(\bm X)=\cos(\lambda)\bm I_2+\frac{\sin(\lambda)}{\lambda}\bm X
+\qquad(\lambda>0),
+\]
+with $\exp(\bm0_2)=\bm I_2$.
+Conversely, given $\bm U\in\SU(2)$, its eigenvalues are
+$e^{\ii\theta},e^{-\ii\theta}$ for some $\theta\in[0,\pi]$.
+If $\bm U=\bm I_2$, take $\bm X=\bm0_2$.
+Otherwise, set $\lambda\df\theta$ and
+\[
+\bm X\df\frac{\lambda}{\sin(\lambda)}
+\Big(\bm U-\cos(\lambda)\bm I_2\Big),
+\]
+which satisfies $\bm X\herm=-\bm X$ and $\tr(\bm X)=0$, hence $\bm X\in\su(2)$,
+and $\exp(\bm X)=\bm U$.
+Thus $\exp:\su(2)\to\SU(2)$ is surjective.
+
+\item (Construction of $\Pi_n$)
+The complexification isomorphism
+$\Psi:\su(2)_\C\to\sl(2;\C)$ (Theorem~\ref{thm:su2-complexification})
+restricts to an $\R$-linear Lie algebra embedding
+$\su(2)\hookrightarrow\sl(2;\C)$ (since $\su(2)$ is a real form of
+$\sl(2;\C)$).
+Define the $\R$-linear Lie algebra representation
+\[
+\rho_n\df\pi\circ\Psi|_{\su(2)}:\su(2)\to\gl(V).
+\]
+For $\bm U=\exp(\bm X)\in\SU(2)$ with $\bm X\in\su(2)$, define
+\[
+\Pi_n(\bm U)\df\exp\Br{\rho_n(\bm X)}\in\GL(V),
+\]
+where $\exp:\gl(V)\to\GL(V)$ is the exponential of a linear operator:
+$\exp(\bm A)\df\sum_{k=0}^\infty \frac{\bm A^k}{k!}$.
+
+\item (Well-definedness)
+Every $\bm U\in\SU(2)$ admits a parametrization
+\[
+\bm U=\exp\Br{\theta\bm{\hat n}\bullet\bm T},\qquad
+\theta\in[0,2\pi),\quad
+\bm{\hat n}=(n_1,n_2,n_3)\in\R^3,\;
+\abs{\bm{\hat n}}=1,
+\]
+where $\bm{\hat n}\bullet\bm T\df n_1\bm T_1+n_2\bm T_2+n_3\bm T_3$,
+by the surjectivity proved in step~2.
+This parametrization is unique for all $\bm U\neq\pm\bm I_2$:
+$\theta$ is the spectral radius of $\log(\bm U)$ and $\bm{\hat n}$ is
+the direction of the traceless skew-Hermitian part.
+For $\bm U=\bm I_2$, every direction $\bm{\hat n}$ gives $\theta=0$,
+but the formula $\Pi_n(\bm I_2)=\exp(\rho_n(\bm0_2))=I_V$ is
+independent of $\bm{\hat n}$.
+The only remaining ambiguity is the element $-\bm I_2$, which
+corresponds to $\theta=2\pi$ (outside the chosen domain) but
+can nevertheless be represented as
+$\exp\Br{2\pi\bm{\hat n}\bullet\bm T}$ for \emph{any} unit vector $\bm{\hat n}$.
+
+We verify that the definition is consistent at this fiber:
+for any unit $\bm{\hat n}\in\R^3$, the element $\bm{\hat n}\bullet\bm T$ is
+conjugate to $\bm T_3$ via the adjoint action:
+$\bm{\hat n}\bullet\bm T=\bm U\bm T_3\bm U\herm$ for some $\bm U\in\SU(2)$.
+Since $\rho_n$ is a Lie algebra homomorphism,
+$\rho_n\Br{\bm{\hat n}\bullet\bm T}$ is conjugate to $\rho_n(\bm T_3)$
+and therefore has the same eigenvalues.
+From $\Psi(\bm T_3)=\bm H/(2\ii)$
+(Theorem~\ref{thm:su2-complexification}) and the eigenvalue
+formula for $\pi(\bm H)$
+(Theorem~\ref{thm:sl2-irrep-classification}),
+the eigenvalues of $\rho_n(\bm T_3)=\pi(\bm H)/(2\ii)$ are
+\[
+\frac{n}{2\ii},\;\frac{n-2}{2\ii},\;\dots,\;\frac{-n}{2\ii},
+\qquad\text{i.e.}\qquad
+-\frac{\ii n}{2},\;-\frac{\ii(n-2)}{2},\;\dots,\;\frac{\ii n}{2}.
+\]
+Hence the eigenvalues of $\rho_n\Br{2\pi\bm{\hat n}\bullet\bm T}$ are
+$-\ii\pi n,\;-\ii\pi(n-2),\;\dots,\;\ii\pi n$.
+Exponentiating,
+\[
+\exp\Br{\rho_n(2\pi\bm{\hat n}\bullet\bm T)}
+=\exp\Br{2\pi\rho_n\Br{\bm{\hat n}\bullet\bm T}}
+=(-1)^n I_V,
+\]
+since $n,n-2,\dots,-n$ all share the parity of $n$.
+Thus $\Pi_n(-\bm I_2)=(-1)^n I_V$, independent of the choice of
+$\bm{\hat n}$ in the parametrization.
+
+For $\bm U\neq-\bm I_2$, the parametrization $\bm U=\exp\Br{\theta\bm{\hat n}\bullet\bm T}$
+with $\theta\in[0,2\pi)$ is unique, so $\Pi_n(\bm U)$ is
+unambiguously defined.
+Therefore $\Pi_n$ is well-defined on all of $\SU(2)$.
+
+\item (Irreducibility)
+Suppose $W\subseteq V$ is a $\Pi_n$-invariant subspace.
+For any $\bm X\in\su(2)$ and $\bm w\in W$,
+\[
+\FUNC{\rho_n(\bm X)}{\bm w}
+=\left.\frac{\dd}{\dd t}\right|_{t=0}
+\FUNC{\Pi_n(\exp(t\bm X))}{\bm w}\in W,
+\]
+since $W$ is closed and $\FUNC{\Pi_n(\exp(t\bm X))}{\bm w}\in W$ for all $t$.
+Thus $W$ is $\rho_n$-invariant, hence $\pi$-invariant
+(since $\rho_n$ and $\pi\circ\Psi$ determine each other on
+$\su(2)$ and extend $\C$-linearly to all of $\sl(2;\C)$).
+By irreducibility of $\pi$ (Theorem~\ref{thm:sl2-irrep-classification}),
+$W=\set{\bm0_V}$ or $W=V$.
+Thus $\Pi_n$ is irreducible.
+
+The uniqueness statement follows from the equivalence of categories:
+if $\widetilde{\Pi}_n:\SU(2)\to\GL(V)$ is another representation with
+$\dd\Br{\widetilde{\Pi}_n}_{\bm I_2}=\rho_n$, then
+$\widetilde{\Pi}_n=\Pi_n$ since both integrate the same Lie algebra
+representation on a simply connected domain.
+
+\end{enumerate}
+\end{proof}
+
+\begin{Def}[Spin Operators]\label{def:spin-operators}
+Let $\Pi_n:\SU(2)\to\GL(V)$ be the irreducible representation of
+highest weight $n\in\Z_{\ge 0}$ constructed in
+Theorem~\ref{thm:integration-SU2}.
+The \ul{spin operators} are the linear endomorphisms
+$S_1,S_2,S_3\in\L(V)$ defined by
+\[
+S_k\df\ii\hbar
+\dd\Br{\Pi_n}_{\bm I_2}\Br{\bm T_k}
+=\ii\hbar\rho_n(\bm T_k)\qquad(k=1,2,3),
+\]
+where $\hbar$ is the reduced Planck constant and
+$\rho_n=\pi\circ\Psi|_{\su(2)}$ as in
+Theorem~\ref{thm:integration-SU2}.
+The \ul{spin vector} is the triple $S\df(S_1,S_2,S_3)$,
+and the \ul{squared spin operator} is
+$S^2\df S_1^2+S_2^2+S_3^2\in\L(V)$.
+\end{Def}
+
+\begin{Prop}[Commutation Relations]\label{prop:spin-commutation}
+The spin operators satisfy the $\su(2)$ commutation relations:
+\[
+\SqBr{S_i,S_j}=\ii\hbar\eps_{ijk}S_k
+\qquad(i,j,k=1,2,3).
+\]
+\end{Prop}
+\begin{proof}
+From $\SqBr{\bm T_i,\bm T_j}=\eps_{ijk}\bm T_k$
+(Theorem~\ref{thm:SU2-properties}) and the fact that $\rho_n$ is a
+Lie algebra homomorphism:
+\[
+\begin{aligned}
+\SqBr{S_i,S_j}
+&=\SqBr{\ii\hbar\rho_n(\bm T_i),\;\ii\hbar\rho_n(\bm T_j)} \\
+&=(\ii\hbar)^2\rho_n\Br{\SqBr{\bm T_i,\bm T_j}}\\
+&=-\hbar^2\rho_n\Br{\eps_{ijk}\bm T_k} \\
+&=-\hbar^2\eps_{ijk}\rho_n(\bm T_k)\\
+&=\ii\hbar\eps_{ijk}\Br{\ii\hbar\rho_n(\bm T_k)}\\
+&=\ii\hbar\eps_{ijk}S_k.\\
+\end{aligned}
+\]
+\end{proof}
+
+\begin{Prop}[Action of $S_3$ and $S^2$ on Weight Vectors]\label{prop:spin-action}
+Let $\Br{V,\set{+,-,\bm0_V,\cdot}}$ be the $(n+1)$-dimensional
+representation space of $\Pi_n$, and let
+$\set{\bm v_k}_{k=0}^n$ be the weight basis constructed in
+Theorem~\ref{thm:sl2-irrep-classification}:
+\[
+\FUNC{\rho_n(\bm H)}{\bm v_k}=(n-2k)\bm v_k,\qquad
+\bm v_k\df\FUNC{\pi\Br{\bm F}^k}{\bm{v}_0}.
+\]
+Define the spin quantum number $j\df n/2$ and the magnetic quantum
+numbers $m_k\df j-k$ for $k=0,\dots,n$.
+Then:
+\begin{enumerate}
+\item $S_3(\bm v_k)=\hbar m_k\bm v_k$
+for $k=0,\dots,n$.
+Equivalently, the eigenvalues of $S_3$ are
+$\hbar j,\;\hbar(j-1),\;\dots,\;-\hbar j$.
+\item $S^2(\bm v_k)=\hbar^2 j(j+1)\bm v_k$
+for $k=0,\dots,n$.
+That is, $S^2$ acts as the scalar
+$\hbar^2 j(j+1)$ on the entire irreducible representation $V$.
+\end{enumerate}
+\end{Prop}
+\begin{proof}
+\begin{enumerate}
+\item From $\Psi(\bm T_3)=\bm H/(2\ii)$
+(Theorem~\ref{thm:su2-complexification}):
+\[
+\rho_n(\bm T_3)=\pi\Br{\Psi(\bm T_3)}
+=\pi\Br{\frac{\bm H}{2\ii}}=\frac{1}{2\ii}\pi(\bm H).
+\]
+Hence
+\[
+S_3=\ii\hbar\rho_n(\bm T_3)
+=\ii\hbar\cdot\frac{1}{2\ii}\pi(\bm H)
+=\frac{\hbar}{2}\pi(\bm H).
+\]
+Applying to $\bm v_k$ and using
+$\FUNC{\pi(\bm H)}{\bm v_k}=(n-2k)\bm v_k$:
+\[
+S_3(\bm v_k)
+=\frac{\hbar}{2}(n-2k)\bm v_k
+=\hbar\Br{\frac{n}{2}-k}\bm v_k
+=\hbar m_k\bm v_k.
+\]
+Since $k$ runs from $0$ to $n$, the eigenvalues
+$\hbar j,\hbar(j-1),\dots,-\hbar j$ follow.
+
+\item The squared operator $S^2$ is the quadratic Casimir of
+$\su(2)$.  Using the commutation relations
+(Proposition~\ref{prop:spin-commutation}) and the fact that
+$S^2$ commutes with each $S_i$, it follows from Schur's
+Lemma (applied to the irreducible representation $\Pi_n$) that
+$S^2$ acts as a scalar on $V$.
+To determine the scalar, evaluate on the highest weight vector
+$\bm v_0$ (with $m_0=j$):
+\[
+\begin{aligned}
+S^2(\bm v_0)
+&=\FUNC{S_1^2+S_2^2+S_3^2}{\bm v_0} \\
+&=\FUNC{S_3^2+(S_1-\ii S_2)(S_1+\ii S_2)
+-\ii\SqBr{S_1,S_2}}{\bm v_0} \\
+&=S_3^2(\bm v_0)
++\FUNC{(S_1-\ii S_2)(S_1+\ii S_2)}{\bm v_0}
+-\FUNC{\ii\cdot\ii\hbar S_3}{\bm v_0} \\
+&=\hbar^2 j^2\bm v_0
++\FUNC{S_1-\ii S_2}{\bm0_V}
++\hbar S_3(\bm v_0) \\
+&=\hbar^2 j^2\bm v_0+\bm0_V+\hbar\cdot\hbar j\bm v_0\\
+&=\hbar^2 j(j+1)\bm v_0.
+\end{aligned}
+\]
+Here we used
+$\SqBr{S_1,S_2}=\ii\hbar S_3$,
+$S_3(\bm v_0)=\hbar j\bm v_0$, and the fact that
+$S_1+\ii S_2$ annihilates the highest weight vector
+(since $S_1+\ii S_2=\hbar\pi(\bm E)$ and
+$\FUNC{\pi(\bm E)}{\bm{v}_0}=\bm0_V$ by
+Theorem~\ref{thm:sl2-irrep-classification}).
+Since $S^2$ commutes with all $S_i$, the same scalar
+eigenvalue holds for every basis vector $\bm v_k$.
+\end{enumerate}
+\end{proof}
+
+\begin{Def}[Projective Representation]\label{def:projective-rep}
+Let $G$ be a group and let $\Br{V,\set{+,-,\bm0_V,\cdot}}$ be a
+$\C$-vector space.
+A \ul{projective representation} of $G$ on $V$ is a map
+$\Pi:G\to\GL(V)$ for which there exists a function
+$c:G\times G\to\C^\times$ satisfying the following properties:
+\begin{enumerate}
+\item (Projective Multiplication)
+$\forall g_1,g_2\in G:\quad
+\Pi(g_1)\circ\Pi(g_2)=c(g_1,g_2)\,\Pi(g_1g_2)$.
+\item (Normalisation)
+$\Pi(e_G)=I_V$, and for every $g\in G$,
+$c(e_G,g)=c(g,e_G)=1$.
+\end{enumerate}
+The function $c$ is called a \ul{$2$-cocycle}.
+If $c(g_1,g_2)=1$ for all $g_1,g_2\in G$, then $\Pi$ is an
+\ul{ordinary} (non-projective) representation of $G$.
+\end{Def}
+
+\begin{remark}
+In quantum mechanics, physical states are not vectors in a Hilbert
+space $\H$ but \emph{rays} — equivalence classes
+$\SqBr{\psi}\df\set{e^{\ii\theta}\psi:\theta\in\R}$ modulo a global
+phase.
+By Wigner's Theorem, a symmetry transformation
+$T:\H\to\H$ need only preserve transition probabilities:
+$\forall\psi,\phi\in\H:\;
+\abs{\Inner{T\psi}{T\phi}}=\abs{\Inner{\psi}{\phi}}$.
+Consequently, symmetry \emph{groups} are represented on $\H$
+projectively in general — the phase ambiguity in the ray
+correspondence manifests as the cocycle $c$.
+\end{remark}
+
+\begin{Prop}[Descent Criterion]\label{prop:descent-criterion}
+Let $\Phi:\SU(2)\to\SO(3)$ be the double cover of
+Theorem~\ref{thm:su2-double-cover}, and let
+$\Pi_n:\SU(2)\to\GL(V)$ be the irreducible representation of
+highest weight $n\in\Z_{\ge 0}$ constructed in
+Theorem~\ref{thm:integration-SU2}.
+Then:
+\begin{enumerate}
+\item (Sign Under Central Element)
+$\forall\bm U\in\SU(2):\quad
+\Pi_n(-\bm U)=(-1)^n\Pi_n(\bm U)$.
+In particular,
+$\Pi_n(-\bm I_2)=(-1)^n I_V$.
+\item (Integer Spin — Descent to $\SO(3)$)
+If $n$ is even, then $\Pi_n$ factors through $\Phi$:
+there exists a unique ordinary representation
+$\widetilde{\Pi}_n:\SO(3)\to\GL(V)$ such that
+\[
+\widetilde{\Pi}_n\circ\Phi=\Pi_n.
+\]
+Explicitly,
+$\forall\bm R\in\SO(3):\;
+\widetilde{\Pi}_n(\bm R)\df\Pi_n(\bm U)$,
+where $\bm U\in\SU(2)$ is any preimage satisfying
+$\Phi(\bm U)=\bm R$; the definition is independent of the choice
+of $\bm U$ because $\Pi_n(\bm U)=\Pi_n(-\bm U)$ for even $n$.
+\item (Half-Integer Spin — Projective Descent)
+If $n$ is odd, then $\Pi_n$ induces a projective representation
+$\rho_n:\SO(3)\to\GL(V)$ defined by
+$\forall\bm R\in\SO(3):\;
+\rho_n(\bm R)\df\Pi_n(\bm U)$,
+where $\bm U\in\SU(2)$ is an arbitrary lift of $\bm R$.
+The two lifts $\pm\bm U$ differ by a sign:
+$\Pi_n(-\bm U)=-\Pi_n(\bm U)$,
+so $\rho_n$ is projective with the sign cocycle.
+\end{enumerate}
+\end{Prop}
+\begin{proof}
+\begin{enumerate}
+\item Let $\bm U\in\SU(2)$.
+Parametrising $-\bm U$ as in
+Theorem~\ref{thm:integration-SU2}:
+\[
+-\bm U=\exp\Br{\bm X}\quad\text{for some }\bm X\in\su(2).
+\]
+But $-\bm U=(-\bm I_2)\bm U$,
+and $-\bm I_2=\exp\Br{2\pi\bm{\hat n}\bullet\bm T}$ for any unit
+$\bm{\hat n}\in\R^3$ (step~4 of
+Theorem~\ref{thm:integration-SU2}).
+Since $-\bm I_2$ is central in $\SU(2)$,
+\[
+-\bm U=(-\bm I_2)\bm U
+=\exp\Br{2\pi\bm{\hat n}\bullet\bm T}\exp\Br{\bm X}
+=\exp\Br{2\pi\bm{\hat n}\bullet\bm T+\bm X},
+\]
+where the last equality uses that $\SqBr{\bm{\hat n}\bullet\bm T,\bm X}=\bm0$
+(since $-\bm I_2$ is central, its logarithm commutes with every
+$\bm X$).
+Applying $\Pi_n$ and using the construction in
+Theorem~\ref{thm:integration-SU2}:
+\[
+\begin{aligned}
+\Pi_n(-\bm U)
+&=\exp\Br{\rho_n\Br{2\pi\bm{\hat n}\bullet\bm T+\bm X}} \\
+&=\exp\Br{2\pi\rho_n\Br{\bm{\hat n}\bullet\bm T}}
+\exp\Br{\rho_n(\bm X)} \\
+&=(-1)^n I_V\circ\Pi_n(\bm U) \\
+&=(-1)^n\Pi_n(\bm U),
+\end{aligned}
+\]
+where we used
+$\exp\Br{2\pi\rho_n\Br{\bm{\hat n}\bullet\bm T}}=(-1)^n I_V$
+(proved in step~4 of
+Theorem~\ref{thm:integration-SU2}).
+The special case $\bm U=\bm I_2$ gives $\Pi_n(-\bm I_2)=(-1)^n I_V$.
+
+\item For even $n$, $\Pi_n(-\bm I_2)=I_V$, so for any
+$\bm R=\Phi(\bm U)\in\SO(3)$ with $\bm U\in\SU(2)$,
+\[
+\Pi_n(\bm U)=\Pi_n(-(-\bm U))=\Pi_n(-\bm U)=\Pi_n(\bm U),
+\]
+confirming that the value $\widetilde{\Pi}_n(\bm R)\df\Pi_n(\bm U)$
+is unchanged whether we lift $\bm R$ to $\bm U$ or to $-\bm U$.
+It remains to verify that $\widetilde{\Pi}_n$ is a group
+homomorphism:
+$\forall\bm R_1,\bm R_2\in\SO(3)$,
+choose lifts $\bm U_1,\bm U_2\in\SU(2)$.
+Then $\Phi(\bm U_1\bm U_2)=\bm R_1\bm R_2$, so
+\[
+\widetilde{\Pi}_n(\bm R_1\bm R_2)
+=\Pi_n(\bm U_1\bm U_2)
+=\Pi_n(\bm U_1)\circ\Pi_n(\bm U_2)
+=\widetilde{\Pi}_n(\bm R_1)\circ\widetilde{\Pi}_n(\bm R_2).
+\]
+Smoothness of $\widetilde{\Pi}_n$ follows from the fact that $\Phi$
+is a local diffeomorphism (Theorem~\ref{thm:su2-double-cover}),
+so $\widetilde{\Pi}_n=\Pi_n\circ s$ for any local smooth section
+$s$ of $\Phi$.
+
+\item For odd $n$, $\Pi_n(-\bm I_2)=-I_V$, so the two lifts
+$\pm\bm U$ of $\bm R$ give opposite signs:
+$\Pi_n(-\bm U)=-\Pi_n(\bm U)$.
+Thus $\rho_n$ is well-defined only up to sign — a projective
+representation.
+Explicitly, for $\bm R_1,\bm R_2\in\SO(3)$ with lifts
+$\bm U_1,\bm U_2\in\SU(2)$,
+\[
+\rho_n(\bm R_1)\circ\rho_n(\bm R_2)
+=\Pi_n(\bm U_1)\Pi_n(\bm U_2)
+=\Pi_n(\bm U_1\bm U_2).
+\]
+The product $\bm U_1\bm U_2$ is a lift of $\bm R_1\bm R_2$, so
+\[
+\rho_n(\bm R_1\bm R_2)=\pm\Pi_n(\bm U_1\bm U_2)
+=\pm\Big(\rho_n(\bm R_1)\circ\rho_n(\bm R_2)\Big),
+\]
+where the sign is $+1$ if the chosen lift of $\bm R_1\bm R_2$
+equals $\bm U_1\bm U_2$, and $-1$ otherwise.
+This is precisely the projective multiplication law
+(Definition~\ref{def:projective-rep}).
+\end{enumerate}
+\end{proof}
+
+\begin{remark}
+The spin quantum number $j\df n/2$ determines the physical
+interpretation of the descent.
+\begin{itemize}
+\item If $j\in\Z_{\ge 0}$ (equivalently, $n$ is even), the
+representation descends to an ordinary representation of $\SO(3)$
+(Proposition~\ref{prop:descent-criterion}).
+These correspond to \ul{integer spin} (bosonic) particles.
+\item If $j\in\Z_{\ge 0}+\tfrac{1}{2}$ (equivalently, $n$ is odd),
+the representation descends only to a projective representation of
+$\SO(3)$ (Proposition~\ref{prop:descent-criterion}).
+These correspond to \ul{half-integer spin} (fermionic) particles.
+\end{itemize}
+The simplest example is $j=1/2$ ($n=1$), the spin-$\tfrac{1}{2}$
+representation, which underlies the quantum mechanics of electrons,
+protons, and neutrons.
+\end{remark}
 
 \end{document}
